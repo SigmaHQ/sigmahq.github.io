@@ -10,9 +10,11 @@ Main Landing Page of the Sigma Project
 - [Specification](https://github.com/SigmaHQ/sigma-specification)
 - [Specification (Version 2 Proposal)](https://github.com/SigmaHQ/sigma-specification/tree/version_2)
 
-## Sigma Rules
+## Sigma HQ Rules
 
-- [Sigma rule repository](https://github.com/SigmaHQ/sigma)
+- [Sigma Rule Repository](https://github.com/SigmaHQ/sigma)
+- Sigma Rule Search Engine
+- Sigma Rule Detection Reference
 
 ## Sigma Rule Conversion
 
@@ -27,6 +29,6 @@ Main Landing Page of the Sigma Project
 
 - [VSCode Extension](https://marketplace.visualstudio.com/items?itemName=humpalum.sigma)
 
-## Other Sigma-related Projects
+## Other Sigma-Related Projects
 
 - [uncoder.io](https://uncoder.io/)
