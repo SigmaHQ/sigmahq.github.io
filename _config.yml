@@ -1,0 +1,9 @@
+title: SIGMA Project
+description: Main Landing Page of the Sigma Project
+remote_theme: pages-themes/cayman@v0.2.0
+show_downloads: true
+plugins:
+    - jekyll-remote-theme # add this line to the plugins list if you already have one
+github:
+    aurora_url: https://www.nextron-systems.com/aurora/
+    latest_release_zip: https://github.com/SigmaHQ/sigma/releases
