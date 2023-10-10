@@ -1,0 +1,15 @@
+.coverage*
+.vscode/
+**/__pycache__
+cov.xml
+dist/
+docs/_build
+coverage.xml
+node_modules/
+.idea/
+public/images/.DS_Store
+/docs_old
+node_modules/
+/.vitepress/vale-styles/
+/.vitepress/cache/
+.DS_Store

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="130px" height="20px" viewBox="0 0 130 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Sigma Official Badge Copy</title>
+    <defs>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-1">
+            <stop stop-color="#2E303A" offset="0%"></stop>
+            <stop stop-color="#272933" offset="100%"></stop>
+        </linearGradient>
+        <text id="text-2" font-family="Verdana" font-size="10.5" font-weight="normal">
+            <tspan x="0" y="11" fill="#21C0E9">py</tspan>
+            <tspan x="12.7558594" y="11" fill="#FFFFFF">Sigma</tspan>
+        </text>
+        <filter x="-1.1%" y="-3.8%" width="102.2%" height="123.1%" filterUnits="objectBoundingBox" id="filter-3">
+            <feOffset dx="0" dy="1" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.5 0" type="matrix" in="shadowOffsetOuter1"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="Sigma-Official-Badge-Copy" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="pySigma-Backend">
+            <path d="M4,0 L91,0 L91,0 L91,20 L4,20 C1.790861,20 -3.72626139e-15,18.209139 0,16 L0,4 C-2.705415e-16,1.790861 1.790861,4.05812251e-16 4,0 Z" id="Rectangle" fill="url(#linearGradient-1)" fill-rule="nonzero"></path>
+            <path d="M75,0 L126,0 C128.209139,-4.05812251e-16 130,1.790861 130,4 L130,16 C130,18.209139 128.209139,20 126,20 L75,20 L75,20 L75,0 Z" id="Rectangle-Copy" fill="#00A7CC" fill-rule="nonzero"></path>
+            <g id="sigma_official_badge" transform="translate(23.286054, 3.355154)">
+                <g id="Sigma" fill="#21C0E9" fill-opacity="1">
+                    <g id="pySigma">
+                        <use filter="url(#filter-3)" xlink:href="#text-2"></use>
+                        <use xlink:href="#text-2"></use>
+                    </g>
+                </g>
+                <text id="Backend-Copy" font-family="Verdana" font-size="10.5" font-weight="normal" fill="#004351">
+                    <tspan x="56.5947408" y="12.3385541">Backend</tspan>
+                </text>
+                <text id="Backend" font-family="Verdana" font-size="10.5" font-weight="normal" fill="#FFFFFF">
+                    <tspan x="56.5947408" y="11.3385541">Backend</tspan>
+                </text>
+            </g>
+            <g id="Sigma-Logo" transform="translate(4.000000, 3.000000)" fill-rule="nonzero">
+                <path d="M6.66589661,14 C10.6776337,14 14.2097395,10.8659933 14.5550759,7 C14.9004122,3.13400676 11.9282071,0 7.91646998,0 C3.90473287,0 0.372626996,3.13400676 0.0272906949,7 C-0.318045605,10.8659933 2.6541595,14 6.66589661,14 Z" id="Oval" fill-opacity="0.170782343" fill="#8EA3E6"></path>
+                <path d="M14.9888215,1.57983194 C15.0445611,2.03532984 14.8918492,2.47390512 14.5306859,2.89555776 C14.1695226,3.31721042 13.6832816,3.52803674 13.0719628,3.52803674 L11.9094682,3.53450528 C12.6366247,4.47398855 13.0165952,5.68206221 12.8989405,7.00000002 C12.6317076,9.99347618 9.89844469,12.4201681 6.79402694,12.4201681 C3.68960918,12.4201681 1.38961642,9.99347618 1.65684932,7.00000002 C1.92408222,4.00652384 4.65734512,1.57983194 7.76176288,1.57983194 L14.9888215,1.57983194 Z M7.58511267,3.55862346 C5.61405378,3.55862346 3.87864876,5.09938023 3.70897707,7.00000002 C3.53930539,8.90061981 4.99961826,10.4413766 6.97067715,10.4413766 C8.94173605,10.4413766 10.6771411,8.90061981 10.8468127,7.00000002 C11.0164845,5.09938023 9.55617156,3.55862346 7.58511267,3.55862346 Z" id="Combined-Shape" fill="#21C0E9"></path>
+            </g>
+        </g>
+    </g>
+</svg>
