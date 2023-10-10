@@ -102,6 +102,21 @@ export default defineConfig({
         ['meta', {property: "og:type", content: "website"}],
         ['meta', {property: "og:url", content: "https://sigmahq.io/"}],
         ['meta', {property: "og:image", content: "https://sigmahq.io/images/og_image.jpg"}],
+        [
+          'script',
+          {
+            async: true,
+            src: 'https://www.googletagmanager.com/gtag/js?id=G-H2V53RDE71',
+          },
+        ],
+        [
+          'script',
+          {},
+          `window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-H2V53RDE71');`
+        ]
     ],
     lastUpdated: true,
     themeConfig: {
