@@ -73,7 +73,7 @@ function active_link(link: string) {
                     <br />
                 <div class="flex gap-1">
                 <!--<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode.en" class="hover:text-cyan-600" target="_blank">License</a>-->
-                <span class="opacity-30">|</span>
+                <!--<span class="opacity-30">|</span>-->
                 <a href="https://github.com/SigmaHQ/" class="hover:text-cyan-600" target="_blank">Github</a>
                 <span class="opacity-30">|</span>
                 <a href="https://twitter.com/Sigma_HQ/" class="hover:text-cyan-600" target="_blank">X.com</a>
