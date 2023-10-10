@@ -68,17 +68,14 @@ function active_link(link: string) {
         </template>
 
         <template #sidebar-nav-after>
-            <small class="text-slate-400 dark:text-slate-700 absolute bottom-6 block">
-                <span class="font-semibold">Copyright &copy; SigmaHQ {{ new Date().getFullYear() }}</span>
-                    <br />
-                <div class="flex gap-1">
-                <!--<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode.en" class="hover:text-cyan-600" target="_blank">License</a>-->
-                <span class="opacity-30">|</span>
-                <a href="https://github.com/SigmaHQ/" class="hover:text-cyan-600" target="_blank">Github</a>
-                <span class="opacity-30">|</span>
-                <a href="https://twitter.com/Sigma_HQ/" class="hover:text-cyan-600" target="_blank">X.com</a>
+            <div class="text-slate-400 dark:text-slate-700 text-xs transition-all pt-6 block border-t border-1 w-full border-[var(--vp-c-divider)]">
+                <div class="font-semibold mb-0.5">Copyright &copy; <a href="https://sigmahq.io/">SigmaHQ</a> {{ new Date().getFullYear() }}</div>
+                <div class="flex gap-2">
+                  <a href="https://github.com/SigmaHQ/" class="hover:text-cyan-600" target="_blank">Github</a>
+                  <span class="opacity-30">|</span>
+                  <a href="https://twitter.com/Sigma_HQ/" class="hover:text-cyan-600" target="_blank">X.com</a>
                 </div>
-            </small>
+            </div>
         </template>
 
         <template #nav-bar-title-before><slot name="nav-bar-title-before" /></template>
