@@ -106,7 +106,7 @@ export default defineConfig({
           'script',
           {
             async: true,
-            src: 'https://www.googletagmanager.com/gtag/js?id=G-H2V53RDE71',
+            src: 'https://www.googletagmanager.com/gtag/js?id=UA-288648316-1',
           },
         ],
         [
@@ -115,7 +115,7 @@ export default defineConfig({
           `window.dataLayer = window.dataLayer || [];
           function gtag(){dataLayer.push(arguments);}
           gtag('js', new Date());
-          gtag('config', 'G-H2V53RDE71');`
+          gtag('config', 'UA-288648316-1');`
         ]
     ],
     lastUpdated: true,
