@@ -13,7 +13,7 @@
 
 <img src="https://github.com/SigmaHQ/sigmahq.github.io/actions/workflows/docs.yml/badge.svg" alt="Tests Badge" />
 <img src="https://cdn.jsdelivr.net/gh/SigmaHQ/sigmahq.github.io@master/images/Sigma%20Official%20Badge.svg" alt="Sigma Official Badge" />
-<img src="https://img.shields.io/badge/Status-pre--release-orange" alt="Status Badge" />
+<img src="https://img.shields.io/badge/Status-beta-orange" alt="Status Badge" />
 </p>
 
 Welcome to the official Sigma website, a central hub for everything related to the Sigma project. Please visit [sigmahq.io](https://sigmahq.io/) for a full overview of the website
