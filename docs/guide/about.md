@@ -77,9 +77,9 @@ To learn more about Sigma rules and how to use them to detect within your SIEM, 
 
 Built around the Sigma detection format are amazing tools to help you make the most of it. 
 
-The primary focus of the Sigma ecosystem is the **converter** – something that turns Sigma detection files into usable SIEM queries. In the past, this was completed by a tool called [`sigmac`](https://github.com/SigmaHQ/legacy-sigmatools). 
+The primary focus of the Sigma ecosystem is the **converter** – something that turns Sigma detection files into usable SIEM queries. In the past, this was completed by a tool called "sigmac".
 
-In 2023, the ecosystem is moving to a new tool – powered by pySigma, called [`sigma-cli`](https://github.com/SigmaHQ/sigma-cli).
+In 2023, the ecosystem is moving to a new tool –> powered by pySigma, called [`sigma-cli`](https://github.com/SigmaHQ/sigma-cli).
 
 You can jump straight in and convert to many popular existing SIEMs already.
 
