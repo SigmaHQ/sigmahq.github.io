@@ -39,7 +39,7 @@ It is built as an open-source standard so that a single Sigma detection rule can
 
 The Sigma rule format is flexible, easy to write, and applicable to any type of log file.
 The main purpose of this project is
-to provide a structured form in which detection engineers, security researchers or security analysts can describe their once developed detection methods
+to provide a structured form in which detection engineers, security researchers or security analysts can describe their own detection methods
 and make them shareable with others.
 
 ::: code-group
