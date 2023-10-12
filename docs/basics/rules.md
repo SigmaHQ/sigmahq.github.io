@@ -596,17 +596,17 @@ While low and medium level events have an informative character, events with hig
 level: low
 ```
 
-> Values: `severe` | `high` | `medium` | `low` | `informational`
+> Values: `critical` | `high` | `medium` | `low` | `informational`
 
-The four existing levels are divided into two categories.
+The five existing levels are divided into two categories.
 
-- Rules that have informative character and should be displayed in a list or bar chart<br />(`low`, `medium`)<br /><br />
+- Rules that have informative character and should be displayed in a list or bar chart<br />(`informational`,`low`, `medium`)<br /><br />
 - Rules that should trigger a dedicated alert<br />(`high`, `critical`)<br /><br />
 
 Apply the following guidelines when setting a level:
 
-- Rules of level critical should never trigger a false positive and be of high relevance
-- Rules of level high trigger on threats of high relevance that have to be reviewed manually (rare false positives > baselining required)
+- Rules of level `critical` should never trigger a false positive and be of high relevance
+- Rules of level `high` trigger on threats of high relevance that have to be reviewed manually (rare false positives > baselining required)
 - Rules of level `high` and `critical` indicate an incident (if not a false positive)
 - Rules of level `low` and `medium` indicate suspicious activity and policy violations
 - Rules of level `informational` have informative character and are often used for compliance or correlation purposes
