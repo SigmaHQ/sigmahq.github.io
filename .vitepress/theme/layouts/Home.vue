@@ -101,6 +101,27 @@ const {frontmatter} = useData()
                                 <ArrowRightIcon
                                     class="transition h-4 inline transition group-hover:text-[var(--vp-c-brand-3)] ml-1.5"/>
                             </a>
+                            <a href="https://github.com/SigmaHQ/sigma/releases"
+                               class="text-sm
+                                    mt-4
+                                    border
+                                    border-solid
+                                    border-[#677389]/25
+                                    hover:border-[#677389]/50
+                                    dark:border-[#677389]/40
+                                    dark:hover:border-[#677389]/60
+                                    transition
+                                    rounded-full
+                                    p-2
+                                    px-4
+                                    flex
+                                    items-center
+                                    font-semibold
+                                    hover:shadow-md group">
+                                Download Sigma Rule Packages
+                                <ArrowRightIcon
+                                    class="transition h-4 inline transition group-hover:text-[var(--vp-c-brand-3)] ml-1.5"/>
+                            </a>
                         </div>
                     </div>
                     <div class="basis-1 md:basis-1/3">
