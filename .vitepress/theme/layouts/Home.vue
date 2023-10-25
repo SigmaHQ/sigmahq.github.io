@@ -1,14 +1,16 @@
 <script setup>
 
 import {useData, withBase} from 'vitepress';
-import {ArrowRightIcon, ArrowTopRightOnSquareIcon} from '@heroicons/vue/20/solid/index';
+import {ArrowDownCircleIcon} from '@heroicons/vue/24/outline/index';
+import {ArrowTopRightOnSquareIcon} from '@heroicons/vue/20/solid/index';
 import {
+    ArrowSmallRightIcon,
     BeakerIcon,
     BookOpenIcon,
-    DocumentCheckIcon,
     RectangleGroupIcon,
     RectangleStackIcon,
-    PencilSquareIcon
+    PencilSquareIcon,
+    GiftIcon
 } from "@heroicons/vue/24/solid/index";
 
 import VPSkipLink from 'vitepress/dist/client/theme-default/components/VPSkipLink.vue'
@@ -41,7 +43,30 @@ const {frontmatter} = useData()
             <section id="sigma" class="md:pt-40">
                 <div class="flex flex-col md:flex-row gap-6 lg:gap-12 items-center">
                     <div class="flex flex-col gap-2 order-last md:order-first basis-1 md:basis-2/3 xl:pr-5">
-                        <p><Badge type="tip" text="Open Source" /></p>
+                        <p class="flex flex-col md:flex-row items-start gap-2 mb-0.5">
+                            <Badge type="tip" text="Open Source" class="!transform-none !leading-6" />
+                            <a class="group" href="https://blog.sigmahq.io/introducing-sigma-rule-packages-releases-76043ce42e81">
+                                <div class="inline-block rounded-full px-3 py-1
+                                    text-[12px]
+                                    bg-sigma-500/[.15]
+                                    text-sigma-600
+                                    dark:bg-sigma-700/20
+                                    dark:text-sigma-400
+                                    items-center
+                                    font-medium
+                                    transition-all
+                                    group-hover:underline
+                                    text-[--vp-c-brand-3]">
+                                    <div class="flex items-center">
+                                        <GiftIcon class="h-3 mr-2" />
+                                        Introducing new SigmaHQ Rule Packs
+
+                                        <ArrowSmallRightIcon class="h-3 transition-all group-hover:ml-1 pl-1.5" />
+
+                                    </div>
+                                </div>
+                            </a>
+                        </p>
                         <h2>
                             <small class="text-[var(--vp-c-brand-1)] dark:text-[var(--vp-c-brand-3)] font-semibold text-xl">
                                 SIEM Detection Format
@@ -56,10 +81,9 @@ const {frontmatter} = useData()
                             Get the most out of the Sigma ecosystem in your SIEM, and start using thousands of
                             great security detections from the community and beyond.
                         </p>
-                        <div class="flex gap-2">
+                        <div class="flex flex-wrap gap-2 mt-6">
                             <a :href="withBase('/docs/guide/getting-started.html')"
                                class="text-sm
-                                mt-4
                                 border
                                 bg-[var(--vp-c-brand-3)]
                                 border-[--vp-c-brand-3]
@@ -80,47 +104,28 @@ const {frontmatter} = useData()
                                 hover:shadow-lg">
                                 Get Started
                             </a>
-                            <a href="https://github.com/SigmaHQ/sigma/"
-                               class="text-sm
-                                    mt-4
-                                    border
-                                    border-solid
-                                    border-[#677389]/25
-                                    hover:border-[#677389]/50
-                                    dark:border-[#677389]/40
-                                    dark:hover:border-[#677389]/60
-                                    transition
-                                    rounded-full
-                                    p-2
-                                    px-4
-                                    flex
-                                    items-center
-                                    font-semibold
-                                    hover:shadow-md group">
-                                View Sigma Rules
-                                <ArrowRightIcon
-                                    class="transition h-4 inline transition group-hover:text-[var(--vp-c-brand-3)] ml-1.5"/>
-                            </a>
                             <a href="https://github.com/SigmaHQ/sigma/releases"
                                class="text-sm
-                                    mt-4
                                     border
                                     border-solid
                                     border-[#677389]/25
-                                    hover:border-[#677389]/50
+                                    hover:border-sigma-600/50
                                     dark:border-[#677389]/40
-                                    dark:hover:border-[#677389]/60
+                                    dark:hover:border-sigma-700
                                     transition
                                     rounded-full
                                     p-2
                                     px-4
+                                    pl-3
                                     flex
                                     items-center
                                     font-semibold
-                                    hover:shadow-md group">
+                                    hover:shadow-md
+                                    hover:shadow-sigma-700/10
+                                    group">
+                                <ArrowDownCircleIcon
+                                    class="transition-all h-4 scale-125 inline group-hover:text-[var(--vp-c-brand-3)] mr-2.5 text-slate-400"/>
                                 Download Sigma Rule Packages
-                                <ArrowRightIcon
-                                    class="transition h-4 inline transition group-hover:text-[var(--vp-c-brand-3)] ml-1.5"/>
                             </a>
                         </div>
                     </div>
