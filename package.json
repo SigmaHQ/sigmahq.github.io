@@ -4,7 +4,7 @@
     "@heroicons/vue": "^2.0.13",
     "autoprefixer": "^10.4.13",
     "fuse.js": "^6.6.2",
-    "highlight.js": "^11.7.0",
+    "highlight.js": "^11.9.0",
     "markdown-it-footnote": "^3.0.3",
     "open-graph-scraper": "^6.3.0",
     "postcss": "^8.4.19",
