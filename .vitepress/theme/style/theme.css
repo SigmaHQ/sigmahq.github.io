@@ -501,6 +501,10 @@
     --vp-badge-danger-border: transparent;
     --vp-badge-danger-text: var(--vp-c-danger-1);
     --vp-badge-danger-bg: var(--vp-c-danger-soft);
+
+    --vp-badge-sigma-border: transparent;
+    --vp-badge-sigma-text: var(--vp-c-sigma-1);
+    --vp-badge-sigma-bg: var(--vp-c-sigma-soft);
 }
 
 /**
