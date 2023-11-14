@@ -4,15 +4,14 @@ import {useData} from "vitepress/dist/client/theme-default/composables/data";
 import {ArrowTopRightOnSquareIcon, ChevronRightIcon} from "@heroicons/vue/20/solid";
 import Docsv2 from "./Docsv2.vue";
 import BlogPostLink from "../components/Resources/BlogPostLink.vue";
-
-const { Layout } = DefaultTheme
-const { frontmatter } = useData()
-
 import { data } from '/.vitepress/theme/lib/blog.data'
 import {BeakerIcon, DocumentCheckIcon, RectangleStackIcon} from "@heroicons/vue/24/solid";
 import Box from "../components/Boxes/Box.vue";
 import {ref} from "vue";
 import {withBase} from "vitepress";
+
+const { Layout } = DefaultTheme
+const { frontmatter } = useData()
 
 let repos = ref([
   {

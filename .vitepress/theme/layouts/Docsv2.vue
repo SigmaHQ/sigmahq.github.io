@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import DefaultTheme from 'vitepress/theme'
 import {useData} from "vitepress/dist/client/theme-default/composables/data";
-import {BookOpenIcon, RectangleGroupIcon} from "@heroicons/vue/20/solid";
+import {BookOpenIcon, RectangleGroupIcon, DocumentMagnifyingGlassIcon} from "@heroicons/vue/20/solid";
 import {useRoute, useRouter, withBase} from "vitepress";
 import DraftWarning from "../components/DraftWarning.vue";
+import VPLink from 'vitepress/dist/client/theme-default/components/VPLink.vue'
 
 const { Layout } = DefaultTheme
 const { frontmatter } = useData()
-import VPLink from 'vitepress/dist/client/theme-default/components/VPLink.vue'
 
 function active_link(link: string) {
     return useRoute().data.relativePath.includes(link)
@@ -63,6 +63,18 @@ function active_link(link: string) {
                         <RectangleGroupIcon class="h-4 h-4 text-indigo-500 dark:text-indigo-400"/>
                     </span>
                     Resources
+                </a>
+                <a :href="withBase('/rules/')"
+                   class="rounded-xl transition-all hover:bg-rose-400/10 dark:hover:bg-rose-400/20 p-1.5 -m-1.5 text-sm flex gap-3 items-center text-rose-500 dark:text-rose-200 font-semibold"
+                   :class="{
+                        'bg-rose-700/[0.08] group-hover:bg-transparent hover:!bg-rose-700/10': active_link('rules/'),
+                        '': !active_link('rules/')
+                    }">
+                    <span
+                        class="box block w-7 h-7 rounded-lg bg-rose-400/20 dark:bg-rose-500/20 flex items-center justify-center">
+                        <DocumentMagnifyingGlassIcon class="h-4 h-4 text-rose-500 dark:text-rose-400"/>
+                    </span>
+                    Rules
                 </a>
             </div>
         </template>

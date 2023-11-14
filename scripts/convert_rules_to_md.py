@@ -6,8 +6,8 @@ import base64
 import os, shutil
 
 TEMPLATE = """---
-title: '[sigma.title]'
-subtitle: 'Detection Rules'
+title: [sigma.id]
+subtitle: [sigma.title]
 ---
 
 <!--suppress ES6UnusedImports -->
@@ -15,7 +15,7 @@ subtitle: 'Detection Rules'
 # [sigma.title]
 
 <div>
-    <Badge  type="info" text="ID: [sigma.id]" style="margin-top: 10px;"/>  <Badge  type="[sigma.status_button]" text="Status: [sigma.status_content]" style="margin-top: 10px;"/>  <Badge  type="[sigma.level_button]" text="Level: [sigma.level_content]" style="margin-top: 10px;"/>
+    <Badge  type="info" text="[sigma.id]" style="margin-top: 10px;"/>  <Badge  type="[sigma.status_button]" text="Status: [sigma.status_content]" style="margin-top: 10px;"/>  <Badge  type="[sigma.level_button]" text="Level: [sigma.level_content]" style="margin-top: 10px;"/>
 </div>
 
 [sigma.description]
@@ -26,7 +26,7 @@ subtitle: 'Detection Rules'
 ## Logsource
 
 [sigma.logsource]
-## Sigma Rule [🔄](https://sigconverter.io/#rule=[sigma.encoded])
+## Sigma Rule <a href="https://sigconverter.io/#rule=[sigma.encoded]" style="text-decoration:none" target="_blank">🔄</a>
 
 ```yml
 [sigma.sigma_rule]
@@ -150,8 +150,22 @@ def tags_handler(tags):
 def logsource_handler(logsource):
     logsource_text = ""
 
+    windows_link = "https://github.com/SigmaHQ/sigma-specification/blob/main/Taxonomy_specification.md#windows-folder"
+    linux_link = "https://github.com/SigmaHQ/sigma-specification/blob/main/Taxonomy_specification.md#linux-folder"
+    macos_link = "https://github.com/SigmaHQ/sigma-specification/blob/main/Taxonomy_specification.md#macos-folder"
+    category_link = "https://github.com/SigmaHQ/sigma-specification/blob/main/Taxonomy_specification.md#category-folder"
+
     for key, values in logsource.items():
-        logsource_text += f"- **{key.capitalize()}**: {values}\n"
+        if values == "windows":
+            logsource_text += f"- **{key.capitalize()}**: [{values}]({windows_link})\n"
+        elif values == "linux":
+            logsource_text += f"- **{key.capitalize()}**: [{values}]({linux_link})\n"
+        elif values == "macos":
+            logsource_text += f"- **{key.capitalize()}**: [{values}]({macos_link})\n"
+        elif values == "database" or values == "antivirus":
+            logsource_text += f"- **{key.capitalize()}**: [{values}]({category_link})\n"
+        else:
+            logsource_text += f"- **{key.capitalize()}**: {values}\n"
 
     return logsource_text
 
@@ -204,14 +218,12 @@ def get_data(path_to_rules):
             "encoded_sigma_rule": encoded_file_content,
         }
 
-        data[
-            file.replace(".yml", ".md")
-            .replace("rules\\", "detection/")
-            .replace("rules/", "detection/")
-            .replace("rules-emerging-threats", "emerging-threats/")
-            .replace("rules-threat-hunting", "threat-hunting/")
-            .replace("sigma/", "rules/")
-        ] = tmp_
+        if "emerging-threat" in file:
+            data["rules/emerging-threats/" + id + ".md"] = tmp_
+        elif "threat-hunting" in file:
+            data["rules/threat-hunting/" + id + ".md"] = tmp_
+        else:
+            data["rules/detection/" + id + ".md"] = tmp_
 
         print(f"[*] Generating data for {file}")
 
@@ -223,117 +235,121 @@ def create_dir(path):
     fpath.parent.mkdir(exist_ok=True, parents=True)
 
 
+# This function create the index file needed to list the rules
+def create_index_files(file_path, data_dict, title, subtitle):
+    with open(file_path, "w") as f:
+        f.write("---\n")
+        f.write(f"title: '{title}'\n")
+        f.write(f"subtitle: '{subtitle}'\n")
+        f.write("---\n\n")
+        f.write("# \{\{ $frontmatter.title \}\}\n\n")
+        f.write("|Id|Title|\n")
+        f.write("|-|-|\n")
+        for key, values in data_dict.items():
+            f.write(f"[{key}]({key})|[{values}]({key})|\n")
+
+
+# This function generates the files and call the index creator
 def gen_index_list(data):
     detection = {}
     threat_hunting = {}
     emerging_threat = {}
 
     for key, values in data.items():
-        if "detection/" in key:
-            detection[key] = values["title"]
-        elif "emerging-threats" in key:
-            emerging_threat[key] = values["title"]
-        elif "threat-hunting" in key:
-            threat_hunting[key] = values["title"]
+        key = key.replace(".md", "")
+        if key.startswith("rules/detection"):
+            detection[values["id"]] = values["title"]
+        elif key.startswith("rules/emerging-threats"):
+            emerging_threat[values["id"]] = values["title"]
+        elif key.startswith("rules/threat-hunting"):
+            threat_hunting[values["id"]] = values["title"]
 
-    with open("rules/detection/index.md", "w") as f:
-        f.write("---\n")
-        f.write("title: 'Detection Rules Index'\n")
-        f.write("subtitle: 'Detection'\n")
-        f.write("---\n\n")
-        f.write("# \{\{ $frontmatter.title \}\}\n\n")
-        for key, values in detection.items():
-            f.write(f"- [{values}]({key})\n")
-
-    with open("rules/emerging-threats/index.md", "w") as f:
-        f.write("---\n")
-        f.write("title: 'Emerging Threat Rules Index'\n")
-        f.write("subtitle: 'Detection'\n")
-        f.write("---\n\n")
-        f.write("# \{\{ $frontmatter.title \}\}\n\n")
-        for key, values in emerging_threat.items():
-            f.write(f"- [{values}]({key})\n")
-
-    with open("rules/threat-hunting/index.md", "w") as f:
-        f.write("---\n")
-        f.write("title: 'Threat Hunting Rules Index'\n")
-        f.write("subtitle: 'Detection'\n")
-        f.write("---\n\n")
-        f.write("# \{\{ $frontmatter.title \}\}\n\n")
-        for key, values in threat_hunting.items():
-            f.write(f"- [{values}]({key})\n")
+    create_index_files(
+        "rules/detection/index.md", detection, "Detection Rules", "Detection"
+    )
+    create_index_files(
+        "rules/emerging-threats/index.md",
+        emerging_threat,
+        "Emerging Threat Rules",
+        "Detection",
+    )
+    create_index_files(
+        "rules/threat-hunting/index.md",
+        threat_hunting,
+        "Threat Hunting Rules",
+        "Detection",
+    )
 
 
 def gen_markdown(data, template):
     for key, values in data.items():
+        template_ = template
         print(f"[*] Generating markdown for {key}")
 
         create_dir(key)
-        f = open(key, "w", encoding="utf-8")
 
-        # Sigma Title
-        template = template.replace("[sigma.title]", values["title"])
+        with open(key, "w", encoding="utf-8") as f:
+            # Sigma Title
+            template_ = template_.replace("[sigma.title]", values["title"])
 
-        # Sigma Id
-        template = template.replace("[sigma.id]", values["id"])
+            # Sigma Id
+            template_ = template_.replace("[sigma.id]", values["id"])
 
-        # Sigma Status
-        template = template.replace(
-            "[sigma.status_content]", values["status"].capitalize()
-        )
-        template = template.replace(
-            "[sigma.status_button]", status_button_handler(values["status"])
-        )
-        # Sigma Level
-        template = template.replace(
-            "[sigma.level_content]", values["level"].capitalize()
-        )
-        template = template.replace(
-            "[sigma.level_button]", level_button_handler(values["level"])
-        )
-        # Description
-        template = template.replace("[sigma.description]", values["description"])
+            # Sigma Status
+            template_ = template_.replace(
+                "[sigma.status_content]", values["status"].capitalize()
+            )
+            template_ = template_.replace(
+                "[sigma.status_button]", status_button_handler(values["status"])
+            )
+            # Sigma Level
+            template_ = template_.replace(
+                "[sigma.level_content]", values["level"].capitalize()
+            )
+            template_ = template_.replace(
+                "[sigma.level_button]", level_button_handler(values["level"])
+            )
+            # Description
+            template_ = template_.replace("[sigma.description]", values["description"])
 
-        # Authors
-        authors_str = ""
-        for author in values["author"].split(","):
-            authors_str += "- " + author.lstrip() + "\n"
+            # Authors
+            authors_str = ""
+            for author in values["author"].split(","):
+                authors_str += "- " + author.lstrip() + "\n"
 
-        template = template.replace("[sigma.author]", authors_str)
+            template_ = template_.replace("[sigma.author]", authors_str)
 
-        # False Positives
-        falsepositives_str = ""
-        for falsepositive in values["falsepositives"]:
-            falsepositives_str += "- " + falsepositive + "\n"
+            # False Positives
+            falsepositives_str = ""
+            for falsepositive in values["falsepositives"]:
+                falsepositives_str += "- " + falsepositive + "\n"
 
-        template = template.replace("[sigma.falsepositives]", falsepositives_str)
+            template_ = template_.replace("[sigma.falsepositives]", falsepositives_str)
 
-        # References Positives
-        references_str = ""
-        for reference in values["references"]:
-            references_str += "- " + reference + "\n"
+            # References Positives
+            references_str = ""
+            for reference in values["references"]:
+                references_str += "- " + reference + "\n"
 
-        template = template.replace("[sigma.references]", references_str)
+            template_ = template_.replace("[sigma.references]", references_str)
 
-        # Detection
-        template = template.replace("[sigma.sigma_rule]", values["sigma_rule"])
+            # Detection
+            template_ = template_.replace("[sigma.sigma_rule]", values["sigma_rule"])
 
-        # Sigconverter link
-        template = template.replace(
-            "[sigma.encoded]", values["encoded_sigma_rule"].decode("utf-8")
-        )
+            # Sigconverter link
+            template_ = template_.replace(
+                "[sigma.encoded]", values["encoded_sigma_rule"].decode("utf-8")
+            )
 
-        # Tags
-        template = template.replace("[sigma.tags]", tags_handler(values["tags"]))
+            # Tags
+            template_ = template_.replace("[sigma.tags]", tags_handler(values["tags"]))
 
-        # Logsource
-        template = template.replace(
-            "[sigma.logsource]", logsource_handler(values["logsource"])
-        )
+            # Logsource
+            template_ = template_.replace(
+                "[sigma.logsource]", logsource_handler(values["logsource"])
+            )
 
-        f.write(template)
-
-        f.close()
+            f.write(template_)
 
 
 if __name__ == "__main__":

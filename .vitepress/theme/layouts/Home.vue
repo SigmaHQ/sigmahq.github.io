@@ -163,11 +163,11 @@ const {frontmatter} = useData()
                     Explore the Sigma Ecosystem
                 </h2>
                 <div class="grid md:grid-cols-3 gap-4">
-                    <a target="_blank" href="https://github.com/SigmaHQ/sigma/">
+                    <a target="_blank" href="/rules/">
                         <Box>
                             <template #icon><RectangleStackIcon /></template>
                             <template #heading>View Sigma Rules <ArrowTopRightOnSquareIcon class="text-slate-400 dark:text-white/30 ml-1 h-[14px] w-[14px] inline" /></template>
-                            <template #text>Explore the thousands of existing Sigma detections in SigmaHQ/sigma.</template>
+                            <template #text>Explore the thousands of existing Sigma detections in SigmaHQ.</template>
                         </Box>
                     </a>
                     <a target="_blank" href="https://medium.com/sigma-hq">
