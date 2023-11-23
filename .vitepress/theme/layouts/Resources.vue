@@ -47,7 +47,7 @@ let tools = ref([
     title: 'sigconverter.io',
     description: 'An Open Source Sigma conversion tool.',
     link: 'https://sigconverter.io',
-    og_image: withBase('/images/sigconvertor.png'),
+    og_image: withBase('/images/sigconverter.png'),
     og_image_alt: 'Sigma Open Source Conversion Tool'
   }
 ])
