@@ -121,7 +121,7 @@ detection:
 
 ### all of (search pattern)
 
-The `1 of (search pattern)` statement combines all of the above conditions together in an `and` statement. The `(search pattern)` can be replaced with a regex statement that describes the name of the selection group.
+The `all of (search pattern)` statement combines all of the above conditions together in an `and` statement. The `(search pattern)` can be replaced with a regex statement that describes the name of the selection group.
 
 ```yaml
 detection:
@@ -171,10 +171,10 @@ detection:
 
 ### all of them
 
-The `1 of them` statement combines all of the above conditions together in an `and` statement.
+The `all of them` statement combines all of the above conditions together in an `and` statement.
 
 ::: danger WARNING
-It's advised not to use `1 of them` or `all of them` as it's not generally accepted when sharing rules with the `SigmaHQ/sigma` repository & community.
+It's advised not to use `1 of them` or `all of them` as it's not generally accepted when sharing rules with the `SigmaHQ/sigma` repository abd community.
 :::
 
 ```yaml

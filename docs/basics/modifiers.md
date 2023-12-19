@@ -331,6 +331,27 @@ The `lte` modifier will provide a search where the value of `fieldname` is less 
 
 ---
 
+### re
+
+::: code-group
+
+```yaml [/rules/needle_in_end_of_haystack.yaml]
+detection:
+    selection:
+        fieldname|re: '\\ntsvcs_[0-9a-f]{2}'
+```
+
+```splunk [Splunk Output]
+*
+| regex fieldname="\\\\ntsvcs_[0-9a-f]{2}"
+```
+
+:::
+
+The `re` modifier value is handled as regular expression by backends.
+
+---
+
 ### utf16 / utf16le / utf16be / wide {#wide}
 
 ::: code-group

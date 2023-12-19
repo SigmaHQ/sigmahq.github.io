@@ -6,6 +6,7 @@ export default defineConfig({
     title: 'Sigma',
     titleTemplate: 'Sigma Website',
     description: 'A generic and open signature format that allows you to describe relevant log events in a straight-forward manner.',
+    ignoreDeadLinks: true,
     head: [
         ['link', {
             media: "(prefers-color-scheme: dark)",
@@ -136,7 +137,11 @@ export default defineConfig({
             //     activeMatch: '/blog/',
             //     link: '/blog/index.md'
             // },
-            {text: 'Rules', link: 'https://github.com/SigmaHQ/sigma'},
+            {
+                text: 'Rules',
+                activeMatch: '/rules/',
+                link: '/rules/index.html'
+            },
             {text: 'Blog', link: 'https://medium.com/sigma-hq'},
             {
                 text: 'Misc',
@@ -229,6 +234,24 @@ export default defineConfig({
                         },
                     ]
                 },
+            ],
+            '/rules/': [
+                {
+                    text: 'Types',
+                    items: [
+                        {text: 'Detection Rules', link: '/rules/detection/'},
+                        {text: 'Threat Hunting Rules', link: '/rules/threat-hunting/'},
+                        {text: 'Emerging Threats Rules', link: '/rules/emerging-threats/'},
+                    ]
+                },
+                {
+                    text: 'Operating System',
+                    items: [
+                        {text: 'Windows', link: '/rules/windows'},
+                        {text: 'Linux', link: '/rules/linux'},
+                        {text: 'MacOS', link: '/rules/macos'},
+                    ]
+                }
             ]
         },
         footer: {
@@ -243,8 +266,8 @@ export default defineConfig({
             {icon: 'twitter', link: 'https://twitter.com/Sigma_HQ/'},
             {icon: 'github', link: 'https://github.com/SigmaHQ/sigma'},
         ],
-        // search: {
-        //     provider: 'local',
+        search: {
+             provider: 'local',
         //     options: {
         //         _render(src, env, md) {
         //             const html = md.render(src, env)
@@ -258,7 +281,7 @@ export default defineConfig({
         //             return html
         //         }
         //     }
-        // }
+        }
     },
     markdown: {
         config: (md) => {
