@@ -12,10 +12,10 @@ The values of given fields contained within Sigma rules can be changed using Val
 
 _Example:_
 
-```yaml
+```yaml{3}
 detection:
     selection:
-        TargetFilename|endswith: '.cmdline' // [!code hl]
+        TargetFilename|endswith: '.cmdline'
 ```
 
 ```splunk

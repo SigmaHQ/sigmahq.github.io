@@ -198,11 +198,11 @@ To learn more about the fields above and how they are used in Sigma, <br />[visi
 Converting this rule using the Splunk backend, and using the Splunk pipelines outputs the following query.
 
 
-```bash
+```bash{4}
 sigma convert \
     --target splunk \
     --pipeline splunk_windows \
-    ./rules/cloud/okta/okta_user_account_locked_out.yml // [!code hl]
+    ./rules/cloud/okta/okta_user_account_locked_out.yml
 ```
 
 ```splunk
@@ -215,10 +215,10 @@ Notice that adding the metadata to this Sigma rule hasn't changed the output of 
 
 We can see this metadata being used if we change the output format to `savedsearches`.
 
-```bash
+```bash{3}
 # Convert to Splunk savedsearches format
 sigma convert \
-    --format savedsearches \  // [!code hl]
+    --format savedsearches \
     --target splunk \
     --pipeline splunk_windows \
     ./rules/cloud/okta/okta_user_account_locked_out.yml
@@ -258,7 +258,7 @@ vim ./pipelines/puppy_app_production_config.yml
  
 ::: code-group
 
-```yaml [puppy_app_production_config.yml]
+```yaml [puppy_app_production_config.yml]{8-9,17-19}
 # ./pipelines/puppy_app_production_config.yml
 name: Puppy Application – Splunk Log Source Configuration
 priority: 100
@@ -266,7 +266,7 @@ transformations:
   - id: prefix_source_and_index_for_puppy_logs
     type: add_condition
     conditions: 
-      index: 'puppy_prod' // [!code hl:2]
+      index: 'puppy_prod'
       source: 'PuppyApp/App'
     rule_conditions:
       - type: logsource 
@@ -275,7 +275,7 @@ transformations:
   - id: map_fields_for_puppies
     type: field_name_mapping
     mapping:
-      status: 'puppy.status'  // [!code hl:3]
+      status: 'puppy.status' 
       dog_name: 'puppy.name'
       dog_breed: 'puppy.breed'
     rule_conditions:
@@ -326,10 +326,10 @@ Sigma will apply `index='puppy_prod' source='PuppyApp/App'` to the resultant SIE
 
 We can combine this configuration example with the custom `sad_puppy.yml` detection rule, that will detect whenever our log source detects a sad puppy in our SIEM.
 
-```bash
+```bash{3}
 sigma convert \ 
     -t splunk \
-    -p ./pipelines/puppy_app_production_config.yml \ // [!code hl:1]
+    -p ./pipelines/puppy_app_production_config.yml \
     ./rules/sad_puppy.yml
 ```
 

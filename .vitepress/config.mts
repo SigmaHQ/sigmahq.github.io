@@ -1,11 +1,17 @@
 import {defineConfig} from 'vitepress'
-import './syntax/syntax'
 import footnote from 'markdown-it-footnote'
+
+// import splunk_syntax from './syntax/splunk.tmLanguage.json'
+// import sumo_syntax from './syntax/sumologic.tmLanguage.json'
+// import bash_syntax from './syntax/bash.tmLanguage.json'
 
 export default defineConfig({
     title: 'Sigma',
     titleTemplate: 'Sigma Website',
     description: 'A generic and open signature format that allows you to describe relevant log events in a straight-forward manner.',
+    sitemap: {
+        hostname: 'https://sigmahq.io'
+    },
     head: [
         ['link', {
             media: "(prefers-color-scheme: dark)",
@@ -103,16 +109,16 @@ export default defineConfig({
         ['meta', {property: "og:url", content: "https://sigmahq.io/"}],
         ['meta', {property: "og:image", content: "https://sigmahq.io/images/og_image.jpg"}],
         [
-          'script',
-          {
-            async: true,
-            src: 'https://www.googletagmanager.com/gtag/js?id=UA-288648316-1',
-          },
+            'script',
+            {
+                async: '',
+                src: 'https://www.googletagmanager.com/gtag/js?id=UA-288648316-1',
+            },
         ],
         [
-          'script',
-          {},
-          `window.dataLayer = window.dataLayer || [];
+            'script',
+            {},
+            `window.dataLayer = window.dataLayer || [];
           function gtag(){dataLayer.push(arguments);}
           gtag('js', new Date());
           gtag('config', 'UA-288648316-1');`
@@ -160,7 +166,7 @@ export default defineConfig({
                 {
                     text: 'Sigma Basics',
                     items: [
-                        {text: 'Rules', link: '/docs/basics/rules'},   
+                        {text: 'Rules', link: '/docs/basics/rules'},
                         {text: 'Modifiers', link: '/docs/basics/modifiers'},
                         {text: 'Conditions', link: '/docs/basics/conditions'},
                         // {text: 'Validation', link: '/docs/basics/validation'},
@@ -188,9 +194,21 @@ export default defineConfig({
                     text: 'Backends',
                     items: [
                         {text: 'Splunk', link: 'https://github.com/SigmaHQ/pySigma-backend-splunk', rel: "_target"},
-                        {text: 'InsightEDR', link: 'https://github.com/SigmaHQ/pySigma-backend-insightidr', rel: "_target"},
-                        {text: 'ElasticSearch', link: 'https://github.com/SigmaHQ/pySigma-backend-elasticsearch', rel: "_target"},
-                        {text: 'OpenSearch', link: 'https://github.com/SigmaHQ/pySigma-backend-opensearch', rel: "_target"},
+                        {
+                            text: 'InsightEDR',
+                            link: 'https://github.com/SigmaHQ/pySigma-backend-insightidr',
+                            rel: "_target"
+                        },
+                        {
+                            text: 'ElasticSearch',
+                            link: 'https://github.com/SigmaHQ/pySigma-backend-elasticsearch',
+                            rel: "_target"
+                        },
+                        {
+                            text: 'OpenSearch',
+                            link: 'https://github.com/SigmaHQ/pySigma-backend-opensearch',
+                            rel: "_target"
+                        },
                         {text: 'More  ›', link: '/docs/digging-deeper/backends.html'},
                     ]
                 },
@@ -243,24 +261,32 @@ export default defineConfig({
             {icon: 'twitter', link: 'https://twitter.com/Sigma_HQ/'},
             {icon: 'github', link: 'https://github.com/SigmaHQ/sigma'},
         ],
-        // search: {
-        //     provider: 'local',
-        //     options: {
-        //         _render(src, env, md) {
-        //             const html = md.render(src, env)
-        //             console.log(src)
-        //             // return (env.frontmatter?.title)
-        //             if (env.frontmatter?.title) {
-        //                 return md.render(`# ${env.frontmatter.title}`) + html
-        //             }
-        //             if (env.frontmatter?.search === false) return ''
-        //             if (env.relativePath.startsWith('docs/v1')) return ''
-        //             return html
-        //         }
-        //     }
-        // }
+        search: {
+            provider: 'local',
+            options: {
+                _render(src, env, md) {
+                    let html = md.render(src, env)
+
+                    const title_regex = /{{\s\$frontmatter\.title\s}}/
+                    html = html.replace(title_regex, env.frontmatter?.title || "")
+
+                    if(env.frontmatter?.search == false) {
+                        return ""
+                    }
+                    return html
+                }
+            }
+        }
+
     },
     markdown: {
+        languageAlias: {
+            'conf': 'ini'
+        },
+        languages: [
+            // splunk_syntax,
+            // sumo_syntax
+        ],
         config: (md) => {
             // @ts-ignore
             md.use(footnote)

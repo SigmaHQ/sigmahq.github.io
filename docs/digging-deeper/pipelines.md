@@ -2,6 +2,12 @@
 title: 'Pipelines'
 ---
 
+<script setup>
+import DraftWarning from '../../.vitepress/theme/components/DraftWarning.vue';
+</script>
+
+<DraftWarning class="block! w-full mb-6" />
+
 # {{ $frontmatter.title }}
 
 Pipelines (or "processing pipelines") provide a more nuanced way to configure and fine-tune how Sigma rules get converted into their SIEM specific format. Pipelines are often used to ensure that the fields used within Sigma [are mapped correctly](#field-name-mapping) to the fields used in each SIEM, or to ensure that [the correct logsource](#change-logsource) is being inserted / updated.
@@ -164,11 +170,11 @@ TODO
 Map a field name to on
 
 ::: code-group
-```yaml [/pipelines/transformation_demo.yml]
+```yaml [/pipelines/transformation_demo.yml]{4-7}
 name: transformation_demo
 priority: 100
 transformations:
-    - id: prefix_source_and_index_for_puppy_logs  // [!code hl:6]
+    - id: prefix_source_and_index_for_puppy_logs
       type: field_name_mapping
       mapping:
         field: field_name
@@ -180,11 +186,11 @@ transformations:
 Map a field name prefix to on
 
 ::: code-group
-```yaml [/pipelines/transformation_demo.yml]
+```yaml [/pipelines/transformation_demo.yml]{4-6}
 name: transformation_demo
 priority: 100
 transformations:
-    - id: prefix_source_and_index_for_puppy_logs  // [!code hl:6]
+    - id: prefix_source_and_index_for_puppy_logs
       type: field_name_prefix_mapping
       mapping:
           
@@ -196,11 +202,11 @@ transformations:
 Deletes detection items
 
 ::: code-group
-```yaml [/pipelines/transformation_demo.yml]
+```yaml [/pipelines/transformation_demo.yml]{4-6}
 name: transformation_demo
 priority: 100
 transformations:
-    - id: prefix_source_and_index_for_puppy_logs  // [!code hl:6]
+    - id: prefix_source_and_index_for_puppy_logs
       type: drop_detection_item
       mapping:
 ```
@@ -211,11 +217,11 @@ transformations:
 Add a field name suffix.
 
 ::: code-group
-```yaml [/pipelines/transformation_demo.yml]
+```yaml [/pipelines/transformation_demo.yml]{4-6}
 name: transformation_demo
 priority: 100
 transformations:
-    - id: prefix_source_and_index_for_puppy_logs  // [!code hl:6]
+    - id: prefix_source_and_index_for_puppy_logs
       type: field_name_suffix
       mapping:
 ```
@@ -226,11 +232,11 @@ transformations:
 Add a field name prefix.
 
 ::: code-group
-```yaml [/pipelines/transformation_demo.yml]
+```yaml [/pipelines/transformation_demo.yml]{4-6}
 name: transformation_demo
 priority: 100
 transformations:
-    - id: prefix_source_and_index_for_puppy_logs  // [!code hl:6]
+    - id: prefix_source_and_index_for_puppy_logs
       type: field_name_prefix
       mapping:
 ```
@@ -241,11 +247,11 @@ transformations:
 Replaces placeholders with wildcards. This transformation is useful if remaining placeholders should be replaced with something meaningful to make conversion of rules possible without defining the placeholders content.
 
 ::: code-group
-```yaml [/pipelines/transformation_demo.yml]
+```yaml [/pipelines/transformation_demo.yml]{4-6}
 name: transformation_demo
 priority: 100
 transformations:
-    - id: prefix_source_and_index_for_puppy_logs  // [!code hl:6]
+    - id: prefix_source_and_index_for_puppy_logs
       type: wildcard_placeholders
       mapping:
 ```
@@ -289,11 +295,11 @@ list lookup expressions which are passed to the resulting query.
 - `mapping`: Mapping between placeholders and identifiers that should be used in the expression. If no mapping is provided the placeholder name is used.
 
 ::: code-group
-```yaml [/pipelines/transformation_demo.yml]
+```yaml [/pipelines/transformation_demo.yml]{4-6}
 name: transformation_demo
 priority: 100
 transformations:
-    - id: prefix_source_and_index_for_puppy_logs  // [!code hl:6]
+    - id: prefix_source_and_index_for_puppy_logs
       type: query_expression_placeholders
       mapping:
 ```
@@ -308,11 +314,11 @@ If template is set to True the condition values are interpreted as string templa
 - `category`, `product` and `service`: with the corresponding values of the Sigma rule log source.
 
 ::: code-group
-```yaml [/pipelines/transformation_demo.yml]
+```yaml [/pipelines/transformation_demo.yml]{4-6}
 name: transformation_demo
 priority: 100
 transformations:
-    - id: prefix_source_and_index_for_puppy_logs  // [!code hl:6]
+    - id: prefix_source_and_index_for_puppy_logs
       type: add_condition
       mapping:
 ```
@@ -323,11 +329,11 @@ transformations:
 Replace log source as defined in transformation parameters.
 
 ::: code-group
-```yaml [/pipelines/transformation_demo.yml]
+```yaml [/pipelines/transformation_demo.yml]{4-6}
 name: transformation_demo
 priority: 100
 transformations:
-    - id: prefix_source_and_index_for_puppy_logs  // [!code hl:6]
+    - id: prefix_source_and_index_for_puppy_logs
       type: change_logsource
       mapping:
 ```
@@ -341,11 +347,11 @@ capture groups. It operates on the plain string representation of the SigmaStrin
 This is basically an interface to `re.sub()` and can use all features available there.
 
 ::: code-group
-```yaml [/pipelines/transformation_demo.yml]
+```yaml [/pipelines/transformation_demo.yml]{4-6}
 name: transformation_demo
 priority: 100
 transformations:
-    - id: prefix_source_and_index_for_puppy_logs  // [!code hl:6]
+    - id: prefix_source_and_index_for_puppy_logs
       type: replace_string
       mapping:
 ```
@@ -356,11 +362,11 @@ transformations:
 Set pipeline state key to value.
 
 ::: code-group
-```yaml [/pipelines/transformation_demo.yml]
+```yaml [/pipelines/transformation_demo.yml]{4-6}
 name: transformation_demo
 priority: 100
 transformations:
-    - id: prefix_source_and_index_for_puppy_logs  // [!code hl:6]
+    - id: prefix_source_and_index_for_puppy_logs
       type: set_state
       mapping:
 ```
@@ -371,11 +377,11 @@ transformations:
 Raise a SigmaTransformationError with the provided message. This enables transformation pipelines to signalize that a certain situation can't be handled, e.g. only a subset of values is allowed because the target data model doesn't offers all possibilities.
 
 ::: code-group
-```yaml [/pipelines/transformation_demo.yml]
+```yaml [/pipelines/transformation_demo.yml]{4-6}
 name: transformation_demo
 priority: 100
 transformations:
-    - id: prefix_source_and_index_for_puppy_logs  // [!code hl:6]
+    - id: prefix_source_and_index_for_puppy_logs
       type: rule_failure
       mapping:
 ```
@@ -386,11 +392,11 @@ transformations:
 Raise a SigmaTransformationError with the provided message. This enables transformation pipelines to signalize that a certain situation can't be handled, e.g. only a subset of values is allowed because the target data model doesn't offers all possibilities.
 
 ::: code-group
-```yaml [/pipelines/transformation_demo.yml]
+```yaml [/pipelines/transformation_demo.yml]{4-6}
 name: transformation_demo
 priority: 100
 transformations:
-    - id: prefix_source_and_index_for_puppy_logs  // [!code hl:6]
+    - id: prefix_source_and_index_for_puppy_logs
       type: detection_item_failure
       mapping:
 ```

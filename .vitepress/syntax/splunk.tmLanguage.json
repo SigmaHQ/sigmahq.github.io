@@ -1,6 +1,7 @@
 {
   "name": "Splunk Query Language",
   "scopeName": "source.splunk",
+  "embeddedLangs": ["splunk"],
   "fileTypes": ["splunk", "spl"],
   "uuid": "8fbbb1e7-8311-4bdc-aaef-a1639ca8d0ad",
 

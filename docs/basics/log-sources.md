@@ -38,14 +38,14 @@ Use the `service` value to select only a subset of a product's logs, like the "s
 
 You may also see a `definition` field within logsource description. This can also provide more information about how to onboard the log data source correctly, and doesn't get included when completing logsource matching.
 
-```yaml
+```yaml{7}
 tags:
   - attack.privilege_escalation
   - attack.t1548
 logsource: // [!code focus:4]
   product: windows
   category: ps_script
-  definition: Script Block Logging must be enabled // [!code hl]
+  definition: Script Block Logging must be enabled
 detection:
   selection:
     ScriptBlockText|contains: 'Invoke-Nightmare'

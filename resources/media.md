@@ -3,6 +3,7 @@ title: 'Media'
 layout: 'doc'
 prev: false
 next: false
+search: false
 ---
 
 # Media

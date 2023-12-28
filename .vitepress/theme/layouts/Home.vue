@@ -32,6 +32,11 @@ const {frontmatter} = useData()
                 Detection&nbsp;Format
             </div>
         </template>
+
+
+        <template #nav-bar-content-before>
+            <div class="hidden xl:block w-full"></div>
+        </template>
     </VPNav>
 
     <div class="overflow-x-hidden">
@@ -44,8 +49,9 @@ const {frontmatter} = useData()
                 <div class="flex flex-col md:flex-row gap-6 lg:gap-12 items-center">
                     <div class="flex flex-col gap-2 order-last md:order-first basis-1 md:basis-2/3 xl:pr-5">
                         <p class="flex flex-col md:flex-row items-start gap-2 mb-0.5">
-                            <Badge type="tip" text="Open Source" class="!transform-none !leading-6" />
-                            <a class="group" href="https://blog.sigmahq.io/introducing-sigma-rule-packages-releases-76043ce42e81">
+                            <Badge type="tip" text="Open Source" class="!transform-none !leading-6"/>
+                            <a class="group"
+                               href="https://blog.sigmahq.io/introducing-sigma-rule-packages-releases-76043ce42e81">
                                 <div class="inline-block rounded-full px-3 py-1
                                     text-[12px]
                                     bg-sigma-500/[.15]
@@ -58,23 +64,25 @@ const {frontmatter} = useData()
                                     group-hover:underline
                                     text-[--vp-c-brand-3]">
                                     <div class="flex items-center">
-                                        <GiftIcon class="h-3 mr-2" />
+                                        <GiftIcon class="h-3 mr-2"/>
                                         Introducing new SigmaHQ Rule Packs
 
-                                        <ArrowSmallRightIcon class="h-3 transition-all group-hover:ml-1 pl-1.5" />
+                                        <ArrowSmallRightIcon class="h-3 transition-all group-hover:ml-1 pl-1.5"/>
 
                                     </div>
                                 </div>
                             </a>
                         </p>
                         <h2>
-                            <small class="text-[var(--vp-c-brand-1)] dark:text-[var(--vp-c-brand-3)] font-semibold text-xl">
+                            <small
+                                class="text-[var(--vp-c-brand-1)] dark:text-[var(--vp-c-brand-3)] font-semibold text-xl">
                                 SIEM Detection Format
                             </small>
                         </h2>
                         <h2 class="font-semibold text-4xl md:text-5xl" id="hero-title">
                             <slot name="home-hero-text">
-                                The shareable<br/>detection format for <br class="hidden md:block"/><span class="bg-[var(--vp-c-brand-2)] fill">security professionals</span>.
+                                The shareable<br/>detection format for <br class="hidden md:block"/><span
+                                class="bg-[var(--vp-c-brand-2)] fill">security professionals</span>.
                             </slot>
                         </h2>
                         <p class="text-slate-500">
@@ -141,20 +149,26 @@ const {frontmatter} = useData()
                 <div class="grid md:grid-cols-3 gap-4">
                     <a :href="withBase('/docs/guide/getting-started.html')">
                         <Box>
-                            <template #icon><BookOpenIcon /></template>
+                            <template #icon>
+                                <BookOpenIcon/>
+                            </template>
                             <template #heading>Documentation</template>
                             <template #text>Learn more about how to use the Sigma detection format.</template>
                         </Box>
                     </a>
                     <a :href="withBase('/resources/')">
                         <Box>
-                            <template #icon><RectangleGroupIcon /></template>
+                            <template #icon>
+                                <RectangleGroupIcon/>
+                            </template>
                             <template #heading>Resources</template>
-                            <template #text>See many amazing resources – produced by SigmaHQ and the wider Sigma community.</template>
+                            <template #text>See many amazing resources – produced by SigmaHQ and the wider Sigma
+                                community.
+                            </template>
                         </Box>
                     </a>
                     <a :href="withBase('/docs/basics/rules.html')">
-                        <RulesBox />
+                        <RulesBox/>
                     </a>
                 </div>
             </section>
@@ -165,23 +179,39 @@ const {frontmatter} = useData()
                 <div class="grid md:grid-cols-3 gap-4">
                     <a target="_blank" href="https://github.com/SigmaHQ/sigma/">
                         <Box>
-                            <template #icon><RectangleStackIcon /></template>
-                            <template #heading>View Sigma Rules <ArrowTopRightOnSquareIcon class="text-slate-400 dark:text-white/30 ml-1 h-[14px] w-[14px] inline" /></template>
-                            <template #text>Explore the thousands of existing Sigma detections in SigmaHQ/sigma.</template>
+                            <template #icon>
+                                <RectangleStackIcon/>
+                            </template>
+                            <template #heading>View Sigma Rules
+                                <ArrowTopRightOnSquareIcon
+                                    class="text-slate-400 dark:text-white/30 ml-1 h-[14px] w-[14px] inline"/>
+                            </template>
+                            <template #text>Explore the thousands of existing Sigma detections in SigmaHQ/sigma.
+                            </template>
                         </Box>
                     </a>
                     <a target="_blank" href="https://medium.com/sigma-hq">
                         <Box>
-                            <template #icon><PencilSquareIcon /></template>
-                            <template #heading>SigmaHQ Blog <ArrowTopRightOnSquareIcon class="text-slate-400 dark:text-white/30 ml-1 h-[14px] w-[14px] inline" /> </template>
+                            <template #icon>
+                                <PencilSquareIcon/>
+                            </template>
+                            <template #heading>SigmaHQ Blog
+                                <ArrowTopRightOnSquareIcon
+                                    class="text-slate-400 dark:text-white/30 ml-1 h-[14px] w-[14px] inline"/>
+                            </template>
                             <template #text>See articles written by the Core SigmaHQ development team.</template>
                         </Box>
                     </a>
                     <a target="_blank" href="https://github.com/SigmaHQ/sigma-specification/">
                         <Box>
-                            <template #icon><BeakerIcon /></template>
+                            <template #icon>
+                                <BeakerIcon/>
+                            </template>
                             <template #heading>
-                                Specification <Badge type="tip" text="In Dev" /> <ArrowTopRightOnSquareIcon class="text-slate-400 dark:text-white/30 ml-1 h-[14px] w-[14px] inline" />
+                                Specification
+                                <Badge type="tip" text="In Dev"/>
+                                <ArrowTopRightOnSquareIcon
+                                    class="text-slate-400 dark:text-white/30 ml-1 h-[14px] w-[14px] inline"/>
                             </template>
                             <template #text>Shape the future of the Sigma specification.</template>
                         </Box>
@@ -200,23 +230,31 @@ const {frontmatter} = useData()
 
                     <ul>
                         <li>
-                            <a target="_blank" class="text-[var(--vp-c-brand-3)]" href="https://marketplace.visualstudio.com/items?itemName=humpalum.sigma">
-                                Sigma VSCode Extension <ArrowTopRightOnSquareIcon class="text-slate-400 dark:text-cyan-300/30 ml-1 h-[14px] w-[14px] inline" />
+                            <a target="_blank" class="text-[var(--vp-c-brand-3)]"
+                               href="https://marketplace.visualstudio.com/items?itemName=humpalum.sigma">
+                                Sigma VSCode Extension
+                                <ArrowTopRightOnSquareIcon
+                                    class="text-slate-400 dark:text-cyan-300/30 ml-1 h-[14px] w-[14px] inline"/>
                             </a>
                         </li>
                         <li>
-                            <a target="_blank" class="text-[var(--vp-c-brand-3)]" href="https://github.com/SigmaHQ/pySigma">
-                                pySigma Development <ArrowTopRightOnSquareIcon class="text-slate-400 dark:text-cyan-300/30 ml-1 h-[14px] w-[14px] inline" />
+                            <a target="_blank" class="text-[var(--vp-c-brand-3)]"
+                               href="https://github.com/SigmaHQ/pySigma">
+                                pySigma Development
+                                <ArrowTopRightOnSquareIcon
+                                    class="text-slate-400 dark:text-cyan-300/30 ml-1 h-[14px] w-[14px] inline"/>
                             </a>
                         </li>
                         <li>
                             <a target="_blank" class="text-[var(--vp-c-brand-3)]" href="https://sigmasearchengine.com/">
-                                Sigma Search Engine <ArrowTopRightOnSquareIcon class="text-slate-400 dark:text-cyan-300/30 ml-1 h-[14px] w-[14px] inline" />
+                                Sigma Search Engine
+                                <ArrowTopRightOnSquareIcon
+                                    class="text-slate-400 dark:text-cyan-300/30 ml-1 h-[14px] w-[14px] inline"/>
                             </a>
                         </li>
                         <li>
-                                <span class="opacity-30">Sigma Rule Detection Reference</span>
-                                <Badge text="Coming Soon" type="info"/>
+                            <span class="opacity-30">Sigma Rule Detection Reference</span>
+                            <Badge text="Coming Soon" type="info"/>
                         </li>
                     </ul>
                 </section>
@@ -230,12 +268,16 @@ const {frontmatter} = useData()
                     <ul>
                         <li>
                             <a class="text-[var(--vp-c-brand-3)]" href="https://github.com/joesecurity/sigma-rules">
-                                Joe Security Sigma Rules <ArrowTopRightOnSquareIcon class="text-slate-400 dark:text-cyan-300/30 ml-1 h-[14px] w-[14px] inline" />
+                                Joe Security Sigma Rules
+                                <ArrowTopRightOnSquareIcon
+                                    class="text-slate-400 dark:text-cyan-300/30 ml-1 h-[14px] w-[14px] inline"/>
                             </a>
                         </li>
                         <li>
                             <a class="text-[var(--vp-c-brand-3)]" href="https://sigconverter.io/">
-                                Sigma Rule Converter<ArrowTopRightOnSquareIcon class="text-slate-400 dark:text-cyan-300/30 ml-1 h-[14px] w-[14px] inline" />
+                                Sigma Rule Converter
+                                <ArrowTopRightOnSquareIcon
+                                    class="text-slate-400 dark:text-cyan-300/30 ml-1 h-[14px] w-[14px] inline"/>
                             </a>
                         </li>
                     </ul>
@@ -248,7 +290,10 @@ const {frontmatter} = useData()
                     Acknowledgements
                 </h2>
                 <p class="text-sm text-slate-400">
-                    Sigma would not be possible without the hard work and dedications of hundreds of online contributors through Github.<br />If you would like to support the project in any way, please visit our <a class="text-[var(--vp-c-brand-3)]" :href="withBase('/docs/guide/about.html#contributing')">contribute guide on the sigma documentation page</a>.
+                    Sigma would not be possible without the hard work and dedications of hundreds of online contributors
+                    through Github.<br/>If you would like to support the project in any way, please visit our <a
+                    class="text-[var(--vp-c-brand-3)]" :href="withBase('/docs/guide/about.html#contributing')">contribute
+                    guide on the sigma documentation page</a>.
                 </p>
             </section>
         </main>

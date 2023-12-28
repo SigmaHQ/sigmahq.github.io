@@ -10,13 +10,7 @@
 Code
  */
 
-code {
-/*     white-space: nowrap; */ 
-}
 
-.VPNavBarSearch.search {
-    display: none;
-}
 
 .footnotes p, .footnotes ul, .footnotes ol {
     font-size: 9pt;
@@ -42,14 +36,6 @@ code {
 /**
 Layout
  */
-
-/*.vp-doc h2 {*/
-/*    padding-top: 54px;*/
-/*}*/
-
-/*.vp-doc h3 {*/
-/*    margin: 48px 0 0;*/
-/*}*/
 
 .vp-doc p, .vp-doc summary {
     margin: 16px 0 24px;
@@ -215,3 +201,27 @@ General
 html:not(.dark) .dark-mode-only {
     display: none;
 }
+
+/**
+    Search
+ */
+
+@media (min-width: 768px) {
+    .DocSearch-Button[type="button"] {
+        background-color: var(--vp-c-bg-alt);
+    }
+    #local-search {
+        padding-right: 16px;
+    }
+}
+
+.search-bar input.search-input {
+    background-color: transparent;
+}
+
+.search-bar input.search-input:focus {
+    outline: none !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+

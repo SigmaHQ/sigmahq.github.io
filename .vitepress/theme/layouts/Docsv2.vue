@@ -3,11 +3,9 @@ import DefaultTheme from 'vitepress/theme'
 import {useData} from "vitepress/dist/client/theme-default/composables/data";
 import {BookOpenIcon, RectangleGroupIcon} from "@heroicons/vue/20/solid";
 import {useRoute, useRouter, withBase} from "vitepress";
-import DraftWarning from "../components/DraftWarning.vue";
 
 const { Layout } = DefaultTheme
 const { frontmatter } = useData()
-import VPLink from 'vitepress/dist/client/theme-default/components/VPLink.vue'
 
 function active_link(link: string) {
     return useRoute().data.relativePath.includes(link)
@@ -22,21 +20,18 @@ function active_link(link: string) {
             </div>
         </template>
 
+
         <template #nav-bar-content-before>
-            <div class="flex space-x-2 px-2 w-full justify-end">
-                <!-- Draft -->
-                <DraftWarning class="hidden md:block"/>
-            </div>
-
+            <div class="hidden xl:block w-full"></div>
         </template>
 
-        <template #doc-before>
-            <div class="flex flex-col gap-4 pb-8">
-                <!-- Draft -->
-                <DraftWarning class="block md:hidden w-full mb-0"/>
-            </div>
-            <slot name="doc-before" />
-        </template>
+<!--        <template #doc-before>-->
+<!--            <div class="flex flex-col gap-4 pb-8">-->
+<!--                &lt;!&ndash; Draft &ndash;&gt;-->
+<!--                <DraftWarning class="block md:hidden w-full mb-0"/>-->
+<!--            </div>-->
+<!--            <slot name="doc-before" />-->
+<!--        </template>-->
 
         <template #sidebar-nav-before>
             <div class="flex flex-col gap-2 pt-6 pb-4 group">
