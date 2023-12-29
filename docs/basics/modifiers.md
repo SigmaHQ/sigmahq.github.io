@@ -41,6 +41,7 @@ Below is a list of available field modifiers.
     <li><a href="#gte"><code>gte</code></a></li>
     <li><a href="#lt"><code>lt</code></a></li>
     <li><a href="#lte"><code>lte</code></a></li>
+    <li><a href="#re"><code>re</code></a></li>
     <li><a href="#startswith"><code>startswith</code></a></li>
     <li><a href="#wide"><code>utf16</code> / <code>utf16le</code> / <code>utf16be</code> / <code>wide</code></a></li>
     <li><a href="#windash"><code>windash</code></a></li>
@@ -328,6 +329,26 @@ fieldname<=15
 :::
 
 The `lte` modifier will provide a search where the value of `fieldname` is less than or equal to the value provided.
+
+---
+
+### re
+
+::: code-group
+
+```yaml [/rules/needle_in_end_of_haystack.yaml]
+detection:
+    selection:
+        fieldname|re: .*needle$
+```
+
+```splunk [Splunk Output]
+regex fieldname=".*needle$"
+```
+
+:::
+
+The `re` modifier will provide a search where the value of `fieldname` matches the provided regex.
 
 ---
 
