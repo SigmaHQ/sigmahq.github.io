@@ -343,7 +343,7 @@ detection:
 ```
 
 ```splunk [Splunk Output]
-regex fieldname=".*needle$"
+* | regex fieldname=".*needle$"
 ```
 
 :::
