@@ -69,6 +69,8 @@ function active_link(link: string) {
                   <a href="https://github.com/SigmaHQ/" class="hover:text-cyan-600" target="_blank">Github</a>
                   <span class="opacity-30">|</span>
                   <a href="https://twitter.com/Sigma_HQ/" class="hover:text-cyan-600" target="_blank">X.com</a>
+                  <span class="opacity-30">|</span>
+                  <a href="https://discord.gg/kQQBn5W2z5" class="hover:text-cyan-600" target="_blank">Discord</a>
                 </div>
             </div>
         </template>
