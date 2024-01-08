@@ -258,6 +258,7 @@ export default defineConfig({
             text: 'Edit on GitHub'
         },
         socialLinks: [
+            {icon: 'discord', link: 'https://discord.gg/kQQBn5W2z5'},
             {icon: 'twitter', link: 'https://twitter.com/Sigma_HQ/'},
             {icon: 'github', link: 'https://github.com/SigmaHQ/sigma'},
         ],
