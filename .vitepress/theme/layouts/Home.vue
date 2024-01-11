@@ -47,7 +47,7 @@ const {frontmatter} = useData()
         <main class="max-w-6xl mx-auto px-6 py-12 lg:px-16 xl:px-8 flex flex-col gap-16 xl:gap-20" style="">
             <section id="sigma" class="md:pt-40">
                 <div class="flex flex-col md:flex-row gap-6 lg:gap-12 items-center">
-                    <div class="flex flex-col gap-2 order-last md:order-first basis-1 md:basis-2/3 xl:pr-5">
+                    <div class="flex flex-col gap-2 order-last md:order-first basis-1 md:basis-3/5 xl:pr-5">
                         <p class="flex flex-col md:flex-row items-start gap-2 mb-0.5">
                             <Badge type="tip" text="Open Source" class="!transform-none !leading-6"/>
                             <a class="group"
@@ -137,7 +137,7 @@ const {frontmatter} = useData()
                             </a>
                         </div>
                     </div>
-                    <div class="basis-1 md:basis-1/3">
+                    <div class="basis-1 md:basis-2/5">
                         <CodeBox></CodeBox>
                     </div>
                 </div>
