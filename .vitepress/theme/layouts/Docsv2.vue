@@ -15,14 +15,14 @@ function active_link(link: string) {
 <template>
     <Layout>
         <template #nav-bar-title-after>
-            <div class="block text-[10pt] text-[var(--vp-c-brand-1)] translate-x-[-60px] translate-y-[20px]">
+            <div class="block text-[10pt] text-[var(--vp-c-brand-1)] absolute top-10 left-12">
                 Documentation
             </div>
         </template>
 
 
         <template #nav-bar-content-before>
-            <div class="hidden xl:block w-full"></div>
+            <div class="hidden md:block w-full"></div>
         </template>
 
 <!--        <template #doc-before>-->

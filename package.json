@@ -6,6 +6,7 @@
     "autoprefixer": "^10.4.13",
     "fuse.js": "^7.0.0",
     "highlight.js": "^11.9.0",
+    "highlightjs-spl": "^0.1.2",
     "markdown-it-footnote": "^3",
     "open-graph-scraper": "^6.3.2",
     "postcss": "^8.4.19",

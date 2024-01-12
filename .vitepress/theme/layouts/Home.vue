@@ -28,14 +28,14 @@ const {frontmatter} = useData()
     <VPSkipLink/>
     <VPNav>
         <template #nav-bar-title-after>
-            <div class="block text-[10pt] text-[var(--vp-c-brand-1)] translate-x-[-60px] translate-y-[20px]">
+            <div class="block text-[10pt] text-[var(--vp-c-brand-1)] absolute top-10 left-12">
                 Detection&nbsp;Format
             </div>
         </template>
 
 
         <template #nav-bar-content-before>
-            <div class="hidden xl:block w-full"></div>
+            <div class="hidden md:block w-full"></div>
         </template>
     </VPNav>
 
@@ -45,7 +45,7 @@ const {frontmatter} = useData()
              style="background:radial-gradient(circle at 0% 0%, rgba(69,216,255,1) 0%, rgba(69,216,255,0) 50%, rgba(69,216,255,0) 100%);"></div>
 
         <main class="max-w-6xl mx-auto px-6 py-12 lg:px-16 xl:px-8 flex flex-col gap-16 xl:gap-20" style="">
-            <section id="sigma" class="md:pt-40">
+            <section id="sigma" class="md:pt-48 md:pb-10">
                 <div class="flex flex-col md:flex-row gap-6 lg:gap-12 items-center">
                     <div class="flex flex-col gap-2 order-last md:order-first basis-1 md:basis-3/5 xl:pr-5">
                         <p class="flex flex-col md:flex-row items-start gap-2 mb-0.5">
@@ -79,7 +79,7 @@ const {frontmatter} = useData()
                                 SIEM Detection Format
                             </small>
                         </h2>
-                        <h2 class="font-semibold text-4xl md:text-5xl" id="hero-title">
+                        <h2 class="font-semibold text-4xl md:text-5xl xl:text-[40pt]" id="hero-title">
                             <slot name="home-hero-text">
                                 The shareable<br/>detection format for <br class="hidden md:block"/><span
                                 class="bg-[var(--vp-c-brand-2)] fill">security professionals</span>.

@@ -8,8 +8,9 @@
             p-6
             rounded-lg
             outline
-            outline-1
+            outline-2
             hover:outline-2
+            hover:outline-offset-2
             bg-[#E3F2FA]/40
             outline-[#C6D2ED]/40
             hover:bg-[#DEF5FC]
