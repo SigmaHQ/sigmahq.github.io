@@ -44,16 +44,16 @@ const {frontmatter} = useData()
              class="absolute opacity-40 lg:opacity-25 dark:opacity-[.20] blur pointer-events-none lg:-top-80 top-0 -left-0 right-0 bottom-0 w-100 -z-10"
              style="background:radial-gradient(circle at 0% 0%, rgba(69,216,255,1) 0%, rgba(69,216,255,0) 50%, rgba(69,216,255,0) 100%);"></div>
 
-        <main class="max-w-6xl mx-auto px-6 py-12 lg:px-16 xl:px-8 flex flex-col gap-16 xl:gap-20" style="">
-            <section id="sigma" class="md:pt-48 md:pb-10">
+        <main class="max-w-6xl mx-auto px-6 lg:px-16 xl:px-8 py-6 md:py-24 lg:py-48 flex flex-col gap-16 xl:gap-20">
+            <section id="sigma">
                 <div class="flex flex-col md:flex-row gap-6 lg:gap-12 items-center">
                     <div class="flex flex-col gap-2 order-last md:order-first basis-1 md:basis-3/5 xl:pr-5">
-                        <p class="flex flex-col md:flex-row items-start gap-2 mb-0.5">
-                            <Badge type="tip" text="Open Source" class="!transform-none !leading-6"/>
+                        <p class="flex flex-wrap gap-2 mb-0.5">
+                            <Badge type="tip" text="Open Source" class="!transform-none !leading-6 text-nowrap"/>
                             <a class="group"
                                href="https://blog.sigmahq.io/introducing-sigma-rule-packages-releases-76043ce42e81">
                                 <div class="inline-block rounded-full px-3 py-1
-                                    text-[12px]
+ text-nowrap                                    text-[12px]
                                     bg-sigma-500/[.15]
                                     text-sigma-600
                                     dark:bg-sigma-700/20
@@ -81,7 +81,7 @@ const {frontmatter} = useData()
                         </h2>
                         <h2 class="font-semibold text-4xl md:text-5xl xl:text-[40pt]" id="hero-title">
                             <slot name="home-hero-text">
-                                The shareable<br/>detection format for <br class="hidden md:block"/><span
+                                The shareable<br/>detection format for <br class="block md:hidden lg:block"/><span
                                 class="bg-[var(--vp-c-brand-2)] fill">security professionals</span>.
                             </slot>
                         </h2>
@@ -137,7 +137,7 @@ const {frontmatter} = useData()
                             </a>
                         </div>
                     </div>
-                    <div class="basis-1 md:basis-2/5">
+                    <div class="w-full md:basis-3/5 lg:basis-2/5">
                         <CodeBox></CodeBox>
                     </div>
                 </div>

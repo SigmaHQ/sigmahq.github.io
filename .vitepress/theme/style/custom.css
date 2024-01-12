@@ -42,8 +42,16 @@ Layout
 }
 
 @media (min-width: 960px) {
-    .VPNavBarTitle.has-sidebar .title {
-        border-bottom-color: transparent !important;
+    /*.VPNavBarTitle.has-sidebar .title {*/
+    /*    border-bottom-color: transparent !important;*/
+    /*}*/
+}
+
+/** Between 960 and 1040 set .VPNav to fixed */
+/** Fixes bug in medium breakpoint where navbar would change top padding */
+@media (min-width: 960px) and (max-width: 1024px) {
+    header.VPNav {
+        position: relative !important;
     }
 }
 

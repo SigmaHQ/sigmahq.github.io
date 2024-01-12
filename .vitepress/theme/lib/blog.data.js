@@ -11,9 +11,9 @@ const urls = [
 async function fetch_og_data(url) {
     let result = (await ogs({url})).result
 
-    if(result?.ogImage[0]?.url?.startsWith('/')) {
-        let hostname = new URL(result.requestUrl)?.hostname
-        let path = result?.ogImage?.url
+    if(result.ogImage[0].url.startsWith('/')) {
+        let hostname = new URL(result.requestUrl).hostname
+        let path = result.ogImage.url
         result.ogImage.url = new URL('https://'+hostname+path)?.href
     }
 
