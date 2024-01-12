@@ -162,8 +162,8 @@ html.dark .glow-top, html.dark .glow-bottom {
 
 pre {
     /*white-space: nowrap;*/
-    //text-overflow: ellipsis;
-    //overflow: hidden;
+    /*text-overflow: ellipsis;*/
+    /*overflow: hidden;*/
 }
 
 .line {
