@@ -15,7 +15,7 @@
                 <div class="absolute text-xs text-slate-400/60 w-full text-center left-0 top-6 hidden md:block">
                     aws_root_account_usage.yml
                 </div>
-                <pre class="lg:pl-8 text-wrap whitespace-pre-wrap md:whitespace-pre" v-html="sigma_rule_hl"></pre>
+                <pre class="lg:pl-8 pt-2 text-wrap whitespace-pre-wrap md:whitespace-pre" v-html="sigma_rule_hl"></pre>
             </div>
             <div class="flex w-full justify-center md:justify-start lg:justify-center gap-2">
                 <!--                <div class="absolute w-3 bg-[var(&#45;&#45;vp-c-brand-2)] -z-10 h-[200px] -translate-y-[50%] opacity-10"></div>-->
@@ -30,10 +30,10 @@
                         </div>
                     </div>
                 </div>
-                <a class="relative w-12 md:w-8 bg-slate-700 dark:bg-slate-400/20 rounded flex items-center justify-center hover:bg-sigma-500 transition-all outline outline-transparent outline-2 outline-offset-2 hover:outline-sigma-500"
+                <a class="relative w-12 md:w-8 bg-sigma-50 border-sigma-400 border-2 dark:bg-slate-400/20 rounded flex items-center justify-center hover:bg-sigma-500 transition-all outline outline-transparent outline-2 outline-offset-2 hover:outline-sigma-500 text-sigma-700 dark:text-white hover:text-white"
                    href="https://sigconverter.io/#backend=splunk&format=default&pipeline=&rule=dGl0bGU6IEFXUyBSb290IENyZWRlbnRpYWxzCmRlc2NyaXB0aW9uOiBEZXRlY3RzIEFXUyByb290IGFjY291bnQgdXNhZ2UKbG9nc291cmNlOgogICAgcHJvZHVjdDogYXdzCiAgICBzZXJ2aWNlOiBjbG91ZHRyYWlsCmRldGVjdGlvbjoKICAgIHNlbGVjdGlvbjoKICAgICAgICB1c2VySWRlbnRpdHkudHlwZTogUm9vdAogICAgZmlsdGVyOgogICAgICAgIGV2ZW50VHlwZTogQXdzU2VydmljZUV2ZW50CiAgICBjb25kaXRpb246IHNlbGVjdGlvbiBhbmQgbm90IGZpbHRlcgpmYWxzZXBvc2l0aXZlczoKICAgIC0gQVdTIFRhc2tzIFRoYXQgUmVxdWlyZSBSb290IFVzZXIgQ3JlZGVudGlhbHMKbGV2ZWw6IG1lZGl1bQ%3D%3D&pipelineYml=bmFtZTogRXhhbXBsZSBQaXBlbGluZQpwcmlvcml0eTogMzAKdHJhbnNmb3JtYXRpb25zOgotIGlkOiBzb3VyY2V0eXBlX2NvbmRpdGlvbgogIHR5cGU6IGFkZF9jb25kaXRpb24KICBjb25kaXRpb25zOgogICAgc291cmNldHlwZTogImF3czpjbG91ZHRyYWlsIgogIHJ1bGVfY29uZGl0aW9uczoKICAtIHR5cGU6IGxvZ3NvdXJjZQogICAgcHJvZHVjdDogYXdzCiAgICBzZXJ2aWNlOiBjbG91ZHRyYWls"
                    target="_blank">
-                    <ArrowUturnLeftIcon class="h-4 w-4 text-white inline-block -scale-y-100"/>
+                    <ArrowUturnLeftIcon class="h-4 w-4 inline-block -scale-y-100"/>
                     <span class="absolute flex h-3 w-3 -top-1.5 -right-1.5">
                       <span
                           class="animate-ping absolute inline-flex h-full w-full rounded-full bg-sigma-400 opacity-75"></span>
@@ -49,7 +49,7 @@
                     <div class="splunk-icon w-[32px]">
                         <img alt="" class="" height="32" src="/images/backend_logos/splunk.png" width="32">
                     </div>
-                    <div class="">
+                    <div class="gro">
                         <pre class="text-green-100 whitespace-pre-wrap md:whitespace-pre"
                              v-html="splunk_output_hl"></pre>
                     </div>
@@ -98,7 +98,7 @@ let splunk_output_hl = ref('')
 hljs.registerLanguage('yaml', yaml);
 hljs.registerLanguage('spl', splunk);
 
-sigma_rule_hl.value = hljs.highlight(code, {language: 'yaml'}).value
+sigma_rule_hl.value = hljs.highlight(code.trim(), {language: 'yaml'}).value
 splunk_output_hl.value = hljs.highlight(output, {language: 'spl'}).value
 </script>
 
