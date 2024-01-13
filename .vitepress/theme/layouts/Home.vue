@@ -81,7 +81,7 @@ const {frontmatter} = useData()
                         </h2>
                         <h2 class="font-semibold text-4xl md:text-5xl xl:text-[40pt]" id="">
                             <slot name="home-hero-text">
-                                <span class="hero-title">The shareable<br/>detection format for </span><br class="block md:hidden lg:block"/><span
+                                <span class="hero-title">The shareable<br/>detection format for </span><br class="hidden lg:block"/><span
                                 class="bg-[var(--vp-c-brand-2)] fill bg-clip-text hero-title-highlighted">security professionals</span>.
                             </slot>
                         </h2>
