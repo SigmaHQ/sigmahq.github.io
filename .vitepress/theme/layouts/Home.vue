@@ -79,10 +79,10 @@ const {frontmatter} = useData()
                                 SIEM Detection Format
                             </small>
                         </h2>
-                        <h2 class="font-semibold text-4xl md:text-5xl xl:text-[40pt]" id="hero-title">
+                        <h2 class="font-semibold text-4xl md:text-5xl xl:text-[40pt]" id="">
                             <slot name="home-hero-text">
-                                The shareable<br/>detection format for <br class="block md:hidden lg:block"/><span
-                                class="bg-[var(--vp-c-brand-2)] fill">security professionals</span>.
+                                <span class="hero-title">The shareable<br/>detection format for </span><br class="block md:hidden lg:block"/><span
+                                class="bg-[var(--vp-c-brand-2)] fill bg-clip-text hero-title-highlighted">security professionals</span>.
                             </slot>
                         </h2>
                         <p class="text-slate-500">
@@ -305,17 +305,17 @@ const {frontmatter} = useData()
 </template>
 
 <style>
-#hero-title {
+.hero-title {
     background: transparent;
 }
 
-.dark #hero-title {
+.dark .hero-title {
     background: linear-gradient(to bottom right, #a5c0d3 0%, #fff 50%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
-#hero-title span {
+.hero-title-highlighted {
     background: linear-gradient(to right, var(--vp-c-brand-1), var(--vp-c-brand-3));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;

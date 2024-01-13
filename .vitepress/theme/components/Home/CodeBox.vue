@@ -2,7 +2,7 @@
     <div class="relative">
         <div id="window-wrapper" class="md:absolute top-0 left-0 md:translate-y-[-50%] flex flex-col gap-2 lg:gap-4">
 
-            <div id="window" class=" rounded-xl w-full p-4 md:p-8 md:pr-32 text-xs lg:text-sm">
+            <div id="window" class="relative rounded-xl w-full p-4 md:p-8 md:pr-32 text-xs lg:text-sm">
                 <div class="line hidden lg:block"></div>
                 <div id="window-actions" class="h-3 md:h-6 flex gap-2">
                     <div class="h-3 w-3 bg-slate-400/20 rounded-full"></div>
@@ -15,33 +15,44 @@
                 <div class="absolute text-xs text-slate-400/60 w-full text-center left-0 top-6 hidden md:block">
                     aws_root_account_usage.yml
                 </div>
-                <pre class="lg:pl-8 text-wrap md:text-nowrap break-all" v-html="sigma_rule_hl"></pre>
+                <pre class="lg:pl-8 text-wrap whitespace-pre-wrap md:whitespace-pre" v-html="sigma_rule_hl"></pre>
             </div>
             <div class="flex w-full justify-center md:justify-start lg:justify-center gap-2">
                 <!--                <div class="absolute w-3 bg-[var(&#45;&#45;vp-c-brand-2)] -z-10 h-[200px] -translate-y-[50%] opacity-10"></div>-->
-                <pre
-                    class="rounded text-sm bg-slate-900 dark:bg-[#0d0e13] text-slate-300 inline-block py-1.5 px-2.5 text-wrap md:text-nowrap relative"><span
-                    class="text-[var(--vp-c-brand)]">$ </span>sigma convert <span class="text-slate-500">&#8209;t</span> splunk <span
-                    class="text-slate-500">&#8209;p</span>&nbsp;./config.yml</pre>
+                <div
+                    class="rounded text-sm bg-slate-900 dark:bg-[#0d0e13] text-slate-300 inline-block py-1.5 px-2.5 relative">
+                    <div class="flex gap-2">
+                        <div class="">
+                            <span class="text-[var(--vp-c-brand)]">$</span>
+                        </div>
+                        <div class="">
+                            <pre class="whitespace-pre-wrap md:whitespace-pre">sigma convert <span class="text-slate-500">&#8209;t</span>&nbsp;splunk <span class="text-slate-500">&#8209;p</span>&nbsp;config.yml ...</pre>
+                        </div>
+                    </div>
+                </div>
                 <a class="relative w-12 md:w-8 bg-slate-700 dark:bg-slate-400/20 rounded flex items-center justify-center hover:bg-sigma-500 transition-all outline outline-transparent outline-2 outline-offset-2 hover:outline-sigma-500"
-                   target="_blank"
-                   href="https://sigconverter.io/#backend=splunk&format=default&pipeline=&rule=dGl0bGU6IEFXUyBSb290IENyZWRlbnRpYWxzCmRlc2NyaXB0aW9uOiBEZXRlY3RzIEFXUyByb290IGFjY291bnQgdXNhZ2UKbG9nc291cmNlOgogICAgcHJvZHVjdDogYXdzCiAgICBzZXJ2aWNlOiBjbG91ZHRyYWlsCmRldGVjdGlvbjoKICAgIHNlbGVjdGlvbjoKICAgICAgICB1c2VySWRlbnRpdHkudHlwZTogUm9vdAogICAgZmlsdGVyOgogICAgICAgIGV2ZW50VHlwZTogQXdzU2VydmljZUV2ZW50CiAgICBjb25kaXRpb246IHNlbGVjdGlvbiBhbmQgbm90IGZpbHRlcgpmYWxzZXBvc2l0aXZlczoKICAgIC0gQVdTIFRhc2tzIFRoYXQgUmVxdWlyZSBSb290IFVzZXIgQ3JlZGVudGlhbHMKbGV2ZWw6IG1lZGl1bQ%3D%3D&pipelineYml=bmFtZTogRXhhbXBsZSBQaXBlbGluZQpwcmlvcml0eTogMzAKdHJhbnNmb3JtYXRpb25zOgotIGlkOiBzb3VyY2V0eXBlX2NvbmRpdGlvbgogIHR5cGU6IGFkZF9jb25kaXRpb24KICBjb25kaXRpb25zOgogICAgc291cmNldHlwZTogImF3czpjbG91ZHRyYWlsIgogIHJ1bGVfY29uZGl0aW9uczoKICAtIHR5cGU6IGxvZ3NvdXJjZQogICAgcHJvZHVjdDogYXdzCiAgICBzZXJ2aWNlOiBjbG91ZHRyYWls">
+                   href="https://sigconverter.io/#backend=splunk&format=default&pipeline=&rule=dGl0bGU6IEFXUyBSb290IENyZWRlbnRpYWxzCmRlc2NyaXB0aW9uOiBEZXRlY3RzIEFXUyByb290IGFjY291bnQgdXNhZ2UKbG9nc291cmNlOgogICAgcHJvZHVjdDogYXdzCiAgICBzZXJ2aWNlOiBjbG91ZHRyYWlsCmRldGVjdGlvbjoKICAgIHNlbGVjdGlvbjoKICAgICAgICB1c2VySWRlbnRpdHkudHlwZTogUm9vdAogICAgZmlsdGVyOgogICAgICAgIGV2ZW50VHlwZTogQXdzU2VydmljZUV2ZW50CiAgICBjb25kaXRpb246IHNlbGVjdGlvbiBhbmQgbm90IGZpbHRlcgpmYWxzZXBvc2l0aXZlczoKICAgIC0gQVdTIFRhc2tzIFRoYXQgUmVxdWlyZSBSb290IFVzZXIgQ3JlZGVudGlhbHMKbGV2ZWw6IG1lZGl1bQ%3D%3D&pipelineYml=bmFtZTogRXhhbXBsZSBQaXBlbGluZQpwcmlvcml0eTogMzAKdHJhbnNmb3JtYXRpb25zOgotIGlkOiBzb3VyY2V0eXBlX2NvbmRpdGlvbgogIHR5cGU6IGFkZF9jb25kaXRpb24KICBjb25kaXRpb25zOgogICAgc291cmNldHlwZTogImF3czpjbG91ZHRyYWlsIgogIHJ1bGVfY29uZGl0aW9uczoKICAtIHR5cGU6IGxvZ3NvdXJjZQogICAgcHJvZHVjdDogYXdzCiAgICBzZXJ2aWNlOiBjbG91ZHRyYWls"
+                   target="_blank">
                     <ArrowUturnLeftIcon class="h-4 w-4 text-white inline-block -scale-y-100"/>
                     <span class="absolute flex h-3 w-3 -top-1.5 -right-1.5">
-                      <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-sigma-400 opacity-75"></span>
+                      <span
+                          class="animate-ping absolute inline-flex h-full w-full rounded-full bg-sigma-400 opacity-75"></span>
                       <span class="relative inline-flex rounded-full h-3 w-3 bg-sigma-500"></span>
                     </span>
 
                 </a>
             </div>
-            <div id="splunk-output" class="rounded-xl w-full p-4 md:p-4 text-xs lg:text-sm">
+            <div id="splunk-output" class="relative rounded-xl w-full p-4 md:p-4 text-xs lg:text-sm">
                 <div class="glow-top splunk"></div>
                 <div class="glow-bottom splunk"></div>
                 <div class="flex items-center gap-4 w-full">
-                    <div class="splunk-icon shrink">
-                        <img src="/images/backend_logos/splunk.png" alt="" class="" width="32" height="32">
+                    <div class="splunk-icon w-[32px]">
+                        <img alt="" class="" height="32" src="/images/backend_logos/splunk.png" width="32">
                     </div>
-                    <pre class="text-green-100 text-wrap" v-html="splunk_output_hl"></pre>
+                    <div class="">
+                        <pre class="text-green-100 whitespace-pre-wrap md:whitespace-pre"
+                             v-html="splunk_output_hl"></pre>
+                    </div>
                 </div>
             </div>
 
@@ -55,7 +66,7 @@
 </template>
 
 <script setup>
-import {onMounted, ref} from "vue";
+import {ref} from "vue";
 import ThatSigmaBlur from "../ThatSigmaBlur.vue";
 import {ArrowUturnLeftIcon} from "@heroicons/vue/20/solid/index.js";
 import hljs from "highlight.js/lib/core";
