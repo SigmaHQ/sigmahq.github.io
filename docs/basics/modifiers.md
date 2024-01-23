@@ -4,7 +4,7 @@ title: 'Modifiers'
 
 # Sigma {{ $frontmatter.title }}
 
-Introduced in [2019](https://patzke.org/introducing-sigma-value-modifiers.html), Sigma modifiers was brought into the Sigma specification to allow detection engineers to perform more complex operations on Sigma rules that we're supported in most SIEMs, such as Regex, Boolean logic, and `cidr` notation.
+Introduced in [2019](https://patzke.org/introducing-sigma-value-modifiers.html), Sigma modifiers were incorporated into the Sigma specification, allowing detection engineers to perform more complex operations on Sigma rules. These operations, including Regex, Boolean logic, and `cidr` notation, are supported by most SIEMs.
 
 ## Overview
 
