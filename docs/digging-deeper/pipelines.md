@@ -206,9 +206,17 @@ Deletes detection items
 name: transformation_demo
 priority: 100
 transformations:
-    - id: prefix_source_and_index_for_puppy_logs
+    # Drops the Hashes field which is specific to Sysmon logs
+    - id: hashes_drop_sysmon-specific-field
       type: drop_detection_item
-      mapping:
+      field_name_conditions:
+        - type: include_fields
+          fields:
+          - Hashes
+      rule_conditions:
+      - type: logsource
+        product: windows
+        category: process_creation
 ```
 :::
 
