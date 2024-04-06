@@ -463,15 +463,13 @@ transformations:
           Image:
           OriginalFilename:
 ```
+```splunk [Splunk Output]
+| tstats summariesonly=false allow_old_summaries=true fillnull_value="null" count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where IntegrityLevel="System" User IN ("*AUTHORI*", "*AUTORI*") Image IN ("*\\calc.exe", "*\\wscript.exe", "*\\cscript.exe", "*\\hh.exe", "*\\mshta.exe", "*\\forfiles.exe", "*\\ping.exe") OR CommandLine IN ("* -NoP *", "* -W Hidden *", "* -decode *", "* /decode *", "* /urlcache *", "* -urlcache *", "* -e* JAB*", "* -e* SUVYI*", "* -e* SQBFAFgA*", "* -e* aWV4I*", "* -e* IAB*", "* -e* PAA*", "* -e* aQBlAHgA*", "*vssadmin delete shadows*", "*reg SAVE HKLM*", "* -ma *", "*Microsoft\\Windows\\CurrentVersion\\Run*", "*.downloadstring(*", "*.downloadfile(*", "* /ticket:*", "*dpapi::*", "*event::clear*", "*event::drop*", "*id::modify*", "*kerberos::*", "*lsadump::*", "*misc::*", "*privilege::*", "*rpc::*", "*sekurlsa::*", "*sid::*", "*token::*", "*vault::cred*", "*vault::list*", "* p::d *", "*;iex(*", "*MiniDump*", "*net user *") by CommandLine Image OriginalFilename | `drop_dm_object_name(Processes)` | convert timeformat="%Y-%m-%dT%H:%M:%S" ctime(firstTime) | convert timeformat="%Y-%m-%dT%H:%M:%S" ctime(lastTime)
+```
 :::
 
 In this example above, we are demonstrating how the Splunk backend will apply a data model when used with the `data_model` output format with a Sigma CLI command like `sigma convert -p pipeline.yml -t splunk -f data_model rule.yml`. This will convert a query to use datamodels and form a tstats query such at this:
 
-:::
-```
-| tstats summariesonly=false allow_old_summaries=true fillnull_value="null" count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where IntegrityLevel="System" User IN ("*AUTHORI*", "*AUTORI*") Image IN ("*\\calc.exe", "*\\wscript.exe", "*\\cscript.exe", "*\\hh.exe", "*\\mshta.exe", "*\\forfiles.exe", "*\\ping.exe") OR CommandLine IN ("* -NoP *", "* -W Hidden *", "* -decode *", "* /decode *", "* /urlcache *", "* -urlcache *", "* -e* JAB*", "* -e* SUVYI*", "* -e* SQBFAFgA*", "* -e* aWV4I*", "* -e* IAB*", "* -e* PAA*", "* -e* aQBlAHgA*", "*vssadmin delete shadows*", "*reg SAVE HKLM*", "* -ma *", "*Microsoft\\Windows\\CurrentVersion\\Run*", "*.downloadstring(*", "*.downloadfile(*", "* /ticket:*", "*dpapi::*", "*event::clear*", "*event::drop*", "*id::modify*", "*kerberos::*", "*lsadump::*", "*misc::*", "*privilege::*", "*rpc::*", "*sekurlsa::*", "*sid::*", "*token::*", "*vault::cred*", "*vault::list*", "* p::d *", "*;iex(*", "*MiniDump*", "*net user *") by CommandLine Image OriginalFilename | `drop_dm_object_name(Processes)` | convert timeformat="%Y-%m-%dT%H:%M:%S" ctime(firstTime) | convert timeformat="%Y-%m-%dT%H:%M:%S" ctime(lastTime)
-```
-:::
 
 ### Rule Failure
 
