@@ -167,39 +167,59 @@ TODO
 
 ### Field Name Mapping
 
-Map a field name to on
+Map a field name in the sigma rule to a field name used in your logs.
+
+**Parameters:**
+
+ - 'mapping': the fields that will be mapped (required)
 
 ::: code-group
 ```yaml [/pipelines/transformation_demo.yml]{4-7}
 name: transformation_demo
 priority: 100
 transformations:
-    - id: prefix_source_and_index_for_puppy_logs
+    - id: useragent_mapping
       type: field_name_mapping
       mapping:
-        field: field_name
+        c-useragent: useragent
+        cs-host: hostname
+        c-ip: ip
+      rule_conditions:
+        - type: logsource       
+          category: proxy
 ```
 :::
 
 ### Field Name Prefix Mapping
 
-Map a field name prefix to on
+Map a field name prefix to replace it with another prefix.
+
+**Parameters:**
+
+ - 'mapping': the fields that will be mapped (required)
 
 ::: code-group
 ```yaml [/pipelines/transformation_demo.yml]{4-6}
 name: transformation_demo
 priority: 100
 transformations:
-    - id: prefix_source_and_index_for_puppy_logs
+    - id: integritylevel_prefix_mapping
       type: field_name_prefix_mapping
       mapping:
-          
+        win.: proc.
+      rule_conditions:
+        - type: logsource       
+          product: windows
 ```
 :::
 
 ### Drop Detection Item
 
-Deletes detection items
+Deletes detection items. Some sort of condition is recommended but not required.
+
+**Parameters:**
+
+- none
 
 ::: code-group
 ```yaml [/pipelines/transformation_demo.yml]{4-6}
@@ -222,16 +242,24 @@ transformations:
 
 ### Field Name Suffix
 
-Add a field name suffix.
+Add a field name suffix. field_name_conditions are not required, but are recommended.
+
+**Parameters:**
+
+- 'suffix': the suffix to be added (required) 
 
 ::: code-group
 ```yaml [/pipelines/transformation_demo.yml]{4-6}
 name: transformation_demo
 priority: 100
 transformations:
-    - id: prefix_source_and_index_for_puppy_logs
+    - id: windows_field_suffix
       type: field_name_suffix
-      mapping:
+      suffix: ".win"
+      field_name_conditions:
+      - type: include_fields
+        fields: 
+        - Hashes
 ```
 :::
 
@@ -239,14 +267,18 @@ transformations:
 
 Add a field name prefix.
 
+**Parameters:**
+
+- 'prefix': the prefix to be added (required)
+
 ::: code-group
 ```yaml [/pipelines/transformation_demo.yml]{4-6}
 name: transformation_demo
 priority: 100
 transformations:
-    - id: prefix_source_and_index_for_puppy_logs
+    - id: windows_field_prefix
       type: field_name_prefix
-      mapping:
+      prefix: "win."
 ```
 :::
 
@@ -254,14 +286,17 @@ transformations:
 
 Replaces placeholders with wildcards. This transformation is useful if remaining placeholders should be replaced with something meaningful to make conversion of rules possible without defining the placeholders content.
 
+**Parameters:**
+
+- none
+
 ::: code-group
 ```yaml [/pipelines/transformation_demo.yml]{4-6}
 name: transformation_demo
 priority: 100
 transformations:
-    - id: prefix_source_and_index_for_puppy_logs
+    - id: wildcard_placeholders_transformation
       type: wildcard_placeholders
-      mapping:
 ```
 :::
 
@@ -269,13 +304,22 @@ transformations:
 
 Replaces placeholders with values contained in variables defined in the configuration.
 
+**Parameters:**
+
+- `include`: identify the specific placeholders you'd like to transform
+
 ::: code-group
 ```yaml [/pipelines/value_placeholders_test.yml]
 name: value_placeholder_pipeline
 vars:
-    administrator_name: Administrator
+    administrator_name:
+      - 'Administrator'
+      - 'Admin'
+      - 'SysAdmin'
 transformations:
     - type: value_placeholders
+      include:
+          - 'administrator_name'
 ```
 ```yaml [/rules/rule.yml]
 title: Administrator Usage
@@ -287,7 +331,7 @@ detection:
     condition: selection
 ```
 ```splunk [Splunk Output]
-user="Administrator"
+user IN ("Administrator", "Admin", "SysAdmin")
 ```
 :::
 
@@ -321,14 +365,22 @@ If template is set to True the condition values are interpreted as string templa
 
 - `category`, `product` and `service`: with the corresponding values of the Sigma rule log source.
 
+**Parameters:**
+
+- 'conditions': the string to be added to replace the logsource values
+
 ::: code-group
 ```yaml [/pipelines/transformation_demo.yml]{4-6}
 name: transformation_demo
 priority: 100
 transformations:
-    - id: prefix_source_and_index_for_puppy_logs
+    - id: index_condition
       type: add_condition
-      mapping:
+      conditions:
+        index: winevent
+      rule_conditions:
+        - type: logsource
+          product: windows
 ```
 :::
 
@@ -336,14 +388,20 @@ transformations:
 
 Replace log source as defined in transformation parameters.
 
+**Parameters:**
+- 'category', 'product', 'service': the log source to be changed (requires at least one)
+
 ::: code-group
 ```yaml [/pipelines/transformation_demo.yml]{4-6}
 name: transformation_demo
 priority: 100
 transformations:
-    - id: prefix_source_and_index_for_puppy_logs
+    - id: change_logsource
       type: change_logsource
-      mapping:
+      category: security
+      rule_conditions:
+      - type: logsource
+        category: process_creation
 ```
 :::
 
@@ -354,58 +412,108 @@ capture groups. It operates on the plain string representation of the SigmaStrin
 
 This is basically an interface to `re.sub()` and can use all features available there.
 
+**Parameters:**
+
+- `regex`: The regular expression to find the desired string
+- `replacement`: The replacement string to be added
+
 ::: code-group
 ```yaml [/pipelines/transformation_demo.yml]{4-6}
 name: transformation_demo
 priority: 100
 transformations:
-    - id: prefix_source_and_index_for_puppy_logs
+    - id: image_file_only
       type: replace_string
-      mapping:
+      regex: "^\\*\\\\([^\\\\]+)$"
+      replacement: "\\1"
+      field_name_conditions:
+      - type: include_fields
+        fields:
+        - Image
 ```
 :::
 
 ### Set State
 
-Set pipeline state key to value.
+A variable that is set within the processing pipeline and can serve for different purposes:
 
+- as variable in templates in post processing via the pipeline object exposed to the template engine.
+- by backend like Splunk where data_model_set is used for the generated tstats queries as data model.
+- a processing condition using this state is planned.
+- the pipeline state is also used to initiate the conversion state for each rule conversion.
+
+**Parameters:**
+
+- `key`: The key to modified
+- `val`: The values to assign to the key
 ::: code-group
 ```yaml [/pipelines/transformation_demo.yml]{4-6}
 name: transformation_demo
 priority: 100
 transformations:
-    - id: prefix_source_and_index_for_puppy_logs
-      type: set_state
-      mapping:
+      - id: set_datamodel
+        type: set_state
+        key: 'data_model_set'
+        val: 'Endpoint.Processes'
+      - id: custom_process_dm
+        type: set_state
+        key: fields
+        val:
+          CommandLine:
+          Image:
+          OriginalFilename:
+```
+```splunk [Splunk Output]
+| tstats summariesonly=false allow_old_summaries=true fillnull_value="null" count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where IntegrityLevel="System" User IN ("*AUTHORI*", "*AUTORI*") Image IN ("*\\calc.exe", "*\\wscript.exe", "*\\cscript.exe", "*\\hh.exe", "*\\mshta.exe", "*\\forfiles.exe", "*\\ping.exe") OR CommandLine IN ("* -NoP *", "* -W Hidden *", "* -decode *", "* /decode *", "* /urlcache *", "* -urlcache *", "* -e* JAB*", "* -e* SUVYI*", "* -e* SQBFAFgA*", "* -e* aWV4I*", "* -e* IAB*", "* -e* PAA*", "* -e* aQBlAHgA*", "*vssadmin delete shadows*", "*reg SAVE HKLM*", "* -ma *", "*Microsoft\\Windows\\CurrentVersion\\Run*", "*.downloadstring(*", "*.downloadfile(*", "* /ticket:*", "*dpapi::*", "*event::clear*", "*event::drop*", "*id::modify*", "*kerberos::*", "*lsadump::*", "*misc::*", "*privilege::*", "*rpc::*", "*sekurlsa::*", "*sid::*", "*token::*", "*vault::cred*", "*vault::list*", "* p::d *", "*;iex(*", "*MiniDump*", "*net user *") by CommandLine Image OriginalFilename | `drop_dm_object_name(Processes)` | convert timeformat="%Y-%m-%dT%H:%M:%S" ctime(firstTime) | convert timeformat="%Y-%m-%dT%H:%M:%S" ctime(lastTime)
 ```
 :::
 
+In this example above, we are demonstrating how the Splunk backend will apply a data model when used with the `data_model` output format with a Sigma CLI command like `sigma convert -p pipeline.yml -t splunk -f data_model rule.yml`. This will convert a query to use datamodels and form a tstats query such at this:
+
+
 ### Rule Failure
 
-Raise a SigmaTransformationError with the provided message. This enables transformation pipelines to signalize that a certain situation can't be handled, e.g. only a subset of values is allowed because the target data model doesn't offers all possibilities.
+Raise a SigmaTransformationError with the provided message. This enables transformation pipelines to signalize that a certain situation can't be handled, e.g. only a subset of values is allowed because the target data model doesn't offers all possibilities. A transformation condition is not required, but is recommended.
+
+**Parameters:**
+- `message`: the message to present when the transformation failure state is met
 
 ::: code-group
 ```yaml [/pipelines/transformation_demo.yml]{4-6}
 name: transformation_demo
 priority: 100
 transformations:
-    - id: prefix_source_and_index_for_puppy_logs
+    - id: cs_drop_unsupported_logsource_sysmon_status
       type: rule_failure
-      mapping:
+      message: CrowdStrike logs do not support sysmon_status logs at this time.
+      rule_conditions:
+        - type: logsource
+          product: windows
+          category: sysmon_status
 ```
 :::
 
 ### Detection Item Failure
 
-Raise a SigmaTransformationError with the provided message. This enables transformation pipelines to signalize that a certain situation can't be handled, e.g. only a subset of values is allowed because the target data model doesn't offers all possibilities.
+Raise a SigmaTransformationError with the provided message. This enables transformation pipelines to signalize that a certain situation can't be handled, e.g. only a subset of values is allowed because the target data model doesn't offers all possibilities. A transformation condition is not required, but is recommended.
+
+**Parameters:**
+- `message`: the message to present when the transformation failure state is met
 
 ::: code-group
 ```yaml [/pipelines/transformation_demo.yml]{4-6}
 name: transformation_demo
 priority: 100
 transformations:
-    - id: prefix_source_and_index_for_puppy_logs
+    - id: cs_drop_eventid
       type: detection_item_failure
-      mapping:
+      message: CrowdStrike logs do not support the field EventID at this time.
+      field_name_conditions:
+        - type: include_fields
+          fields:
+            - EventID
+      rule_conditions:
+        - type: logsource
+          product: windows
 ```
 :::
