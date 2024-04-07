@@ -217,6 +217,7 @@ export default defineConfig({
                     collapsed: true,
                     items: [
                         {text: 'Sigma Main Repo', link: 'https://github.com/SigmaHQ/sigma'},
+                        {text: 'Sigma Rule Packages', link: 'https://github.com/SigmaHQ/sigma/blob/master/Releases.md'},
                         {text: 'pySigma', link: 'https://github.com/SigmaHQ/pySigma'},
                         {text: 'Sigma CLI', link: 'https://github.com/SigmaHQ/sigma-cli'},
                     ]
