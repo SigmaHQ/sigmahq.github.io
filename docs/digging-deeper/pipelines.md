@@ -344,16 +344,23 @@ list lookup expressions which are passed to the resulting query.
 **Parameters:**
 
 - `expression`: string that contains query expression with {field} and {id} placeholder where placeholder identifier or a mapped identifier is inserted.
-- `mapping`: Mapping between placeholders and identifiers that should be used in the expression. If no mapping is provided the placeholder name is used.
+- `include`:identify the specific placeholders you'd like to transform
 
 ::: code-group
 ```yaml [/pipelines/transformation_demo.yml]{4-6}
 name: transformation_demo
 priority: 100
 transformations:
-    - id: prefix_source_and_index_for_puppy_logs
-      type: query_expression_placeholders
-      mapping:
+  - id: Admins_Workstations_query_expression_placeholder
+    type: query_expression_placeholders
+    include:
+      - Admins_Workstations
+    expression: "[| inputlookup {id} | rename user as {field}]"
+
+```
+For the rule: [User with Privileges Logon](https://github.com/SigmaHQ/sigma/blob/e1a713d264ac072bb76b5c4e5f41315a015d3f41/rules-placeholder/windows/builtin/security/win_security_admin_logon.yml#L30)
+```splunk [Splunk Output]
+EventID IN (4672, 4964) NOT (SubjectUserSid="S-1-5-18" OR [| inputlookup Admins_Workstations | rename user as SubjectUserName])
 ```
 :::
 
