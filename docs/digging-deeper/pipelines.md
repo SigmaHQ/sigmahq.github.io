@@ -345,6 +345,7 @@ list lookup expressions which are passed to the resulting query.
 
 - `expression`: string that contains query expression with {field} and {id} placeholder where placeholder identifier or a mapped identifier is inserted.
 - `include`:identify the specific placeholders you'd like to transform
+- `mapping`: Mapping between placeholders and identifiers that should be used in the expression. If no mapping is provided the placeholder name is used.
 
 ::: code-group
 ```yaml [/pipelines/transformation_demo.yml]{4-6}
