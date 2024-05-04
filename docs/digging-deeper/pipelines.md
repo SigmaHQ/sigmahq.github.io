@@ -345,15 +345,17 @@ list lookup expressions which are passed to the resulting query.
 
 - `expression`: string that contains query expression with {field} and {id} placeholder where placeholder identifier or a mapped identifier is inserted.
 - `mapping`: Mapping between placeholders and identifiers that should be used in the expression. If no mapping is provided the placeholder name is used.
+- `include`: identify the specific placeholders you'd like to transform.
 
 ::: code-group
 ```yaml [/pipelines/transformation_demo.yml]{4-6}
-name: transformation_demo
-priority: 100
+name: query_expression_pipeline
 transformations:
-    - id: prefix_source_and_index_for_puppy_logs
+    - id: domain_controller_hostnames_placeholder
       type: query_expression_placeholders
-      mapping:
+      include:
+          - 'domain_controller_hostnames'
+      expression: "[|inputlookup domain_controllers.csv | rename hosts as ComputerName | fields ComputerName]"
 ```
 :::
 
