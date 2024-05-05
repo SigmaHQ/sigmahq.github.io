@@ -48,7 +48,7 @@ const {frontmatter} = useData()
         <main class="max-w-6xl mx-auto px-6 lg:px-16 xl:px-8 py-6 md:py-24 lg:py-48 xl:py-56 flex flex-col gap-16 lg:gap-20">
             <section id="sigma">
                 <div class="flex flex-col md:flex-row gap-6 lg:gap-12 items-center pb-20">
-                    <div class="flex flex-col gap-2 order-last md:order-first basis-1 md:basis-3/5 xl:pr-5">
+                    <div class="flex flex-col gap-2 basis-1 md:basis-3/5 xl:pr-5">
                         <p class="flex flex-wrap gap-2 mb-0.5">
                             <Badge class="!transform-none !leading-6 text-nowrap" text="Open Source" type="tip"/>
                             <a class="group"
