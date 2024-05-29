@@ -174,13 +174,13 @@ export default defineConfig({
 
                     ]
                 },
-                // {
-                //     text: 'Meta Rules',
-                //     items: [
-                //         { text: 'Filters',  },
-                //         {text: 'Correlations', link: '/docs/digging-deeper/correlations'},
-                //     ]
-                // },
+                {
+                    text: 'Meta Rules',
+                    items: [
+                        {text: 'Filters', link: '/docs/digging-deeper/filters'},
+                        // {text: 'Correlations', link: '/docs/digging-deeper/filters'},
+                    ]
+                },
                 {
                     text: 'Digging Deeper',
                     items: [
@@ -272,7 +272,7 @@ export default defineConfig({
                     const title_regex = /{{\s\$frontmatter\.title\s}}/
                     html = html.replace(title_regex, env.frontmatter?.title || "")
 
-                    if(env.frontmatter?.search == false) {
+                    if (env.frontmatter?.search == false) {
                         return ""
                     }
                     return html
