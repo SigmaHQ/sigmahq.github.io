@@ -1,5 +1,5 @@
 ---
-title: 'About Sigma'
+title: "About Sigma"
 ---
 
 # {{ $frontmatter.title }}
@@ -11,10 +11,12 @@ import ThreeTypes from "/.vitepress/theme/components/Docs/About/ThreeTypes.vue";
 </script>
 
 You may have heard of Sigma rules before – especially around Security Operations Centres (SOCs),
-Threat Hunting teams, and more generally around the cyber security landscape. 
+Threat Hunting teams, and more generally around the cyber security landscape.
 
 While people often associate Sigma with the detection format,
 it's important to understand the wider ecosystem of standards, tools, and rule collections.
+
+## Components
 
 There are three main aspects or components that make up this ecosystem.
 
@@ -27,7 +29,7 @@ management, and sharing of detection rules across different platforms and use ca
 
 <div id="the-format"></div>
 
-<ThreeTypes class="mt-20 -mb-4" link_one="#the-format" link_two="#the-tools" link_three="#the-rules" active="format" /> 
+<ThreeTypes class="mt-20 -mb-4" link_one="#the-format" link_two="#the-tools" link_three="#the-rules" active="format" />
 
 ### The Format
 
@@ -48,18 +50,18 @@ and make them shareable with others.
 title: AWS Root Credentials
 description: Detects AWS root account usage
 logsource:
-    product: aws
-    service: cloudtrail
+  product: aws
+  service: cloudtrail
 detection:
-    selection:
-        userIdentity.type: Root
-    filter:
-        eventType: AwsServiceEvent
-    condition: selection and not filter
+  selection:
+    userIdentity.type: Root
+  filter:
+    eventType: AwsServiceEvent
+  condition: selection and not filter
 falsepositives:
-    - AWS Tasks That Require Root User Credentials
+  - AWS Tasks That Require Root User Credentials
 level: medium
-``` 
+```
 
 :::
 
@@ -75,7 +77,7 @@ To learn more about Sigma rules and how to use them to detect within your SIEM, 
 
 ### The Tools
 
-Built around the Sigma detection format are amazing tools to help you make the most of it. 
+Built around the Sigma detection format are amazing tools to help you make the most of it.
 
 The primary focus of the Sigma ecosystem is the **converter** – something that turns Sigma detection files into usable SIEM queries. In the past, this was completed by a tool called "sigmac".
 
@@ -122,9 +124,9 @@ Here are some great reasons to start adopting Sigma within your security detecti
 - **Start using thousands of existing detections**<br />Since it's inception, the Sigma community has already contributed over 15'000 rules and existing rule modifications to the Sigma repository. These are all free for you to use right away, and increasing your security detection coverage right away.
 - **Bringing CI/CD to your detection workflow**<br />Because all Sigma rules are stored within `.yml` files, you can start using the communities'-made script to deploy out your detections straight from a GitHub, Gitlab, or any CI/CD pipeline, straight into your SIEM. This also provides version control over your detections, so you can deploy only when required, and see how your detection repositories change over time.
 
-### Design Philosophy 
+### Design Philosophy
 
-The Sigma standard was designed to support basic search queries, and only a few common correlations (Eg. sum / count), covering more tha 90% of the day-to-day needs of detection strategies. This trade off was made to ensure the ability to share detections across all sorts of security environments.  
+The Sigma standard was designed to support basic search queries, and only a few common correlations (Eg. sum / count), covering more tha 90% of the day-to-day needs of detection strategies. This trade off was made to ensure the ability to share detections across all sorts of security environments.
 
 ## History
 
@@ -165,9 +167,9 @@ Sigma aims at being a generic signature format for all kinds of log data, wherea
 If you want to contribute to the project, you are more then welcome! There are numerous ways to help this project:
 
 - **Provide Feedback**<br />Use Sigma and tell us what works, and what doesnt. This includes:
-    - **False Positives** _(New Issues)_<br />Detections that don't detect the behaviour it's intended to, or
-    - **True Negatives** _(New PRs)_<br />Detections that don't quite detect all the strategies intended.
-    - **Bugs in Tooling** _(New Issues)_<br />If you encounter any errors in `sigma-cli`, or any other supported tool, please feel free to lodge a fully detailed issue (including stack trace and expected behaviour).<br/><br/>
+  - **False Positives** _(New Issues)_<br />Detections that don't detect the behaviour it's intended to, or
+  - **True Negatives** _(New PRs)_<br />Detections that don't quite detect all the strategies intended.
+  - **Bugs in Tooling** _(New Issues)_<br />If you encounter any errors in `sigma-cli`, or any other supported tool, please feel free to lodge a fully detailed issue (including stack trace and expected behaviour).<br/><br/>
 - **Work on [Open Issues](https://github.com/SigmaHQ/sigma/issues?q=is%3Aissue+is%3Aopen+)**<br />The github issue tracker is a good place to start tackling some issues others raised to the project. It could be as easy as a review of the documentation.<br/><br/>
 
 ::: danger <Badge type="danger" text="Legacy" class="mr-2" /> Looking for `sigmac`?
@@ -176,11 +178,10 @@ If you're looking for the legacy tool `sigmac` and the surrounding ecosystem, pl
 
 ## Specification
 
-The entire Sigma specification, including outlines of each file format,  is documented within [the Sigma Specification repository](https://github.com/SigmaHQ/sigma-specification). If you believe that there should be a change to the standard, you can [submit an Feature Request](https://github.com/SigmaHQ/sigma-specification/issues/new), or a [Pull Request](https://github.com/SigmaHQ/sigma-specification/pulls) to the Sigma specification repository below.
+The entire Sigma specification, including outlines of each file format, is documented within [the Sigma Specification repository](https://github.com/SigmaHQ/sigma-specification). If you believe that there should be a change to the standard, you can [submit an Feature Request](https://github.com/SigmaHQ/sigma-specification/issues/new), or a [Pull Request](https://github.com/SigmaHQ/sigma-specification/pulls) to the Sigma specification repository below.
 
 <https://github.com/SigmaHQ/sigma-specification>
 
-
 ## Credits
 
-The Sigma ecosystem is mainly developed by Florian Roth (https://github.com/Neo23x0/) and Thomas Patzke (https://github.com/thomaspatzke) with feedback from many fellow analysts and friends. Rules are our own or have been derived from blog posts, tweets or other public sources that are referenced in the rules.
+The Sigma ecosystem is mainly developed by Florian Roth (<https://github.com/Neo23x0/>) and Thomas Patzke (<https://github.com/thomaspatzke>) with feedback from many fellow analysts and friends. Rules are our own or have been derived from blog posts, tweets or other public sources that are referenced in the rules.

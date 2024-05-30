@@ -1,4 +1,5 @@
-<a href="https://sigmahq.io/">
+<a href="https://sigmahq.io/"> <!-- markdownlint-disable MD041 -->
+
 <p align="center">
 <br />
 <picture>

@@ -1,5 +1,5 @@
 ---
-title: 'Modifiers'
+title: "Modifiers"
 ---
 
 # Sigma {{ $frontmatter.title }}
@@ -24,7 +24,7 @@ TargetFilename="*.cmdline"
 
 Modifiers can also be chained together to perform more complex operations.
 
-[//]: # (TODO)
+[//]: # "TODO"
 
 ## Available Field Modifiers
 
@@ -55,12 +55,12 @@ Below is a list of available field modifiers.
 
 ```yaml [/rules/web/web_cve_2020_0688_exchange_exploit.yml]
 detection:
-    selection:
-        c-uri|contains|all:
-            - '/ecp/default.aspx'
-            - '__VIEWSTATEGENERATOR='
-            - '__VIEWSTATE='
-    condition: selection
+  selection:
+    c-uri|contains|all:
+      - "/ecp/default.aspx"
+      - "__VIEWSTATEGENERATOR="
+      - "__VIEWSTATE="
+  condition: selection
 ```
 
 ```splunk [Splunk Output]
@@ -89,14 +89,14 @@ Single item values are not allowed to have an `all` modifier as some backends ca
 
 ```yaml [/rules/base64_shell_usage_http_traffic.yaml]
 title: Base64 shell usage in HTTP web traffic
-...
+---
 detection:
-    selection:
-        fieldname|base64offset|contains: 
-            - /bin/bash 
-            - /bin/sh 
-            - /bin/zsh
-    condition: selection
+  selection:
+    fieldname|base64offset|contains:
+      - /bin/bash
+      - /bin/sh
+      - /bin/zsh
+  condition: selection
 ```
 
 ```splunk [Splunk Output]
@@ -113,7 +113,7 @@ fieldname="*L2Jpbi9iYXNo*" \
 
 :::
 
-The `base64` modifier-set will encode the provided values as base64 encoded strings. Often used alongside `contains` to identify malicious injection into applications. 
+The `base64` modifier-set will encode the provided values as base64 encoded strings. Often used alongside `contains` to identify malicious injection into applications.
 
 This technique is often used by malicious actors to hide behaviour by executing commands, or sending HTTP parameters, using base64, sometimes preventing traditional detection methods.
 
@@ -131,9 +131,9 @@ The `base64offset` modifier is usually preferred over the `base64` modifier, bec
 
 ```yaml [/rules/needle_in_haystack.yaml]
 detection:
-    selection:
-        first_ip_address|cidr: 192.0.0.0/8
-        second_ip_address|cidr: 192.168.0.0/23 
+  selection:
+    first_ip_address|cidr: 192.0.0.0/8
+    second_ip_address|cidr: 192.168.0.0/23
 ```
 
 ```splunk [Splunk Output]
@@ -148,8 +148,8 @@ detection:
 
 ```yaml [/rules/needle_in_haystack.yaml]
 detection:
-    selection:
-        ipaddress|cidr: 2a03:2880:f132:83:face:b00c::/96 
+  selection:
+    ipaddress|cidr: 2a03:2880:f132:83:face:b00c::/96
 ```
 
 ```splunk [Splunk Output]
@@ -169,8 +169,8 @@ The `cidr` modifier allows for CIDR-formatted subnets to be used as field values
 
 ```yaml [/rules/needle_in_haystack.yaml]
 detection:
-    selection:
-        fieldname|contains: needle
+  selection:
+    fieldname|contains: needle
 ```
 
 ```splunk [Splunk Output]
@@ -189,8 +189,8 @@ The `contains` modifier will insert a wildcard token (usually `*`) around the pr
 
 ```yaml [/rules/needle_in_start_of_haystack.yaml]
 detection:
-    selection:
-        fieldname|startswith: needle
+  selection:
+    fieldname|startswith: needle
 ```
 
 ```splunk [Splunk Output]
@@ -209,8 +209,8 @@ The `startswith` modifier will insert a wildcard token (usually `*`) at the star
 
 ```yaml [/rules/needle_in_end_of_haystack.yaml]
 detection:
-    selection:
-        fieldname|endswith: needle
+  selection:
+    fieldname|endswith: needle
 ```
 
 ```splunk [Splunk Output]
@@ -225,27 +225,30 @@ The `endswith` modifier will insert a wildcard token (usually `*`) at the end of
 
 ### expand
 
-
 ::: code-group
+
 ```yaml [/rules/rule.yml]
 title: Administrator Usage
 logsource:
-    product: windows
+  product: windows
 detection:
-    selection:
-        user|expand: "%administrator_name%"
-    condition: selection
+  selection:
+    user|expand: "%administrator_name%"
+  condition: selection
 ```
+
 ```yaml [/pipelines/value_placeholders_test.yml]
 name: value_placeholder_pipeline
 vars:
-    administrator_name: Administrator
+  administrator_name: Administrator
 transformations:
-    - type: value_placeholders
+  - type: value_placeholders
 ```
+
 ```splunk [Splunk Output]
 user="Administrator"
 ```
+
 :::
 
 The `expand` modifier can be used with Sigma Pipelines in order to replace placeholder values with another value common across that processing pipeline.
@@ -258,8 +261,8 @@ The `expand` modifier can be used with Sigma Pipelines in order to replace place
 
 ```yaml [/rules/needle_in_end_of_haystack.yaml]
 detection:
-    selection:
-        fieldname|gt: 15
+  selection:
+    fieldname|gt: 15
 ```
 
 ```splunk [Splunk Output]
@@ -278,8 +281,8 @@ The `gt` modifier will provide a search where the value of `fieldname` is greate
 
 ```yaml [/rules/needle_in_end_of_haystack.yaml]
 detection:
-    selection:
-        fieldname|gte: 15
+  selection:
+    fieldname|gte: 15
 ```
 
 ```splunk [Splunk Output]
@@ -298,8 +301,8 @@ The `gte` modifier will provide a search where the value of `fieldname` is great
 
 ```yaml [/rules/needle_in_end_of_haystack.yaml]
 detection:
-    selection:
-        fieldname|lt: 15
+  selection:
+    fieldname|lt: 15
 ```
 
 ```splunk [Splunk Output]
@@ -318,8 +321,8 @@ The `lt` modifier will provide a search where the value of `fieldname` is less t
 
 ```yaml [/rules/needle_in_end_of_haystack.yaml]
 detection:
-    selection:
-        fieldname|lte: 15
+  selection:
+    fieldname|lte: 15
 ```
 
 ```splunk [Splunk Output]
@@ -338,8 +341,8 @@ The `lte` modifier will provide a search where the value of `fieldname` is less 
 
 ```yaml [/rules/needle_in_end_of_haystack.yaml]
 detection:
-    selection:
-        fieldname|re: .*needle$
+  selection:
+    fieldname|re: .*needle$
 ```
 
 ```splunk [Splunk Output]
@@ -358,8 +361,8 @@ The `re` modifier will provide a search where the value of `fieldname` matches t
 
 ```yaml [/rules/needle_in_end_of_haystack.yaml]
 detection:
-    selection:
-        CommandLine|wide|base64offset|contains: "ping"
+  selection:
+    CommandLine|wide|base64offset|contains: "ping"
 ```
 
 ```splunk [Splunk Output]
@@ -386,10 +389,10 @@ The value modifier chain must not end with character set encoding modifiers (`ut
 
 ```yaml [/rules/needle_in_end_of_haystack.yaml]
 detection:
-    selection:
-        fieldname|windash|contains:
-            - " -param-name "
-            - " -f "
+  selection:
+    fieldname|windash|contains:
+      - " -param-name "
+      - " -f "
 ```
 
 ```splunk [Splunk Output]
@@ -399,6 +402,6 @@ OR fieldname="* -f *" OR fieldname="* /f *"
 
 :::
 
-The windash modifier will convert any provided command-line arguments or flags to use both `-`, as well as `/`. 
+The windash modifier will convert any provided command-line arguments or flags to use both `-`, as well as `/`.
 
 This is incredibly useful in the the Windows ecosystem, where Windows has [two standards for passing arguments to commands](https://learn.microsoft.com/en-us/powershell/scripting/learn/shell/running-commands?view=powershell-7.3#passing-arguments-to-native-commands), usually `-` for PowerShell (e.g. `-a`), and `/` for `cmd.exe` (e.g. `/a`), but a large number of commands will commonly accept both.

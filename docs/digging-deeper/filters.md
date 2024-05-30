@@ -1,5 +1,5 @@
 ---
-title: 'Filters'
+title: "Filters"
 ---
 
 # Sigma {{ $frontmatter.title }}
@@ -14,27 +14,25 @@ Sigma Filters are a new way to build these "exclusions" without having to modify
 
 ## Overview
 
-Sigma Filters resemble Sigma rules in their structure, but 
+Sigma Filters resemble Sigma rules in their structure, but
 
 ```yaml
 title: Filter Out Domain Controllers
 description: Filter out events from Domain Controllers
 logsource:
-    product: windows
+  product: windows
 global_filter:
   rules:
     - 6f3e2987-db24-4c78-a860-b4f4095a7095 # Data Compressed - rar.exe
     - df0841c0-9846-4e9f-ad8a-7df91571771b # Login on jump host
   selection:
-      ComputerName|startswith: 'DC-'
+    ComputerName|startswith: "DC-"
   condition: not selection
 ```
-
 
 ## Usage
 
 When applying Filters in your "detection-as-code" strategy, filters can be applied recursively when converting your Sigma rules for use in your SIEM.
-
 
 ::: code-group
 
@@ -42,13 +40,13 @@ When applying Filters in your "detection-as-code" strategy, filters can be appli
 title: Filter Out Administrator account
 description: Filters out administrator accounts that start with adm_
 logsource:
-    category: process_creation
-    product: windows
+  category: process_creation
+  product: windows
 global_filter:
   rules:
     - 85ff530b-261d-48c6-a441-facaa2e81e48 # New Service Creation Using Sc.EXE
   selection:
-      User|startswith: 'adm_'
+    User|startswith: "adm_"
   condition: not selection
 ```
 
@@ -56,33 +54,34 @@ global_filter:
 title: New Service Creation Using Sc.EXE
 id: 85ff530b-261d-48c6-a441-facaa2e81e48
 related:
-    - id: c02e96b7-c63a-4c47-bd83-4a9f74afcfb2 # Using PowerShell
-      type: similar
+  - id: c02e96b7-c63a-4c47-bd83-4a9f74afcfb2 # Using PowerShell
+    type: similar
 status: test
 description: Detects the creation of a new service using the "sc.exe" utility.
 references:
-    - https://github.com/redcanaryco/atomic-red-team/blob/f339e7da7d05f6057fdfcdd3742bfcf365fee2a9/atomics/T1543.003/T1543.003.md
+  - https://github.com/redcanaryco/atomic-red-team/blob/f339e7da7d05f6057fdfcdd3742bfcf365fee2a9/atomics/T1543.003/T1543.003.md
 author: Timur Zinniatullin, Daniil Yugoslavskiy, oscd.community
 date: 2023/02/20
 tags:
-    - attack.persistence
-    - attack.privilege_escalation
-    - attack.t1543.003
+  - attack.persistence
+  - attack.privilege_escalation
+  - attack.t1543.003
 logsource:
-    category: process_creation
-    product: windows
+  category: process_creation
+  product: windows
 detection:
-    selection:
-        Image|endswith: '\sc.exe'
-        CommandLine|contains|all:
-            - 'create'
-            - 'binPath'
-    condition: selection
+  selection:
+    Image|endswith: '\sc.exe'
+    CommandLine|contains|all:
+      - "create"
+      - "binPath"
+  condition: selection
 falsepositives:
-    - Legitimate administrator or user creates a service for legitimate reasons.
-    - Software installation
+  - Legitimate administrator or user creates a service for legitimate reasons.
+  - Software installation
 level: low
 ```
+
 :::
 
 ## Applying Filters
@@ -96,13 +95,13 @@ sigma convert -t splunk --pipeline splunk_windows \
   --filter ./filters/filter_out_win_admins.yml \
   ./rules/windows/process_creation/proc_creation_win_sc_create_service.yml
 ```
+
 The resulting Splunk query will include the filter condition:
 
 ```splunk
 Image="*\\sc.exe" CommandLine="*create*" CommandLine="*binPath*" \
 NOT User="adm_*"
 ```
-
 
 ## Best Practices
 
