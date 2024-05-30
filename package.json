@@ -20,11 +20,15 @@
     "@vue/eslint-config-typescript": "^12.0.0",
     "markdown-it": "^14",
     "markdownlint": "^0.33",
-    "markdownlint-cli2": "^0.12.1"
+    "markdownlint-cli2": "^0.12.1",
+    "prettier": "^3.2.5",
+    "prettier-plugin-tailwindcss": "^0.6.0"
   },
   "scripts": {
     "docs:dev": "vitepress dev .",
     "docs:build": "vitepress build .",
-    "docs:serve": "vitepress serve ."
+    "docs:serve": "vitepress serve .",
+    "lint": "prettier --check . && markdownlint-cli2 --config .markdownlint.json '**/*.md' '#node_modules' && eslint --ext .ts,.js,.vue .",
+    "lint:fix": "prettier --write . && markdownlint-cli2 --config .markdownlint.json '**/*.md' '#node_modules' --fix && eslint --ext .ts,.js,.vue . --fix"
   }
 }
