@@ -1,5 +1,5 @@
 ---
-title: 'Contributing'
+title: "Contributing"
 ---
 
 # {{ $frontmatter.title }}
@@ -20,10 +20,9 @@ The best way to get your Sigma rule accepted within SigmaHQ's rule repository, i
 
 <!--suppress ES6UnusedImports -->
 <script setup>
-import ChecklistItem from "/.vitepress/theme/components/ChecklistItem.vue"; 
+import ChecklistItem from "/.vitepress/theme/components/ChecklistItem.vue";
 import {ChevronRightIcon} from "@heroicons/vue/20/solid";
 </script>
-
 
 <ChecklistItem :number="1" heading="Your rule <u>must</u> adhere to the correct layout." class="">
 <template #text class="">
@@ -32,9 +31,6 @@ Whilst the Sigma format allows you to set your own fields and values for use wit
 </template>
 </ChecklistItem>
 
-
-
-
 <ChecklistItem :number="2" heading="Your rule <u>must</u> adhere the file naming scheme." class="">
 <template #text class="">
 For each logsource, SigmaHQ enforces a naming scheme for how rule files are to be named. Ensure your rule is named correctly by following the <a href="https://github.com/SigmaHQ/sigma-specification/blob/main/sigmahq/Sigmahq_filename_rule.md" class="text-[var(--vp-c-brand)]">SigmaHQ Filename Normalisation</a> guide on Github.
@@ -42,13 +38,9 @@ For each logsource, SigmaHQ enforces a naming scheme for how rule files are to b
 </template>
 </ChecklistItem>
 
-
-
 <ChecklistItem :number="3" heading="You're ready to open up a PR for your rule." class="">
 <template #text class="">
 If you've finished writing your Sigma rule, and it adheres to points #1 and #2, you're ready to open up a Pull Request under the SigmaHQ repository.
 <button class="block w-full p-2 bg-green-400/30 outline outline-1 outline-green-400/50 !text-white rounded-lg mt-4 text-center">Open a new PR on SigmaHQ <ChevronRightIcon class="w-4 h-4 inline-block" /></button>
 </template>
 </ChecklistItem>
-
-

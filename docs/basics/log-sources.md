@@ -1,5 +1,5 @@
 ---
-title: 'Logsources'
+title: "Logsources"
 ---
 
 # {{ $frontmatter.title }}
@@ -60,8 +60,8 @@ Below is a list of standard Sigma logsources. These are the logsources used with
 <!--suppress ES6UnusedImports -->
 <script setup>
 import PipelinesBox from "/.vitepress/theme/components/Boxes/PipelinesBox.vue";
-import {reactive, onMounted} from "vue"; 
-import { data } from '/.vitepress/theme/lib/logsources.v2.data'; 
+import {reactive, onMounted} from "vue";
+import { data } from '/.vitepress/theme/lib/logsources.v2.data';
 import {withBase} from "vitepress";
 
 </script>
@@ -70,10 +70,11 @@ import {withBase} from "vitepress";
 
 <h4 id="" class="truncate">{{logsource.title}}</h4>
 
-[//]: # (<span class="truncate overflow-hidden">)
+[//]: # '<span class="truncate overflow-hidden">'
+
 <Badge type="info" v-for="tag in logsource.tags">{{tag}}</Badge>
 
-[//]: # (</span>)
+[//]: # "</span>"
 
 ```yaml-vue
 {{ logsource.yaml.trim() }}
@@ -92,5 +93,3 @@ With the use of [Pipelines](/docs/digging-deeper/pipelines), you can specify gra
 </a>
 
 You can also see a basic example of logsource and field-mapping within the [Getting Started](/docs/guide/getting-started.html#custom-field-source-mapping) page.
-
-

@@ -1,69 +1,71 @@
 name: Documentation
 
 on:
-    # Runs on pushes targeting the default branch
-    push:
-        branches:
-          - main
-    pull_request:
-        branches:
-          - main
+  # Runs on pushes targeting the default branch
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
 
-    # Allows you to run this workflow manually from the Actions tab
-    workflow_dispatch:
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
 
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
-    contents: read
-    pages: write
-    id-token: write
+  contents: read
+  pages: write
+  id-token: write
 
 # Allow one concurrent deployment
 concurrency:
-    group: environment-${{ github.ref }}
-    cancel-in-progress: true
+  group: environment-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
-    build:
-        if: github.ref != 'refs/heads/main'
-        runs-on: ubuntu-latest
+  build:
+    if: github.ref != 'refs/heads/main'
+    runs-on: ubuntu-latest
 
-        steps:
-            - name: Checkout Docs
-              uses: actions/checkout@v3
-            - uses: actions/setup-node@v3
-              with:
-                  node-version: 18
-                  cache: npm
-            - run: npm install
-            - name: Build
-              run: npm run docs:build
+    steps:
+      - name: Checkout Docs
+        uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: npm
+      - run: npm install
+      - name: Build
+        run: npm run docs:build
+      - name: Lint
+        run: npm run lint
 
-    deploy:
-        if: github.ref == 'refs/heads/main'
-        runs-on: ubuntu-latest
+  deploy:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
 
-        # Deploy to the github-pages environment
-        environment:
-            name: github-pages
-            url: ${{ steps.deployment.outputs.page_url }}
+    # Deploy to the github-pages environment
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
 
-        steps:
-            -   name: Checkout Docs
-                uses: actions/checkout@v3
-            -   uses: actions/setup-node@v3
-                with:
-                    node-version: 18
-                    cache: npm
-            -   run: npm install
-            -   name: Build
-                run: npm run docs:build
-            -   name: Setup Pages
-                uses: actions/configure-pages@v3
-            -   name: Upload artifact
-                uses: actions/upload-pages-artifact@v1
-                with:
-                    path: '.vitepress/dist'
-            -   name: Deploy to GitHub Pages
-                id: deployment
-                uses: actions/deploy-pages@v1
+    steps:
+      - name: Checkout Docs
+        uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: npm
+      - run: npm install
+      - name: Build
+        run: npm run docs:build
+      - name: Setup Pages
+        uses: actions/configure-pages@v3
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v1
+        with:
+          path: ".vitepress/dist"
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v1

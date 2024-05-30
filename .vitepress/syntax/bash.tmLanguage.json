@@ -1149,7 +1149,6 @@
           "match": "(?<=^|;|&|\\s)(--.*?)(?=\\s|;|&|$)",
           "name": "keyword.operator.pipe.shell2"
         }
-
       ]
     },
     "redirection": {
