@@ -38,19 +38,18 @@ When applying Filters in your "detection-as-code" strategy, filters can be appli
 
 ::: code-group
 
-```yaml [./filters/win_filter_admins.yml]
-title: Filter Administrator account
-description: The valid administrator account start with adm_
+```yaml [./filters/filter_out_win_admins.yml]
+title: Filter Out Administrator account
+description: Filters out administrator accounts that start with adm_
 logsource:
     category: process_creation
     product: windows
 global_filter:
   rules:
-    - 6f3e2987-db24-4c78-a860-b4f4095a7095 # Data Compressed - rar.exe
-    - df0841c0-9846-4e9f-ad8a-7df91571771b # Login on jump host
+    - 85ff530b-261d-48c6-a441-facaa2e81e48 # New Service Creation Using Sc.EXE
   selection:
       User|startswith: 'adm_'
-  condition: selection
+  condition: not selection
 ```
 
 ```yaml [./rules/windows/process_creation/proc_creation_win_sc_create_service.yml]
@@ -94,14 +93,14 @@ Here's an example of running the Sigma rule with the filter:
 
 ```bash
 sigma convert -t splunk --pipeline splunk_windows \
-  --filter ./filters/win_filter_admins.yml \
+  --filter ./filters/filter_out_win_admins.yml \
   ./rules/windows/process_creation/proc_creation_win_sc_create_service.yml
 ```
 The resulting Splunk query will include the filter condition:
 
 ```splunk
 Image="*\\sc.exe" CommandLine="*create*" CommandLine="*binPath*" \
-User="adm_*"
+NOT User="adm_*"
 ```
 
 
