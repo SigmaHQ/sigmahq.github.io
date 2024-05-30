@@ -231,13 +231,6 @@ export default defineConfig({
           ],
         },
         {
-          text: "Meta Rules",
-          items: [
-            { text: "Filters", link: "/docs/digging-deeper/filters" },
-            // {text: 'Correlations', link: '/docs/digging-deeper/filters'},
-          ],
-        },
-        {
           text: "Digging Deeper",
           items: [
             // { text: 'Structure', link: '/docs/digging-deeper/structure' },
