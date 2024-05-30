@@ -1,5 +1,5 @@
 ---
-title: 'Backends'
+title: "Backends"
 ---
 
 # Sigma {{ $frontmatter.title }}
@@ -15,7 +15,7 @@ The newly developed [**pySigma**](https://github.com/SigmaHQ/pySigma/) framework
 
 ::: tip Developing a backend for the Sigma ecosystem
 
-If developing a pySigma backend interests you in bringing Sigma support your SIEM language, first ensure one isn't already available on GitHub. 
+If developing a pySigma backend interests you in bringing Sigma support your SIEM language, first ensure one isn't already available on GitHub.
 
 Still the best guide on how to create a pySigma compatible backend is Micah Babinski's Blog Post on [Creating a Sigma Backend for Fun (and no Profit)](https://micahbabinski.medium.com/creating-a-sigma-backend-for-fun-and-no-profit-ed16d20da142). We're working hard on writing an official guide for this, but until then, a big thank you to Micah for writing this guide.
 
@@ -31,7 +31,7 @@ then run the following commands to view all available backends in a table.
 sigma plugin list -t backend
 ```
 
-```
+```text
 +----------------------+---------+---------+--------------------------------------------------------------+
 | Identifier           | Type    | State   | Description                                                  |
 +----------------------+---------+---------+--------------------------------------------------------------+
@@ -58,7 +58,7 @@ sigma plugin uninstall splunk
 
 The `sigma` CLI (powered by [**pySigma**](https://github.com/SigmaHQ/pySigma/)) also allows backends to do more with their conversion process, including providing added output formats, such as [Splunk Saved Search format](https://docs.splunk.com/Documentation/Splunk/9.0.4/Admin/Savedsearchesconf) for the Splunk pySigma backend.
 
-For every backend, there exist **4 components** – that perform or aid the conversion process. 
+For every backend, there exist **4 components** – that perform or aid the conversion process.
 
 - [Targets](#targets)
 - [Pipelines](#pipelines)
@@ -76,7 +76,7 @@ sigma list targets
 
 ::: warning Make sure to install plugins
 
-If you're not seeing any available targets, make sure you install the relevant Sigma plugin for your target SIEM. For a full list of installable backends, [click here to view all Available Backends](#available).
+If you're not seeing any available targets, make sure you install the relevant Sigma plugin for your target SIEM. For a full list of installable backends, [click here to view all Available Backends](#available). <!-- markdownlint-disable MD051 -->
 
 ```bash
 # List available Sigma plugins
@@ -88,7 +88,7 @@ sigma plugin install {plugin}
 
 :::
 
-[//]: # (TODO Finish this section off )
+"TODO Finish this section off "
 
 ### Output Formats
 
@@ -98,7 +98,7 @@ To explore Output Formats in more detail, start by listing the available Output 
 sigma list formats {backend}
 ```
 
-```
+```text
 +---------------+----------------------------------------+
 | Format        | Description                            |
 +---------------+----------------------------------------+
@@ -118,7 +118,7 @@ sigma convert -t {target} -f {output_format} ./rules
 
 <Badge type="warning" text="WIP" class="relative -top-2" />
 
-Pipelines are the method by which pySigma allows fine-tuning to be applied to conversion. This documentation outlines what pipelines are, and how to use them in more detail over on [the Pipelines documentation page](/docs/digging-deeper/pipelines.md).   
+Pipelines are the method by which pySigma allows fine-tuning to be applied to conversion. This documentation outlines what pipelines are, and how to use them in more detail over on [the Pipelines documentation page](/docs/digging-deeper/pipelines.md).
 
 Pipelines control things like field-mapping (mapping Sigma fields, to fields within your SIEM), logsource mapping (mapping Sigma logsources to logsources in your SIEM) & other operations.
 
@@ -128,36 +128,26 @@ To view all available pipelines – that are provided specifically by the backen
 sigma list pipelines
 ```
 
-You can specify multiple pipelines when converting Sigma rules, to perform more than one operation on  
+You can specify multiple pipelines when converting Sigma rules, to perform more than one operation on
 
-[//]: # (TODO Finish this section off )
-[//]: # ()
-[//]: # (### Validators)
+### Validators
 
-[//]: # ()
-[//]: # (To explore Validators in more detail, start by listing the available Validators by running the following command:)
+To explore Validators in more detail, start by listing the available Validators by running the following command:
 
-[//]: # ()
-[//]: # (```bash)
-
-[//]: # (sigma list validators)
-
-[//]: # (```)
-
-[//]: # (TODO Finish this section off )
-
-<br />
+```bash
+sigma list validators
+```
 
 ## Available Plugin { #available }
 
-Below is a list of available Sigma Backends and Pipelines. If you come across any issues using any specific Sigma plugin, 
-file an issue on the relevant Sigma Plugin's project page. 
+Below is a list of available Sigma Backends and Pipelines. If you come across any issues using any specific Sigma plugin,
+file an issue on the relevant Sigma Plugin's project page.
 
 <!--suppress ES6UnusedImports -->
 <script setup lang="ts">
-import {reactive, onMounted, computed, ref, watch, watchEffect} from "vue"; 
+import {reactive, onMounted, computed, ref, watch, watchEffect} from "vue";
 import {titleCase} from "/.vitepress/theme/util/string";
-import { data } from '/.vitepress/theme/lib/backends.v2.data'; 
+import { data } from '/.vitepress/theme/lib/backends.v2.data';
 import ListBox from "../../.vitepress/theme/components/ListBox.vue";
 const get_title = (plugin) => titleCase(plugin.id);
 const pluginType = ref({id: 'backend', name: 'Backends'});

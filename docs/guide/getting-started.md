@@ -1,14 +1,14 @@
 ---
-title: 'Getting Started'
-subtitle: 'Guide'
+title: "Getting Started"
+subtitle: "Guide"
 ---
 
 <!--suppress ES6UnusedImports -->
 <script setup>
 import {withBase} from "vitepress";  
-import RulesBox from "/.vitepress/theme/components/Boxes/RulesBox.vue"; 
-import LogsourceBox from "/.vitepress/theme/components/Boxes/LogsourceBox.vue"; 
-import BackendBox from "/.vitepress/theme/components/Boxes/BackendBox.vue"; 
+import RulesBox from "/.vitepress/theme/components/Boxes/RulesBox.vue";
+import LogsourceBox from "/.vitepress/theme/components/Boxes/LogsourceBox.vue";
+import BackendBox from "/.vitepress/theme/components/Boxes/BackendBox.vue";
 
 </script>
 
@@ -20,7 +20,7 @@ This guide provides step-by-step instructions on how to set up Sigma and convert
 
 The Sigma ecosystem offers several tools for your use. This documentation will mainly focus on the primary Sigma converter, called `sigma-cli`, which converts all Sigma rules into usable SIEM queries for your security environment(s).
 
-**Requirements**
+### Requirements
 
 To use `sigma-cli` (the Sigma Rule Converter) & the underlying library, you must have Python >= `3.8` installed.
 
@@ -69,10 +69,7 @@ sigma plugin list
 
 Throughout this guide, Splunk will be used as the SIEM conversion example.
 
-
-
 ## Converting Sigma Rules
-
 
 ### Basic Example
 
@@ -92,7 +89,6 @@ mkdir ./rules
 # Create a new Sigma rule
 vim ./rules/windows_defender_threat_detection_disabled.yml
 ```
-
 
 ::: code-group
 
@@ -135,6 +131,7 @@ sigma convert \
     --pipeline splunk_windows \
     ./rules
 ```
+
 ```splunk
 source="WinEventLog:Microsoft-Windows-Windows Defender/Operational" \
 EventCode IN (5001, 5010, 5012, 5101)
@@ -157,7 +154,6 @@ One of the best features of the Sigma format is taking advantage of the 1000's o
 While the previous example demonstrated a simple detection, in practice, Sigma rules contain additional metadata to provide context for the detection. This metadata may include severity (called "level" within Sigma), references, false-positives, tags (such as MITRE Attack mapping), and a rationale for the detection.
 
 To better illustrate this point, let's take a look at a more complex Sigma rule, taken from the `SigmaHQ/sigma` repository written by [Austin Songer](https://twitter.com/TheAustinSonger).
-
 
 ::: code-group
 
@@ -189,14 +185,13 @@ level: medium
 
 :::
 
-It's worth noting that Sigma rules often contain fantastic metadata about a detection, which is highly useful when investigating a security incident. 
+It's worth noting that Sigma rules often contain fantastic metadata about a detection, which is highly useful when investigating a security incident.
 
 ::: info Learn more about Rules
 To learn more about the fields above and how they are used in Sigma, <br />[visit the Rules section of the documentation](/docs/basics/rules.md).
 :::
 
 Converting this rule using the Splunk backend, and using the Splunk pipelines outputs the following query.
-
 
 ```bash{4}
 sigma convert \
@@ -226,7 +221,6 @@ sigma convert \
 
 ::: code-group
 
-
 ```conf [Output (savedsearches format)]
 [default]
 dispatch.earliest_time = -30d
@@ -237,16 +231,15 @@ description = Detects when an user account is locked out.
 search = displaymessage="Max sign in attempts exceeded"
 ```
 
-::: 
-
+:::
 
 ### Custom Field & Source Mapping
 
-Although many logsources in enterprise IT environments are similar, it is essential to recognize that each SIEM is uniquely configured, particularly in its usage of field names, data types, and log formats. 
+Although many logsources in enterprise IT environments are similar, it is essential to recognize that each SIEM is uniquely configured, particularly in its usage of field names, data types, and log formats.
 
 To address these variances, `sigma-cli` provides end-users with the ability to perform field-mapping when converting rules. This function ensures any fields found in Sigma rules correctly map to users' fields found within their SIEM.
 
-To best illustrate the adaptability of the Sigma format, we will onboard a custom logsource (in this example, an internal production service called `puppy_app_production`) and its corresponding detection rule, into our detections-as-code repository. 
+To best illustrate the adaptability of the Sigma format, we will onboard a custom logsource (in this example, an internal production service called `puppy_app_production`) and its corresponding detection rule, into our detections-as-code repository.
 
 ```bash
 # Inside of sigma_test_repo, create a pipelines directory
@@ -255,7 +248,7 @@ mkdir ./pipelines
 # Create a new Sigma pipeline file
 vim ./pipelines/puppy_app_production_config.yml
 ```
- 
+
 ::: code-group
 
 ```yaml [puppy_app_production_config.yml]{8-9,17-19}
@@ -265,25 +258,24 @@ priority: 100
 transformations:
   - id: prefix_source_and_index_for_puppy_logs
     type: add_condition
-    conditions: 
-      index: 'puppy_prod'
-      source: 'PuppyApp/App'
+    conditions:
+      index: "puppy_prod"
+      source: "PuppyApp/App"
     rule_conditions:
-      - type: logsource 
+      - type: logsource
         product: puppy
         service: app
   - id: map_fields_for_puppies
     type: field_name_mapping
     mapping:
-      status: 'puppy.status' 
-      dog_name: 'puppy.name'
-      dog_breed: 'puppy.breed'
+      status: "puppy.status"
+      dog_name: "puppy.name"
+      dog_breed: "puppy.breed"
     rule_conditions:
       - type: logsource
         product: puppy
         service: app
 ```
-
 
 ```yaml [sad_puppy.yml]
 # ./rules/sad_puppy.yml
@@ -291,25 +283,25 @@ title: Sad Puppy in Dog Supply Line
 id: 469b8469-508d-42d0-98a1-0c7e937ca7a3
 status: experimental
 description: >
-    Detects whenever a sad puppy is logged to the Dog Supply Line (DSL) log stream output.
-    See wiki on how to triage with treats and/or walks.
+  Detects whenever a sad puppy is logged to the Dog Supply Line (DSL) log stream output.
+  See wiki on how to triage with treats and/or walks.
 references:
-    - https://wiki.example.com/DOG/Sad+Puppy+Playbook+(2023)
+  - https://wiki.example.com/DOG/Sad+Puppy+Playbook+(2023)
 author: Toto <toto@example.com>
 date: 2023/04/06
 logsource:
-    product: puppy
-    service: app
+  product: puppy
+  service: app
 detection:
-    selection:
-        status: 'sad'
-    condition: selection
+  selection:
+    status: "sad"
+  condition: selection
 fields:
-    - dog_name
-    - dog_breed
-    - status
+  - dog_name
+  - dog_breed
+  - status
 falsepositives:
-    - sometimes sad dogs are reported as guilting owners for walks, treats etc.
+  - sometimes sad dogs are reported as guilting owners for walks, treats etc.
 level: high
 ```
 
@@ -327,14 +319,14 @@ Sigma will apply `index='puppy_prod' source='PuppyApp/App'` to the resultant SIE
 We can combine this configuration example with the custom `sad_puppy.yml` detection rule, that will detect whenever our log source detects a sad puppy in our SIEM.
 
 ```bash{3}
-sigma convert \ 
+sigma convert \
     -t splunk \
     -p ./pipelines/puppy_app_production_config.yml \
     ./rules/sad_puppy.yml
 ```
 
 ```splunk
-index="puppy_prod" source="PuppyApp/App" Status="sad" 
+index="puppy_prod" source="PuppyApp/App" Status="sad"
 | table dog_name,dog_breed,Status
 ```
 
@@ -342,7 +334,7 @@ index="puppy_prod" source="PuppyApp/App" Status="sad"
 
 Each supported SIEM should have its own configuration already pre-defined, with most fields and logsources mapped for you.
 
-This is completed via a feature in pySigma called processing pipelines. If you're an end-user however, you'll find the documentation on Logsources more relevant to mapping your Sigma rules to your logsources.  
+This is completed via a feature in pySigma called processing pipelines. If you're an end-user however, you'll find the documentation on Logsources more relevant to mapping your Sigma rules to your logsources.
 
 [You can read more in here in Log Sources.](/docs/basics/log-sources.md)
 :::
@@ -362,4 +354,3 @@ From here, you've understood the basics of Sigma. It's time to dive deeper into 
         <BackendBox />
     </a>
 </div>
-
