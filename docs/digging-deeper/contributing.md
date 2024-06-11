@@ -41,6 +41,6 @@ For each logsource, SigmaHQ enforces a naming scheme for how rule files are to b
 <ChecklistItem :number="3" heading="You're ready to open up a PR for your rule." class="">
 <template #text class="">
 If you've finished writing your Sigma rule, and it adheres to points #1 and #2, you're ready to open up a Pull Request under the SigmaHQ repository.
-<button class="block w-full p-2 bg-green-400/30 outline outline-1 outline-green-400/50 !text-white rounded-lg mt-4 text-center">Open a new PR on SigmaHQ <ChevronRightIcon class="w-4 h-4 inline-block" /></button>
+<a href="https://github.com/SigmaHQ/sigma/pulls" class="block w-full p-2 bg-green-400/30 outline outline-1 outline-green-400/50 !text-white rounded-lg mt-4 text-center">Open a new PR on SigmaHQ <ChevronRightIcon class="w-4 h-4 inline-block" /></a>
 </template>
 </ChecklistItem>
