@@ -393,7 +393,7 @@ Try to keep your alert titles as short as possible, and avoid prefixes like "Det
 The `id` field should be generated whenever you create a Sigma rule, and globally identifies the Sigma rules against all
 others. For this reason, Sigma recommends using randomly generated UUIDs (version 4).
 
-You can generate your own UUIDv4 by [following the link here](https://www.uuidgenerator.net/version4).
+You can generate your own UUIDv4 by [following the link here](https://www.fireboxtools.com/tools/uuid-generator).
 
 ```yaml
 id: 12345678-bef0-4204-a928-ef5e620d6fcc
