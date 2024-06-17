@@ -21,7 +21,7 @@ title: Filter Out Domain Controllers
 description: Filter out events from Domain Controllers
 logsource:
     product: windows
-global_filter:
+filter:
   rules:
     - 6f3e2987-db24-4c78-a860-b4f4095a7095 # Data Compressed - rar.exe
     - df0841c0-9846-4e9f-ad8a-7df91571771b # Login on jump host
@@ -44,7 +44,7 @@ description: The valid administrator account start with adm_
 logsource:
     category: process_creation
     product: windows
-global_filter:
+filter:
   rules:
     - 6f3e2987-db24-4c78-a860-b4f4095a7095 # Data Compressed - rar.exe
     - df0841c0-9846-4e9f-ad8a-7df91571771b # Login on jump host

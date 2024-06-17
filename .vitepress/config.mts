@@ -177,8 +177,8 @@ export default defineConfig({
                 {
                     text: 'Meta Rules',
                     items: [
-                        {text: 'Filters', link: '/docs/digging-deeper/filters'},
-                        // {text: 'Correlations', link: '/docs/digging-deeper/filters'},
+                        {text: 'Correlations', link: '/docs/meta/correlations'},
+                        {text: 'Filters', link: '/docs/meta/filters'},
                     ]
                 },
                 {
