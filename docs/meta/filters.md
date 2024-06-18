@@ -180,3 +180,9 @@ filter:
 ```
 
 :::
+
+## Filters and Logsources
+
+Filters can be applied to any Sigma rule, but only where the `logsource` field matches the `logsource` field in the filter.
+
+
