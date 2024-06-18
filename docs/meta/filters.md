@@ -151,13 +151,18 @@ detection:
 
 This allows Sigma Filters to either be used to exclude specific events – such as to tune your Sigma rule for false-positives or known-safe alerts, or to include **_only_** specific events.
 
+The advantage of using Sigma Filters is that you can now build a set of exclusions that can be applied to multiple Sigma rules, without having to modify the Sigma rule itself – making it easier to update from Sigma's build-in rule-packs.
+
 **Example of Exclusion:**
 
 ::: code-group
 
 ```yaml[./filters/exclude_something.yml]
 filter:
-    condition: not filter # This will exclude events that match the filter
+    filter_out:
+        field: value
+    # This will exclude events where field equals value
+    condition: not filter_out 
 ```
 
 :::
@@ -168,7 +173,10 @@ filter:
 
 ```yaml[./filters/include_something.yml]
 filter:
-    condition: filter # This will include only events that match the
+    filter_only:
+        field: value
+    # This will scope the detection to only include events where field equals value
+    condition: filter_only 
 ```
 
 :::
