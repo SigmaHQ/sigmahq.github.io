@@ -123,7 +123,10 @@ It's recommended to keep the referenced Sigma rule in the same file as the corre
 
 :::
 
-As you may have noticed, Sigma Correlations omits the `logsource` section, as they rely on referencing other Sigma rules to correlate events.
+There are a few things to note when working with Sigma Correlations:
+
+- Correlation Rules omits the `logsource` section, as they rely on referencing other Sigma rules to correlate events.
+- Correlation rules will also inhibit the original "base" rule in the output query, as the correlation rule is the one that will be used to generate the query.
 
 ## Types of Correlations
 
