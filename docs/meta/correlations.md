@@ -170,7 +170,7 @@ correlation:
 ```
 
 ```splunk
-source="WinEventLog:Security" EventCode IN (4625, 4771, 4772, 4776, 529, 530, 531, 532, 533, 534, 535, 539)
+source="WinEventLog:Security" EventCode=4625 NOT SubjectUserName="*$"
 | bin _time span=5m
 | stats count as event_count by _time TargetUserName TargetDomainName
 | search event_count >= 10
