@@ -1,5 +1,5 @@
 ---
-title: 'Correlations'
+title: "Correlations"
 ---
 
 <script setup>
@@ -64,16 +64,15 @@ tags:
     - attack.t1110
 ```
 
-Because this correlation rule references another Sigma rule called `failed_logon`, a rule with the field `name: failed_logon` needs to be supplied alongside this rule when we're converting the correlation rule for our SIEM. 
+Because this correlation rule references another Sigma rule called `failed_logon`, a rule with the field `name: failed_logon` needs to be supplied alongside this rule when we're converting the correlation rule for our SIEM.
 
 Therefore, it's common to place this "base" Sigma rule in the same file as the correlation rule, using the `---` separator to separate the two rules.
 
 ::: code-group
 
-
 ```yaml:line-numbers [rules/windows_failed_login_single_user.yml]
 title: Windows Failed Logon Event
-name: failed_logon # Rule Reference // [!code ++] 
+name: failed_logon # Rule Reference // [!code ++]
 description: Detects failed logon events on Windows systems.
 logsource:
     product: windows
@@ -116,7 +115,7 @@ source="WinEventLog:Security" EventCode=4625
 
 Whilst [Sigma Filters](/docs/meta/filters) meta rules won't require you to supply the referenced Sigma rule, <u>**Sigma Correlations will**</u> enforce that the referenced Sigma rule is present either in the same Sigma file, or supplied as a separate Sigma rule file when converting.
 
-```
+```text
 Error: Error while conversion: Rule 'failed_logon' not found in rule collection
 ```
 
@@ -134,8 +133,8 @@ Sigma currently supports four correlation types:
 
 The event count correlation simply counts the events in the aggregation bucket. This correlation type is usually chosen if it is just relevant if an event happens often or rarely in a given time frame. Some examples are:
 
-- Brute force attacks where a logon failure count exceeds a given threshold. 
-- Denial of Service attacks where a connection count threshold is exceeded. 
+- Brute force attacks where a logon failure count exceeds a given threshold.
+- Denial of Service attacks where a connection count threshold is exceeded.
 - Log source reliability issues, when the amount of events falls below a threshold.
 
 ```yaml
@@ -144,27 +143,27 @@ name: failed_logon
 status: test
 description: Detects failed logon events on Windows systems.
 logsource:
-    product: windows
-    service: security
+  product: windows
+  service: security
 detection:
-    selection:
-        EventID: 4625
-    filter:
-        SubjectUserName|endswith: $
-    condition: selection and not filter
+  selection:
+    EventID: 4625
+  filter:
+    SubjectUserName|endswith: $
+  condition: selection and not filter
 ---
 title: Multiple failed logons for a single user (possible brute force attack)
 status: test
 correlation:
-    type: event_count
-    rules:
-        - failed_logon
-    group-by:
-        - TargetUserName
-        - TargetDomainName
-    timespan: 5m
-    condition:
-        gte: 10
+  type: event_count
+  rules:
+    - failed_logon
+  group-by:
+    - TargetUserName
+    - TargetDomainName
+  timespan: 5m
+  condition:
+    gte: 10
 ```
 
 ```splunk
@@ -176,9 +175,7 @@ source="WinEventLog:Security" EventCode IN (4625, 4771, 4772, 4776, 529, 530, 53
 
 In this example, events are aggregated in 5-minute slots and grouped by `TargetUserName` and `TargetDomainName`. It matches if more than 10 events with the same field values appear within the given timeframe, indicating a possible brute force attack on a specific user that should be investigated.
 
-
-
-### `value_count` 
+### `value_count`
 
 Counts distinct values of a given field, useful for detecting a high or low number of unique entities
 
@@ -187,39 +184,39 @@ title: High-privilege group enumeration
 name: privileged_group_enumeration
 status: stable
 logsource:
-    product: windows
-    service: security
+  product: windows
+  service: security
 detection:
-    selection:
-        EventID: 4799
-        CallerProcessId: 0x0
-        TargetUserName:
-            - Administrators
-            - Remote Desktop Users
-            - Remote Management Users
-            - Distributed COM Users
-    condition: selection
+  selection:
+    EventID: 4799
+    CallerProcessId: 0x0
+    TargetUserName:
+      - Administrators
+      - Remote Desktop Users
+      - Remote Management Users
+      - Distributed COM Users
+  condition: selection
 level: informational
 falsepositives:
-    - Administrative activity
-    - Directory assessment tools
+  - Administrative activity
+  - Directory assessment tools
 ---
 title: Enumeration of multiple high-privilege groups by tools like BloodHound
 status: stable
 correlation:
-    type: value_count
-    rules:
-        - privileged_group_enumeration
-    group-by:
-        - SubjectUserName
-    timespan: 15m
-    condition:
-        gte: 4
-        field: TargetUserName
+  type: value_count
+  rules:
+    - privileged_group_enumeration
+  group-by:
+    - SubjectUserName
+  timespan: 15m
+  condition:
+    gte: 4
+    field: TargetUserName
 level: high
 falsepositives:
-    - Administrative activity
-    - Directory assessment tools
+  - Administrative activity
+  - Directory assessment tools
 ```
 
 ```splunk
@@ -235,7 +232,6 @@ Some tools like BloodHound can be detected by enumeration of certain high-privil
 
 :::
 
-
 ### `temporal`
 
 A temporal event correlation determines if multiple different event types occur in temporal proximity. Examples:
@@ -244,17 +240,16 @@ A temporal event correlation determines if multiple different event types occur 
 - Vulnerability exploitation by detecting a connection to a vulnerable API endpoint together with a process creation:
 
 ```yaml
-...
 ---
 title: CVE-2023-22518 Exploit Chain
 description: Access to endpoint vulnerable to CVE-2023-22518 with suspicious process creation.
 status: experimental
 correlation:
-    type: temporal
-    rules:
-        - a902d249-9b9c-4dc4-8fd0-fbe528ef965c
-        - 1ddaa9a4-eb0b-4398-a9fe-7b018f9e23db
-    timespan: 10s
+  type: temporal
+  rules:
+    - a902d249-9b9c-4dc4-8fd0-fbe528ef965c
+    - 1ddaa9a4-eb0b-4398-a9fe-7b018f9e23db
+  timespan: 10s
 level: high
 ```
 
@@ -266,7 +261,6 @@ level: high
 | stats dc(event_type) as event_type_count by _time
 | search event_type_count >= 2
 ```
-
 
 ### `ordered_temporal`
 
@@ -287,17 +281,17 @@ Sometimes it is required to correlate fields that have different names in their 
 
 ```yaml
 correlation:
-    type: temporal
-    rules:
-        - rule_with_src_ip
-        - rule_with_dest_ip
-    aliases:
-        ip:
-            rule_with_src_ip: src_ip
-            rule_with_dest_ip: dest_ip
-    group-by:
-        - ip
-    timespan: 5m
+  type: temporal
+  rules:
+    - rule_with_src_ip
+    - rule_with_dest_ip
+  aliases:
+    ip:
+      rule_with_src_ip: src_ip
+      rule_with_dest_ip: dest_ip
+  group-by:
+    - ip
+  timespan: 5m
 ```
 
 The `aliases` attribute defines a virtual field `ip` that is mapped from the field `src_ip` in the events matched by rule `rule_with_src_ip` and from `dest_ip` in the vents matched by the rule `rule_with_dest_ip`. The defined field `ip` is then used in the `group-by` field list as aggregation field name.

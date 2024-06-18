@@ -1,5 +1,5 @@
 ---
-title: 'Meta Rules'
+title: "Meta Rules"
 ---
 
 <script setup>
@@ -35,12 +35,6 @@ Sigma Meta rules are an **extension** of the Sigma detection format. They allow 
     </a>
 </div>
 
-::: info No Breaking Changes 🎉 
-
-Meta Rules do not introduce any breaking changes to the existing Sigma format – meaning all your existing Sigma rules will continue to work exactly as they did before.
-
-:::
-
 ## Defining Meta Rules
 
 Meta rules are defined in the same way as Sigma rules, but with a few special reserved words used in place
@@ -56,7 +50,7 @@ detection: // [!code --]
 
 [Sigma Correlations](/docs/meta/correlations) are designated by the special `correlation` keyword. Sigma Correlations allow you to write more sophisticated and targeted detections by combining and analyzing relationships between events.
 
-```yaml 
+```yaml
 status: test
 correlation: // [!code ++] // [!code focus:10]
     type: event_count
@@ -77,8 +71,7 @@ And [Sigma Filters](/docs/meta/filters) are designated by the special `filter` k
 status: test
 filter: // [!code ++] // [!code focus:8]
     rules:
-        - 6f3e2987-db24-4c78-a860-b4f4095a7095
-        - df0841c0-9846-4e9f-ad8a-7df91571771b
+        - failed_logon
     selection:
         # Filter out Domain Controllers
         ComputerName|startswith: 'DC-'
@@ -95,23 +88,22 @@ This pattern allows you to reference an existing rule either by using it's `name
 
 ```yaml
 filter:
-    rules:
-        - failed_logon # Referencing by name
-        - df0841c0-9846-4e9f-ad8a-7df91571771b # Referencing by ID
+  rules:
+    - failed_logon # Referencing by name
+    - df0841c0-9846-4e9f-ad8a-7df91571771b # Referencing by ID
 ```
 
 ::: warning Global References
 
 When converting Sigma rules, it's important to remember that Sigma Correlations and Sigma Filters can reference any Sigma rule – not just those within the same file.
 
+However, it is important to supply the rule at conversion time to ensure that the Sigma Correlation or Sigma Filter can be applied correctly.
+
 :::
-
-
 
 ## Learning More
 
 To learn more about how to write Sigma Correlations and Sigma Filters, check out the dedicated pages for each below.
-
 
 <div class="grid md:grid-cols-2 gap-4">
     <a :href="withBase('/docs/meta/correlations')">

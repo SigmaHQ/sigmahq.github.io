@@ -1,5 +1,5 @@
 ---
-title: 'Filters'
+title: "Filters"
 ---
 
 # Sigma {{ $frontmatter.title }}
@@ -32,15 +32,13 @@ filter: // [!code ++] // [!code focus:7]
   condition: not selection
 ```
 
-Writing Sigma Filters is nearly identical to writing Sigma, but allow you to split out your exclusions into separate files – as well as target multiple rules using the same filter. 
+Writing Sigma Filters is nearly identical to writing Sigma, but allow you to split out your exclusions into separate files – as well as target multiple rules using the same filter.
 
 Filters are used to define a set of conditions that can be applied to Sigma rules to exclude or include specific events based on the conditions defined in the filter.
-
 
 ## Usage
 
 When applying Filters in your "detection-as-code" strategy, filters can be applied recursively when converting your Sigma rules for use in your SIEM.
-
 
 ::: code-group
 
@@ -48,14 +46,14 @@ When applying Filters in your "detection-as-code" strategy, filters can be appli
 title: Filter Out Administrator accounts
 description: Filters out administrator accounts that start with adm_
 logsource:
-    category: process_creation
-    product: windows
+  category: process_creation
+  product: windows
 filter:
   rules:
     - 6f3e2987-db24-4c78-a860-b4f4095a7095 # Data Compressed - rar.exe
     - df0841c0-9846-4e9f-ad8a-7df91571771b # Login on jump host
   selection:
-      User|startswith: 'adm_'
+    User|startswith: "adm_"
   condition: not selection
 ```
 
@@ -63,33 +61,34 @@ filter:
 title: New Service Creation Using Sc.EXE
 id: 85ff530b-261d-48c6-a441-facaa2e81e48
 related:
-    - id: c02e96b7-c63a-4c47-bd83-4a9f74afcfb2 # Using PowerShell
-      type: similar
+  - id: c02e96b7-c63a-4c47-bd83-4a9f74afcfb2 # Using PowerShell
+    type: similar
 status: test
 description: Detects the creation of a new service using the "sc.exe" utility.
 references:
-    - https://github.com/redcanaryco/atomic-red-team/blob/f339e7da7d05f6057fdfcdd3742bfcf365fee2a9/atomics/T1543.003/T1543.003.md
+  - https://github.com/redcanaryco/atomic-red-team/blob/f339e7da7d05f6057fdfcdd3742bfcf365fee2a9/atomics/T1543.003/T1543.003.md
 author: Timur Zinniatullin, Daniil Yugoslavskiy, oscd.community
 date: 2023/02/20
 tags:
-    - attack.persistence
-    - attack.privilege_escalation
-    - attack.t1543.003
+  - attack.persistence
+  - attack.privilege_escalation
+  - attack.t1543.003
 logsource:
-    category: process_creation
-    product: windows
+  category: process_creation
+  product: windows
 detection:
-    selection:
-        Image|endswith: '\sc.exe'
-        CommandLine|contains|all:
-            - 'create'
-            - 'binPath'
-    condition: selection
+  selection:
+    Image|endswith: '\sc.exe'
+    CommandLine|contains|all:
+      - "create"
+      - "binPath"
+  condition: selection
 falsepositives:
-    - Legitimate administrator or user creates a service for legitimate reasons.
-    - Software installation
+  - Legitimate administrator or user creates a service for legitimate reasons.
+  - Software installation
 level: low
 ```
+
 :::
 
 To apply a filter when converting a Sigma rule, use the `--filter` option in Sigma CLI, followed by the path to the filter folder or file. You can apply multiple filters by specifying a directory containing multiple filter files.
@@ -123,18 +122,18 @@ If you've been using Sigma for detections, it's likely that you've come across t
 
 ```yaml
 detection:
-    selection:
-        Image|endswith: '\rundll32.exe'
-    registry:
-        TargetObject|contains: '\Control Panel\Desktop\SCRNSAVE.EXE'
-        Details|endswith: '.scr'
-    filter:
-        Details|contains:
-            - 'C:\Windows\System32\'
-            - 'C:\Windows\SysWOW64\'
-    condition: selection and registry and not filter // [!code focus]
+  selection:
+    Image|endswith: '\rundll32.exe'
+  registry:
+    TargetObject|contains: '\Control Panel\Desktop\SCRNSAVE.EXE'
+    Details|endswith: ".scr"
+  filter:
+    Details|contains:
+      - 'C:\Windows\System32\'
+      - 'C:\Windows\SysWOW64\'
+  condition: selection and registry and not filter // [!code focus]
 falsepositives:
-    - Legitimate use of screen saver
+  - Legitimate use of screen saver
 ```
 
 During the conversion process, Sigma Filters complete a similar process, which will append to each referenced Sigma rule's `condition` field, allowing you to exclude or include specific events based on the conditions defined in the filter.
@@ -144,7 +143,7 @@ During the conversion process, Sigma Filters complete a similar process, which w
 detection:
     ...
     condition: selection and (filter)
-#              |             |            
+#              |             |
 #              |_Sigma Rule  |
 #                            |_Sigma Filter
 
@@ -155,17 +154,21 @@ This allows Sigma Filters to either be used to exclude specific events – such 
 **Example of Exclusion:**
 
 ::: code-group
+
 ```yaml[./filters/exclude_something.yml]
 filter:
     condition: not filter # This will exclude events that match the filter
 ```
+
 :::
 
 **Example of Inclusion:**
 
 ::: code-group
+
 ```yaml[./filters/include_something.yml]
 filter:
     condition: filter # This will include only events that match the
 ```
+
 :::
