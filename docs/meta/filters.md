@@ -112,7 +112,7 @@ Image="*\\sc.exe" \
 
 ::: info Filters and Field Mapping
 
-Every field that is used in Filters also gets mapped according to the supplied pipelines.
+Every field that is used in Filters also gets mapped according to any supplied pipelines.
 
 :::
 
