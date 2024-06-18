@@ -8,32 +8,123 @@ import { withBase } from 'vitepress'
 
 # Sigma {{ $frontmatter.title }}
 
-::: tip Correlations are in still in the early stages
+Sigma Correlations bring a brand-new standardised way to compose more sophisticated and targeted detections that analyze the relationships between events.
 
-<div class="flex items-center gap-4 py-2">
-<p>
-In 2024, Sigma introduced a new feature called Correlations. This feature is still fairly new and is currently only supported in <a href="https://docs.splunk.com/Documentation/Splunk/latest/Search/Aboutthesearchlanguage">Splunk's SPL</a> and <a href="https://www.elastic.co/blog/esql-elasticsearch-piped-query-language">Elasticsearch's ES|QL</a> query languages.
-</p>
-<img :src="withBase('/images/backend_logos/splunk.png')" class="w-14 h-14" alt="Splunk">
-<img :src="withBase('/images/backend_logos/elastic.png')" class="w-14 h-14" alt="Elastic">
+Correlations build on-top of the existing Sigma format, providing detection engineers with a very familiar experience, and finally bring first-party support for more complex relationship-based detection techniques.
+
+::: danger SIEM / Backend support for Sigma Correlations
+
+<div class="flex flex-col md:flex-row md:items-center gap-4 py-2">
+  <p class="md:flex-grow md:pr-14">
+    This feature is still fairly new and is currently only supported in <a href="https://docs.splunk.com/Documentation/Splunk/latest/Search/Aboutthesearchlanguage">Splunk's SPL</a> and <a href="https://www.elastic.co/blog/esql-elasticsearch-piped-query-language">Elasticsearch's ES|QL</a> query languages.
+  </p>
+  <div class="flex justify-start md:justify-end gap-4">
+    <img :src="withBase('/images/backend_logos/splunk.png')" class="w-10 h-10" alt="Splunk">
+    <img :src="withBase('/images/backend_logos/elastic.png')" class="w-10 h-10" alt="Elastic">
+  </div>
 </div>
 
 :::
 
-Sigma Correlations add the long-awaited capability to express detections correlating multiple events in an open and vendor-agnostic way to Sigma. 
+## Basic Structure
 
-Correlation rules allow you to write more sophisticated and targeted detections by combining and analyzing relationships between events.
+As mentioned on the [Meta Rules page](/docs/meta/), Sigma Correlations are defined by the `correlation` section in the Sigma rule instead of using the normal `detection` section.
 
-## Correlation Basics
+::: tip Introduction of Meta Rules
 
+If you're unfamiliar with new Sigma Meta Rules, it's recommended to read the [Meta Rules](/docs/meta/) page first.
+
+:::
+
+The `correlation` section has the following structure:
+
+- `type`: The type of correlation to be used ([see types below](#types-of-correlations)).
+- `rules`: A list of Sigma rules that are used for the correlation (either by name or ID).
+- `group-by`: _(Optional)_ A list of fields to group the events by.
+- `timespan`: The time frame in which the events are aggregated.
+- `condition`: The condition that has to be met for the correlation to match.
+
+Below is an example of a correlation rule that detects multiple failed logons for a single user within a 5-minute time frame.
+
+```yaml
+title: Multiple failed logons for a single user (possible brute force attack)
+status: test
+correlation: // [!code ++] // [!code focus:10]
+    type: event_count
+    rules:
+        - failed_logon
+    group-by:
+        - TargetUserName
+        - TargetDomainName
+    timespan: 5m
+    condition:
+        gte: 10
+tags:
+    - brute_force
+    - attack.t1110
+```
+
+Because this correlation rule references another Sigma rule called `failed_logon`, a rule with the field `name: failed_logon` needs to be supplied alongside this rule when we're converting the correlation rule for our SIEM. 
+
+Therefore, it's common to place this "base" Sigma rule in the same file as the correlation rule, using the `---` separator to separate the two rules.
+
+::: code-group
+
+
+```yaml:line-numbers [rules/windows_failed_login_single_user.yml]
+title: Windows Failed Logon Event
+name: failed_logon # Rule Reference // [!code ++] 
+description: Detects failed logon events on Windows systems.
+logsource:
+    product: windows
+    service: security
+detection:
+    selection:
+        EventID: 4625
+    condition: selection
+---
+title: Multiple failed logons for a single user (possible brute force attack)
+correlation:
+    type: event_count
+    rules:
+        - failed_logon # Referenced here  // [!code highlight]
+    group-by:
+        - TargetUserName
+        - TargetDomainName
+    timespan: 5m
+    condition:
+        gte: 10
+```
+
+:::
+
+Converting the above "Multiple failed logons for a single user" Sigma rule to Splunk SPL would yield the following query:
+
+```bash
+sigma convert -t splunk -p splunk_windows \
+    rules/windows_failed_login_single_user.yml
+```
+
+```splunk
+source="WinEventLog:Security" EventCode=4625
+| bin _time span=5m
+| stats count as event_count by _time TargetUserName TargetDomainName
+| search event_count >= 10
+```
 
 ::: warning Required Reference
 
-Whilst [Sigma Filters](/docs/meta/filters) meta rules won't require you to supply the referenced Sigma rule, Sigma Correlations **will** enforce that the referenced Sigma rule is present either in the same Sigma file, or supplied as a separate Sigma rule file when converting.
+Whilst [Sigma Filters](/docs/meta/filters) meta rules won't require you to supply the referenced Sigma rule, <u>**Sigma Correlations will**</u> enforce that the referenced Sigma rule is present either in the same Sigma file, or supplied as a separate Sigma rule file when converting.
+
+```
+Error: Error while conversion: Rule 'failed_logon' not found in rule collection
+```
 
 It's recommended to keep the referenced Sigma rule in the same file as the correlation rule to ensure that the correlation rule can be easily shared and understood by others.
 
 :::
+
+As you may have noticed, Sigma Correlations omits the `logsource` section, as they rely on referencing other Sigma rules to correlate events.
 
 ## Types of Correlations
 
@@ -140,7 +231,7 @@ source="WinEventLog:Security" EventCode=4799 CallerProcessId=0 TargetUserName IN
 
 ::: tip Detecting BloodHound Enumeration
 
-Some tools like BloodHound can be detected by enumeration of certain high-privilege AD groups within a short time frame. This correlation rule shown below reliably detects BloodHound scans conducted with default options.
+Some tools like BloodHound can be detected by enumeration of certain high-privilege AD groups within a short time frame. This correlation rule shown above reliably detects BloodHound scans conducted with default options.
 
 :::
 
@@ -190,12 +281,23 @@ Altogether, this correlation type should only be used if really required.
 
 Field aliases allow correlating fields with different names across log sources.
 
-## Considerations
+## Field Aliases
 
-Correlation rules enable powerful detections but should be used judiciously. Consider:
+Sometimes it is required to correlate fields that have different names in their respective log sources. This can even happen in cases where field names are normalized. One example of such a situation is when the correlation rule must aggregate by source IP with the destination IP in another event type. This can be achieved with field aliases that form another attribute within the correlation attribute.
 
-- Are single events already sufficient for detection?
-- Could events be easily missed, allowing an attacker to evade detection?
-- Does the correlation reduce false positives or increase false negatives compared to single event detections?
+```yaml
+correlation:
+    type: temporal
+    rules:
+        - rule_with_src_ip
+        - rule_with_dest_ip
+    aliases:
+        ip:
+            rule_with_src_ip: src_ip
+            rule_with_dest_ip: dest_ip
+    group-by:
+        - ip
+    timespan: 5m
+```
 
-Used wisely, Sigma Correlations provide a flexible, open standard way to write sophisticated detections. As support grows, security teams can share and adapt correlation rules across different SIEM platforms, improving detection capabilities for the community.
+The `aliases` attribute defines a virtual field `ip` that is mapped from the field `src_ip` in the events matched by rule `rule_with_src_ip` and from `dest_ip` in the vents matched by the rule `rule_with_dest_ip`. The defined field `ip` is then used in the `group-by` field list as aggregation field name.

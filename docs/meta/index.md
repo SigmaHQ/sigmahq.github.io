@@ -12,8 +12,7 @@ import { ChartBarIcon, FunnelIcon } from "@heroicons/vue/20/solid";
 
 # Sigma {{ $frontmatter.title }}
 
-Sigma Meta rules are an **extension** of the Sigma detection format. They allow for the definition of more advanced
-detection techniques, such as [**correlations**](/docs/meta/correlations) and [**filters**](/docs/meta/filters).
+Sigma Meta rules are an **extension** of the Sigma detection format. They allow for the definition of more advanced detection techniques, such as [**correlations**](/docs/meta/correlations) and [**filters**](/docs/meta/filters).
 
 <div class="grid md:grid-cols-2 gap-4">
     <a :href="withBase('/docs/meta/correlations')">
@@ -36,8 +35,11 @@ detection techniques, such as [**correlations**](/docs/meta/correlations) and [*
     </a>
 </div>
 
-They don't introduce any breaking changes to the existing Sigma format – meaning all your existing Sigma rules will
-continue to work.
+::: info No Breaking Changes 🎉 
+
+Meta Rules do not introduce any breaking changes to the existing Sigma format – meaning all your existing Sigma rules will continue to work exactly as they did before.
+
+:::
 
 ## Defining Meta Rules
 
@@ -52,7 +54,7 @@ detection: // [!code --]
     condition: selection
 ```
 
-[Sigma Correlations](/docs/meta/correlations) are designated by the special `correlation` keyword.
+[Sigma Correlations](/docs/meta/correlations) are designated by the special `correlation` keyword. Sigma Correlations allow you to write more sophisticated and targeted detections by combining and analyzing relationships between events.
 
 ```yaml 
 status: test
@@ -69,7 +71,7 @@ correlation: // [!code ++] // [!code focus:10]
 level: medium
 ```
 
-And [Sigma Filters](/docs/meta/filters) are designated by the special `filter` keyword.
+And [Sigma Filters](/docs/meta/filters) are designated by the special `filter` keyword. Sigma Filters allow you to filter out common false-positive detections and build sets of exclusions to start to tune Sigma rules for your own organisation.
 
 ```yaml
 status: test
@@ -86,7 +88,7 @@ level: low
 
 ## Referencing in Meta Rules
 
-Both Sigma Correlations and Sigma Filters require you to reference an existing regular Sigma Rule. This is done by using
+Both [Sigma Correlations](/docs/meta/correlations) and [Sigma Filters](/docs/meta/filters) require you to reference an existing regular Sigma Rule. This is done by using
 the `rules` keyword underneath the `correlation` or `filter` section.
 
 This pattern allows you to reference an existing rule either by using it's `name` or `id`.
