@@ -20,26 +20,20 @@ In 2024, Sigma introduced a new feature called Correlations. This feature is sti
 
 :::
 
-Sigma Correlations add the long-awaited capability to express detections correlating multiple events in an open and vendor-agnostic way to Sigma. Correlation rules allow detection engineers to write more sophisticated and targeted detections by combining and analyzing relationships between events.
+Sigma Correlations add the long-awaited capability to express detections correlating multiple events in an open and vendor-agnostic way to Sigma. 
+
+Correlation rules allow you to write more sophisticated and targeted detections by combining and analyzing relationships between events.
 
 ## Correlation Basics
 
-Event correlation searches first match events that belong together in some way, such as failed logon events. These events are aggregated into buckets defined by a time frame where events are considered related. Additionally, field values can form additional grouping criteria. For example, failed logons could be grouped by source IP, target username, or both.
 
-A condition must be defined to determine which event buckets are relevant. For instance, a SOC may not be concerned about a single failed logon but would find ten failed logons for a single user interesting as it could indicate a brute force attack. Similarly, failed logons for a hundred different users from the same source address could signify a password spraying attack.
+::: warning Required Reference
 
-Sigma Correlation rules aim to express such detections generically, allowing conversion into target query languages that support the required features. While the Sigma specification recommends a sliding time window, it's not a hard requirement. Some query languages and data analysis platforms can only slice time into static chunks like full minutes, which is also a legitimate implementation.
+Whilst [Sigma Filters](/docs/meta/filters) meta rules won't require you to supply the referenced Sigma rule, Sigma Correlations **will** enforce that the referenced Sigma rule is present either in the same Sigma file, or supplied as a separate Sigma rule file when converting.
 
-## Correlation Rule Example
+It's recommended to keep the referenced Sigma rule in the same file as the correlation rule to ensure that the correlation rule can be easily shared and understood by others.
 
-A correlation rule shares many fields with basic Sigma rules, such as title, id, status, and others. Instead of defining a single event with logsource and detection attributes, a correlation element defines the properties of the correlation.
-
-Key aspects of a correlation rule:
-
-- Refers to other Sigma rules by name or id in the rules attribute
-- Defines a timespan in which the relationship between events occurs
-- Uses the group-by attribute to specify additional aggregation fields
-- The condition attribute, along with other correlation attributes, defines the matching criteria
+:::
 
 ## Types of Correlations
 
@@ -54,20 +48,40 @@ The event count correlation simply counts the events in the aggregation bucket. 
 - Log source reliability issues, when the amount of events falls below a threshold.
 
 ```yaml
+title: Windows Failed Logon Event
+name: failed_logon
+status: test
+description: Detects failed logon events on Windows systems.
+logsource:
+    product: windows
+    service: security
+detection:
+    selection:
+        EventID: 4625
+    filter:
+        SubjectUserName|endswith: $
+    condition: selection and not filter
+---
 title: Multiple failed logons for a single user (possible brute force attack)
-status: test 
+status: test
 correlation:
-  type: event_count
-  rules:
-    - failed_logon
-  group-by:  
-    - TargetUserName
-    - TargetDomainName
-  timespan: 5m
-  condition:
-    gte: 10
+    type: event_count
+    rules:
+        - failed_logon
+    group-by:
+        - TargetUserName
+        - TargetDomainName
+    timespan: 5m
+    condition:
+        gte: 10
 ```
 
+```splunk
+source="WinEventLog:Security" EventCode IN (4625, 4771, 4772, 4776, 529, 530, 531, 532, 533, 534, 535, 539)
+| bin _time span=5m
+| stats count as event_count by _time TargetUserName TargetDomainName
+| search event_count >= 10
+```
 
 In this example, events are aggregated in 5-minute slots and grouped by `TargetUserName` and `TargetDomainName`. It matches if more than 10 events with the same field values appear within the given timeframe, indicating a possible brute force attack on a specific user that should be investigated.
 
@@ -117,6 +131,13 @@ falsepositives:
     - Directory assessment tools
 ```
 
+```splunk
+source="WinEventLog:Security" EventCode=4799 CallerProcessId=0 TargetUserName IN ("Administrators", "Remote Desktop Users", "Remote Management Users", "Distributed COM Users")
+| bin _time span=15m
+| stats dc(TargetUserName) as value_count by _time SubjectUserName
+| search value_count >= 4
+```
+
 ::: tip Detecting BloodHound Enumeration
 
 Some tools like BloodHound can be detected by enumeration of certain high-privilege AD groups within a short time frame. This correlation rule shown below reliably detects BloodHound scans conducted with default options.
@@ -144,6 +165,15 @@ correlation:
         - 1ddaa9a4-eb0b-4398-a9fe-7b018f9e23db
     timespan: 10s
 level: high
+```
+
+```splunk
+| multisearch
+  [ search "cs-method"="POST" "cs-uri-query" IN ("*/json/setup-restore-local.action*", "*/json/setup-restore-progress.action*", "*/json/setup-restore.action*", "*/server-info.action*", "*/setup/setupadministrator.action*") "sc-status" IN (200, 302, 405) | eval event_type="a902d249-9b9c-4dc4-8fd0-fbe528ef965c" ]
+  [ search ParentImage IN ("*\\tomcat8.exe", "*\\tomcat9.exe", "*\\tomcat10.exe") ParentCommandLine="*confluence*" Image IN ("*\\cmd.exe", "*\\powershell.exe") OR OriginalFileName IN ("Cmd.Exe", "PowerShell.EXE") | eval event_type="1ddaa9a4-eb0b-4398-a9fe-7b018f9e23db" ]
+| bin _time span=10s
+| stats dc(event_type) as event_type_count by _time
+| search event_type_count >= 2
 ```
 
 

@@ -5,16 +5,16 @@ title: 'Filters'
 # Sigma {{ $frontmatter.title }}
 
 ::: tip Filters are in `ALPHA`
-In 2024, Sigma Introduced a new feature called Filters. This feature is still in `ALPHA` and is not recommended for production use.
+In 2024, Sigma Introduced a new feature called Filters. This feature is still in `ALPHA`. However, filters should work in most backends out of the box, without backend-specific support required.
 :::
 
 When deploying Sigma rules out to your organization, you may find that some Sigma rules are noisier than others, or that to apply a Sigma rule to your environment you need to update the Sigma rule to have it only apply to a certain subset of `hosts` or `user` accounts.
 
-Sigma Filters are a new way to build these "exclusions" without having to modify the Sigma rule itself – meaning keeping each Sigma rule can now remain in its original state, making updating from [rule-packs](https://github.com/SigmaHQ/sigma/releases) even easier.
+Sigma Filters are a new way to build lists of these "exclusions" without having to modify the Sigma rule itself – meaning keeping each Sigma rule can now remain in its original state. This makes updating from Sigma's build-in [rule-packs](https://github.com/SigmaHQ/sigma/releases) even easier.
 
 ## Overview
 
-Sigma Filters resemble Sigma rules in their structure, but 
+Sigma Filters resemble Sigma rules in their structure, but use the `filter` keyword in place of `detection`.
 
 ```yaml
 title: Filter Out Domain Controllers
@@ -29,6 +29,11 @@ filter:
       ComputerName|startswith: 'DC-'
   condition: not selection
 ```
+
+This makes writing Sigma Filters nearly identical to writing Sigma, but allow you to split out your exclusions into separate files. This not only makes your Sigma Rules arguably more maintainable, but also allow you to apply the same filter to multiple Sigma rules.
+
+Filters are used to define a set of conditions that can be applied to Sigma rules to exclude or include specific events based on the conditions defined in the filter.
+
 
 
 ## Usage
@@ -104,8 +109,15 @@ Image="*\\sc.exe" CommandLine="*create*" CommandLine="*binPath*" \
 User="adm_*"
 ```
 
-
 ## Best Practices
+
+### Sharing Sigma Filters
+
+Whist Sigma Filters are a fantastic way to share exclusions across multiple Sigma rules, it's recommended to use Sigma Filters as a way to "tune" your alerts to your own organisation, and to update the Sigma rules themselves to include any filters you believe would benefit the community.
+
+
+
+
 
 - When naming / using Filters, use the term "filter in" or "filter out" to easily identify the purpose of the filter. For example, "filter_out_domain_controllers.yml" or "filter_in_administrators.yml
 - Keep filters in a separate directory from your Sigma rules for better organization and maintainability.
