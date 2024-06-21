@@ -113,7 +113,7 @@ source="WinEventLog:Security" EventCode=4625
 
 ::: warning Required Reference
 
-Whilst [Sigma Filters](/docs/meta/filters) meta rules won't require you to supply the referenced Sigma rule, <u>**Sigma Correlations will**</u> enforce that the referenced Sigma rule is present either in the same Sigma file, or supplied as a separate Sigma rule file when converting.
+<u>**Sigma Correlations will**</u> enforce that the referenced Sigma rule is present either in the same Sigma file, or supplied as a separate Sigma rule file when converting.
 
 ```text
 Error: Error while conversion: Rule 'failed_logon' not found in rule collection
