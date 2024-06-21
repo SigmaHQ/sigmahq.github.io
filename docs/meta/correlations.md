@@ -10,7 +10,7 @@ import { withBase } from 'vitepress'
 
 Sigma Correlations bring a brand-new standardised way to compose more sophisticated and targeted detections that analyze the relationships between events.
 
-Correlations build on-top of the existing Sigma format, providing detection engineers with a very familiar experience, and finally bring first-party support for more complex relationship-based detection techniques.
+Correlations build on-top of the existing Sigma format, providing detection engineers with a very familiar experience, and finally provides first-party support for more complex relationship-based detection techniques.
 
 ::: danger SIEM / Backend support for Sigma Correlations
 
@@ -28,7 +28,7 @@ Correlations build on-top of the existing Sigma format, providing detection engi
 
 ## Basic Structure
 
-As mentioned on the [Meta Rules page](/docs/meta/), Sigma Correlations are defined by the `correlation` section in the Sigma rule instead of using the normal `detection` section.
+Sigma Correlations are defined inside of the new `correlation` section, instead of the typically used `detection` section.
 
 ::: tip Introduction of Meta Rules
 
@@ -119,7 +119,7 @@ source="WinEventLog:Security" EventCode=4625
 Error: Error while conversion: Rule 'failed_logon' not found in rule collection
 ```
 
-It's recommended to keep the referenced Sigma rule in the same file as the correlation rule to ensure that the correlation rule can be easily shared and understood by others.
+If the "base" rule being used is only being used to support the correlation rule, it's recommended to keep the referenced Sigma rule in the same file as the correlation rule, to ensure that the correlation rule can be easily shared and understood by others.
 
 :::
 
@@ -128,13 +128,34 @@ There are a few things to note when working with Sigma Correlations:
 - Correlation Rules omits the `logsource` section, as they rely on referencing other Sigma rules to correlate events.
 - Correlation rules will also inhibit the original "base" rule in the output query, as the correlation rule is the one that will be used to generate the query.
 
+### Retaining the Base Conversion
+
+By default, the correlation rule omits the original "base" rule in the output query.
+
+If you want to retain the original "base" rule in the output query, you should add `generate: true` to the correlation section within your correlation rule. This will ensure that each of the referenced "base" rules will be included in the output query.
+
+```yaml
+title: Multiple failed logons for a single user (possible brute force attack)
+correlation:
+    type: event_count
+    rules:
+        - failed_logon
+    group-by:
+        - TargetUserName
+        - TargetDomainName
+    timespan: 5m
+    condition:
+        gte: 10
+    generate: true  # Retain the base rule in the output query // [!code ++]
+```
+
 ## Types of Correlations
 
 Sigma currently supports four correlation types:
 
 ### `event_count`
 
-The event count correlation simply counts the events in the aggregation bucket. This correlation type is usually chosen if it is just relevant if an event happens often or rarely in a given time frame. Some examples are:
+The event count correlation simply counts the events in the aggregation bucket. This correlation type is typically chosen when the frequency of an event within a given time frame is relevant. Some examples are:
 
 - Brute force attacks where a logon failure count exceeds a given threshold.
 - Denial of Service attacks where a connection count threshold is exceeded.
@@ -180,7 +201,7 @@ In this example, events are aggregated in 5-minute slots and grouped by `TargetU
 
 ### `value_count`
 
-Counts distinct values of a given field, useful for detecting a high or low number of unique entities
+The value_count correlation type counts distinct values of a given field. It is useful for detecting a high or low number of unique entities. For example:
 
 ```yaml
 title: High-privilege group enumeration
@@ -237,7 +258,7 @@ Some tools like BloodHound can be detected by enumeration of certain high-privil
 
 ### `temporal`
 
-A temporal event correlation determines if multiple different event types occur in temporal proximity. Examples:
+A temporal event correlation determines if multiple different event types occur close together in time. This type is useful for identifying related events that happen within a specified timeframe. Examples include:
 
 - A brute force or password spraying attack where failed logon events appear together with successful logons from the same source could mean that the attack was successful and should be handled with increased priority.
 - Vulnerability exploitation by detecting a connection to a vulnerable API endpoint together with a process creation:
@@ -267,7 +288,7 @@ level: high
 
 ### `ordered_temporal`
 
-The ordered temporal correlation is similar to the former, but adds the order of the events as another condition. Generally, the usage of this correlation type should be considered very carefully because of various reasons:
+The ordered temporal correlation is similar to the former, but adds the order of the events as another condition. This correlation type should be used cautiously due to several factors:
 
 - Often, the appearance of certain events in a specific time frame is already sufficient for the detection. E.g. the famous example of multiple failed logons followed by a successful one delivers mostly the same results if the failed and successful logon just appear within the same time frame.
 - Compared to the temporal correlation the queries required to check the order are usually more complex and less efficient.
@@ -280,7 +301,9 @@ Field aliases allow correlating fields with different names across log sources.
 
 ## Field Aliases
 
-Sometimes it is required to correlate fields that have different names in their respective log sources. This can even happen in cases where field names are normalized. One example of such a situation is when the correlation rule must aggregate by source IP with the destination IP in another event type. This can be achieved with field aliases that form another attribute within the correlation attribute.
+Sometimes it is required to correlate fields that have different names in their respective log sources. This can even happen in cases where field names are normalized. One example of such a situation is when the correlation rule must aggregate by source IP with the destination IP in another event type.
+
+This can be achieved using field aliases, which are defined as an additional attribute within the correlation section.
 
 ```yaml
 correlation:

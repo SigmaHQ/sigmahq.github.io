@@ -181,6 +181,29 @@ filter:
 
 :::
 
-## Filters and Logsources
+## Filters Logsource Matching
 
-Filters can be applied to any Sigma rule, but only where the `logsource` field matches the `logsource` field in the filter.
+Filters can be applied to any Sigma rule, but only where the `logsource` field is an exact match the `logsource` field in the filter.
+
+::: info Logsource Matching Behaviour
+
+Currently, you can specify a logsource of a lower specificity in the filter than in the Sigma rule, but this behaviour isn't guaranteed and may change in the coming releases.
+
+This is to facilitate the use of filters across multiple Sigma rules of "similar" log sources – such as all Windows logs, or all logs from a specific product.
+
+
+```yaml
+# Filter
+logsource:
+  product: windows
+
+# Sigma Rule
+logsource:
+  category: process_creation
+  product: windows
+```
+
+The SigmaHQ team will be assessing this going forward to determine if this behaviour is beneficial or not.
+
+:::
+
