@@ -10,7 +10,6 @@ export default defineConfig({
   titleTemplate: "Sigma Detection Format",
   description:
     "A generic and open signature format that allows you to describe relevant log events in a straight-forward manner.",
-  base: "/sigmahq.github.io/",
   sitemap: {
     hostname: "https://sigmahq.io",
   },
