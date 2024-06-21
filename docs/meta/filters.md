@@ -162,7 +162,7 @@ filter:
     filter_out:
         field: value
     # This will exclude events where field equals value
-    condition: not filter_out 
+    condition: not filter_out
 ```
 
 :::
@@ -176,7 +176,7 @@ filter:
     filter_only:
         field: value
     # This will scope the detection to only include events where field equals value
-    condition: filter_only 
+    condition: filter_only
 ```
 
 :::
@@ -184,5 +184,3 @@ filter:
 ## Filters and Logsources
 
 Filters can be applied to any Sigma rule, but only where the `logsource` field matches the `logsource` field in the filter.
-
-
