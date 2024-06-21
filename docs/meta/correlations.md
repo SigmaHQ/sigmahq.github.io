@@ -137,16 +137,16 @@ If you want to retain the original "base" rule in the output query, you should a
 ```yaml
 title: Multiple failed logons for a single user (possible brute force attack)
 correlation:
-    type: event_count
-    rules:
-        - failed_logon
-    group-by:
-        - TargetUserName
-        - TargetDomainName
-    timespan: 5m
-    condition:
-        gte: 10
-    generate: true  # Retain the base rule in the output query // [!code ++]
+  type: event_count
+  rules:
+    - failed_logon
+  group-by:
+    - TargetUserName
+    - TargetDomainName
+  timespan: 5m
+  condition:
+    gte: 10
+  generate: true # Retain the base rule in the output query // [!code ++]
 ```
 
 ## Types of Correlations

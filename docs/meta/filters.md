@@ -191,7 +191,6 @@ Currently, you can specify a logsource of a lower specificity in the filter than
 
 This is to facilitate the use of filters across multiple Sigma rules of "similar" log sources – such as all Windows logs, or all logs from a specific product.
 
-
 ```yaml
 # Filter
 logsource:
@@ -206,4 +205,3 @@ logsource:
 The SigmaHQ team will be assessing this going forward to determine if this behaviour is beneficial or not.
 
 :::
-
