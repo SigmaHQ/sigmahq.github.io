@@ -67,6 +67,12 @@ sigma plugin list
 +----------------------+----------+---------+--------------------------------------------------------------+-------------+
 ```
 
+To install a backend plugin, use the `sigma plugin install` command, followed by the backend identifier.
+
+```bash
+sigma plugin install splunk
+```
+
 Throughout this guide, Splunk will be used as the SIEM conversion example.
 
 ## Converting Sigma Rules

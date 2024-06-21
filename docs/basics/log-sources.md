@@ -8,9 +8,9 @@ For each [Sigma rule](/docs/basics/rules.md) to be effective at detection, it is
 
 Each logsource definition within a Sigma rule is made up of **three** separate fields. These fields, when used in combination, define a given logsource.
 
+- `category`
 - `product`
 - `service`
-- `category`
 
 Each Sigma logsource is then usually (depending on your SIEM) prepended to the start of a detection query, in order for that query to target only those specific set of logs relevant to that detection. See this example below:
 
