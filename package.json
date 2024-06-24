@@ -2,7 +2,7 @@
   "type": "module",
   "dependencies": {
     "@headlessui/vue": "^1.7.19",
-    "@heroicons/vue": "^2.0.13",
+    "@heroicons/vue": "^2.1.4",
     "autoprefixer": "^10.4.18",
     "fuse.js": "^7.0.0",
     "highlight.js": "^11.9.0",
