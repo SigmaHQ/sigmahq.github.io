@@ -169,7 +169,7 @@ Map a field name in the sigma rule to a field name used in your logs.
 
 ::: code-group
 
-```yaml [/pipelines/transformation_demo.yml]{4-7}
+```yaml [/pipelines/transformation_demo.yml]{5-9}
 name: transformation_demo
 priority: 100
 transformations:
@@ -196,7 +196,7 @@ Map a field name prefix to replace it with another prefix.
 
 ::: code-group
 
-```yaml [/pipelines/transformation_demo.yml]{4-6}
+```yaml [/pipelines/transformation_demo.yml]{5-7}
 name: transformation_demo
 priority: 100
 transformations:
@@ -221,7 +221,7 @@ Deletes detection items. Some sort of condition is recommended but not required.
 
 ::: code-group
 
-```yaml [/pipelines/transformation_demo.yml]{4-6}
+```yaml [/pipelines/transformation_demo.yml]{6-10}
 name: transformation_demo
 priority: 100
 transformations:
@@ -250,7 +250,7 @@ Add a field name suffix. field_name_conditions are not required, but are recomme
 
 ::: code-group
 
-```yaml [/pipelines/transformation_demo.yml]{4-6}
+```yaml [/pipelines/transformation_demo.yml]{5-6}
 name: transformation_demo
 priority: 100
 transformations:
@@ -275,7 +275,7 @@ Add a field name prefix.
 
 ::: code-group
 
-```yaml [/pipelines/transformation_demo.yml]{4-6}
+```yaml [/pipelines/transformation_demo.yml]{5-6}
 name: transformation_demo
 priority: 100
 transformations:
@@ -296,7 +296,7 @@ Replaces placeholders with wildcards. This transformation is useful if remaining
 
 ::: code-group
 
-```yaml [/pipelines/transformation_demo.yml]{4-6}
+```yaml [/pipelines/transformation_demo.yml]{5}
 name: transformation_demo
 priority: 100
 transformations:
@@ -316,7 +316,7 @@ Replaces placeholders with values contained in variables defined in the configur
 
 ::: code-group
 
-```yaml [/pipelines/value_placeholders_test.yml]
+```yaml [/pipelines/value_placeholders_test.yml]{2-10}
 name: value_placeholder_pipeline
 vars:
   administrator_name:
@@ -359,7 +359,7 @@ list lookup expressions which are passed to the resulting query.
 
 ::: code-group
 
-```yaml [/pipelines/transformation_demo.yml]{4-6}
+```yaml [/pipelines/transformation_demo.yml]{5-8}
 name: transformation_demo
 priority: 100
 transformations:
@@ -392,7 +392,7 @@ If template is set to True the condition values are interpreted as string templa
 
 ::: code-group
 
-```yaml [/pipelines/transformation_demo.yml]{4-6}
+```yaml [/pipelines/transformation_demo.yml]{5-7}
 name: transformation_demo
 priority: 100
 transformations:
@@ -417,7 +417,7 @@ Replace log source as defined in transformation parameters.
 
 ::: code-group
 
-```yaml [/pipelines/transformation_demo.yml]{4-6}
+```yaml [/pipelines/transformation_demo.yml]{5-6}
 name: transformation_demo
 priority: 100
 transformations:
@@ -445,7 +445,7 @@ This is basically an interface to `re.sub()` and can use all features available 
 
 ::: code-group
 
-```yaml [/pipelines/transformation_demo.yml]{4-6}
+```yaml [/pipelines/transformation_demo.yml]{5-7}
 name: transformation_demo
 priority: 100
 transformations:
@@ -476,7 +476,7 @@ A variable that is set within the processing pipeline and can serve for differen
 - `val`: The values to assign to the key
   ::: code-group
 
-```yaml [/pipelines/transformation_demo.yml]{4-6}
+```yaml [/pipelines/transformation_demo.yml]{5-7,9-14}
 name: transformation_demo
 priority: 100
 transformations:
@@ -511,7 +511,7 @@ Raise a SigmaTransformationError with the provided message. This enables transfo
 
 ::: code-group
 
-```yaml [/pipelines/transformation_demo.yml]{4-6}
+```yaml [/pipelines/transformation_demo.yml]{5-6}
 name: transformation_demo
 priority: 100
 transformations:
@@ -536,7 +536,7 @@ Raise a SigmaTransformationError with the provided message. This enables transfo
 
 ::: code-group
 
-```yaml [/pipelines/transformation_demo.yml]{4-6}
+```yaml [/pipelines/transformation_demo.yml]{5-6}
 name: transformation_demo
 priority: 100
 transformations:
