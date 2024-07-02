@@ -38,7 +38,7 @@ npm install
 To start a local preview server of the documentation locally, run the following.
 
 ```bash
-npm install docs:dev
+npm run docs:dev
 ```
 
 ### Building
