@@ -4,9 +4,9 @@ title: "Filters"
 
 # Sigma {{ $frontmatter.title }}
 
-When deploying Sigma rules out to your organization, you may find that some Sigma rules are noisier than others, or that to apply a Sigma rule to your environment you need to update the Sigma rule to have it only apply to a certain subset of `hosts` or `user` accounts.
+When deploying Sigma rules out to your organization, you may find that some Sigma rules are noisier than others, or that a Sigma rule needs to be updated to only detect upon a given set of `host` computers, or `user` accounts.
 
-Sigma Filters are a new way to build lists of these "exclusions" without having to modify the Sigma rule itself – meaning keeping each Sigma rule can now remain in its original state. This makes updating from Sigma's build-in [rule-packs](https://github.com/SigmaHQ/sigma/releases) even easier.
+**Sigma Filters** are a new way to build lists of these "exclusions" without having to modify the Sigma rule itself – meaning keeping each Sigma rule can now remain in its original state. This makes updating from Sigma's build-in [rule-packs](https://github.com/SigmaHQ/sigma/releases) even easier.
 
 ::: tip Filters are in `ALPHA`
 In 2024, Sigma Introduced a new feature called Filters. This feature is still in `ALPHA`. However, filters should work in most backends out of the box, without backend-specific support required.
@@ -25,8 +25,8 @@ logsource:
     product: windows
 filter: // [!code ++] // [!code focus:7]
   rules:
-    - 6f3e2987-db24-4c78-a860-b4f4095a7095 # Data Compressed - rar.exe
-    - df0841c0-9846-4e9f-ad8a-7df91571771b # Login on jump host
+    - files_added_to_an_archive_using_rar_exe
+    - login_on_jump_host
   selection:
     ComputerName|startswith: "DC-"
   condition: not selection
@@ -50,8 +50,7 @@ logsource:
   product: windows
 filter:
   rules:
-    - 6f3e2987-db24-4c78-a860-b4f4095a7095 # Data Compressed - rar.exe
-    - df0841c0-9846-4e9f-ad8a-7df91571771b # Login on jump host
+    - proc_creation_win_sc_create_service // [!code highlight]
   selection:
     User|startswith: "adm_"
   condition: not selection
@@ -59,20 +58,9 @@ filter:
 
 ```yaml [./rules/windows/process_creation/proc_creation_win_sc_create_service.yml]
 title: New Service Creation Using Sc.EXE
-id: 85ff530b-261d-48c6-a441-facaa2e81e48
-related:
-  - id: c02e96b7-c63a-4c47-bd83-4a9f74afcfb2 # Using PowerShell
-    type: similar
-status: test
+name: proc_creation_win_sc_create_service // [!code highlight]
 description: Detects the creation of a new service using the "sc.exe" utility.
-references:
-  - https://github.com/redcanaryco/atomic-red-team/blob/f339e7da7d05f6057fdfcdd3742bfcf365fee2a9/atomics/T1543.003/T1543.003.md
 author: Timur Zinniatullin, Daniil Yugoslavskiy, oscd.community
-date: 2023/02/20
-tags:
-  - attack.persistence
-  - attack.privilege_escalation
-  - attack.t1543.003
 logsource:
   category: process_creation
   product: windows
@@ -91,13 +79,15 @@ level: low
 
 :::
 
+In the example above, the `win_filter_admins.yml` filter is applied to the `proc_creation_win_sc_create_service.yml` Sigma rule. The filter will exclude any events where the `User` field starts with `adm_`. The filter references the Sigma rule in the `rules` list under `filter` section, using the `name` field within the Sigma rule.
+
 To apply a filter when converting a Sigma rule, use the `--filter` option in Sigma CLI, followed by the path to the filter folder or file. You can apply multiple filters by specifying a directory containing multiple filter files.
 
 Here's an example of running the Sigma rule with the filter:
 
 ```bash
 sigma convert -t splunk --pipeline splunk_windows \
-  --filter ./filters/win_filter_admins.yml \
+  --filter ./filters/win_filter_admins.yml \ // [!code highlight]
   ./rules/windows/process_creation/proc_creation_win_sc_create_service.yml
 ```
 
@@ -115,6 +105,8 @@ Image="*\\sc.exe" \
 Every field that is used in Filters also gets mapped according to any supplied pipelines.
 
 :::
+
+Filters support referencing the initial rule using the `id` or `name` field.
 
 ## Design
 
@@ -144,8 +136,8 @@ detection:
     ...
     condition: selection and (filter)
 #              |             |
-#              |_Sigma Rule  |
-#                            |_Sigma Filter
+#              | Sigma Rule  |
+#                            | Sigma Filter
 
 ```
 
@@ -159,10 +151,10 @@ The advantage of using Sigma Filters is that you can now build a set of exclusio
 
 ```yaml[./filters/exclude_something.yml]
 filter:
-    filter_out:
+    exclude_these_matches:
         field: value
     # This will exclude events where field equals value
-    condition: not filter_out
+    condition: not exclude_these_matches
 ```
 
 :::
@@ -173,10 +165,10 @@ filter:
 
 ```yaml[./filters/include_something.yml]
 filter:
-    filter_only:
+    include_these_matches:
         field: value
     # This will scope the detection to only include events where field equals value
-    condition: filter_only
+    condition: include_these_matches
 ```
 
 :::

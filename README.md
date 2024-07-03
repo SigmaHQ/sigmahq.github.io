@@ -50,6 +50,18 @@ npm run docs:build
 npm run docs:serve
 ```
 
+### Testing / Linting
+
+Before contributing to the documentation, please make sure to run the following to ensure all docs are linted correctly.
+
+```bash
+# To run the linter
+npm run lint
+
+# To fix any linting issues
+npm run lint:fix
+```
+
 ### Acknowledgement
 
 A huge thank you goes to Alex ([@sifex](https://twitter.com/sifex)) for dedicating the time and help building this website
