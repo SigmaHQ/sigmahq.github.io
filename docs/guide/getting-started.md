@@ -67,6 +67,12 @@ sigma plugin list
 +----------------------+----------+---------+--------------------------------------------------------------+-------------+
 ```
 
+To install a backend plugin, use the `sigma plugin install` command, followed by the backend identifier.
+
+```bash
+sigma plugin install splunk
+```
+
 Throughout this guide, Splunk will be used as the SIEM conversion example.
 
 ## Converting Sigma Rules
@@ -122,8 +128,8 @@ Quickly running through this rule, we can describe it as detecting when the fiel
 
 After saving the file and closing vim (or your preferred editor), you can use the `sigma convert` command to convert this Sigma rule into a Splunk query. It's important to set the correct parameters to ensure a valid query is produced for the SIEM being used in your environment.
 
-- **Set the Target SIEM** &nbsp;&nbsp;`--target splunk`<br />Use this option to instruct Sigma to convert the Sigma files under the `./rules/` directory to Splunk&nbsp;SPL.<br />[See the full list of supported backends here ->](/docs/digging-deeper/backends.md)<br /><br />
-- **Set the SIEM Pipeline** &nbsp;&nbsp;`--pipeline splunk_windows`<br />Use this option to instruct Sigma to use the `splunk_windows` default field- and source-mapping pipeline.<br />[Learn more about Sigma pipelines here ->](/docs/digging-deeper/pipelines.html)<br /><br />
+- **Set the Target SIEM** &nbsp;&nbsp;<br class="md:hidden" />`--target splunk`<br /><br class="md:hidden" />Use this option to instruct Sigma to convert the Sigma files under the `./rules/` directory to Splunk&nbsp;SPL.<br />[See the full list of supported backends here ->](/docs/digging-deeper/backends.md)<br /><br />
+- **Set the SIEM Pipeline** &nbsp;&nbsp;<br class="md:hidden" />`--pipeline splunk_windows`<br /><br class="md:hidden" />Use this option to instruct Sigma to use the `splunk_windows` default field- and source-mapping pipeline.<br />[Learn more about Sigma pipelines here ->](/docs/digging-deeper/pipelines.html)<br /><br />
 
 ```bash
 sigma convert \

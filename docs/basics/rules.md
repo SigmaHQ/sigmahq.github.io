@@ -572,11 +572,11 @@ falsepositives:
   - This rule can sometimes create false-positives when a user forefully restarts their workstation
 ```
 
-::: warning False Positives vs Filters
+::: tip False Positives vs Filters
 
 False-positives are not parsed by the Sigma convertors, and are simply there to help the detection-engineer or analyst to triage the alert as to when the rule might trigger in a non-malicious context.
 
-[//]: # "False-positives are not defeats, and are simply there to help the analyst. To automatically filter out any values from your Sigma rule that are known not to be true-positives, you can see the [section on Defeats](/docs/digging-deeper/filters.md)."
+If you want to filter out certain events, you should use the `condition` field in combination with a `filter` condition in the `detection` section, or use the [newly published Sigma Filters feature](/docs/meta/filters) to help tune your alerts.
 
 :::
 

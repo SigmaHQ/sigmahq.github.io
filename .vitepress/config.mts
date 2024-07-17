@@ -10,7 +10,6 @@ export default defineConfig({
   titleTemplate: "Sigma Detection Format",
   description:
     "A generic and open signature format that allows you to describe relevant log events in a straight-forward manner.",
-  // base: '/sigmahq.github.io/',
   sitemap: {
     hostname: "https://sigmahq.io",
   },
@@ -213,6 +212,7 @@ export default defineConfig({
       "/": [
         {
           text: "Introduction",
+          // link: '/docs/guide/getting-started',
           items: [
             // { text: 'New in v2', link: '/docs/guide/new-in-v2' },
             { text: "About Sigma", link: "/docs/guide/about" },
@@ -222,12 +222,21 @@ export default defineConfig({
         },
         {
           text: "Sigma Basics",
+          // link: '/docs/basics/rules',
           items: [
             { text: "Rules", link: "/docs/basics/rules" },
             { text: "Modifiers", link: "/docs/basics/modifiers" },
             { text: "Conditions", link: "/docs/basics/conditions" },
             // {text: 'Validation', link: '/docs/basics/validation'},
             { text: "Log Sources", link: "/docs/basics/log-sources" },
+          ],
+        },
+        {
+          text: "Meta Rules",
+          link: "/docs/meta/",
+          items: [
+            { text: "Correlations", link: "/docs/meta/correlations" },
+            { text: "Filters", link: "/docs/meta/filters" },
           ],
         },
         {
@@ -243,23 +252,28 @@ export default defineConfig({
           text: "Backends",
           items: [
             {
+              text: "Elasticsearch",
+              link: "https://github.com/SigmaHQ/pySigma-backend-elasticsearch",
+              rel: "_target",
+            },
+            {
               text: "Splunk",
               link: "https://github.com/SigmaHQ/pySigma-backend-splunk",
               rel: "_target",
             },
             {
-              text: "InsightEDR",
-              link: "https://github.com/SigmaHQ/pySigma-backend-insightidr",
+              text: "Grafana Loki",
+              link: "https://github.com/grafana/pySigma-backend-loki",
               rel: "_target",
             },
             {
-              text: "ElasticSearch",
-              link: "https://github.com/SigmaHQ/pySigma-backend-elasticsearch",
+              text: "Azure Sentinel / Microsoft 365 Defender",
+              link: "https://github.com/AttackIQ/pySigma-backend-microsoft365defender",
               rel: "_target",
             },
             {
-              text: "OpenSearch",
-              link: "https://github.com/SigmaHQ/pySigma-backend-opensearch",
+              text: "CrowdStrike Falcon LogScale ",
+              link: "https://github.com/SigmaHQ/pySigma-backend-crowdstrike",
               rel: "_target",
             },
             { text: "More  ›", link: "/docs/digging-deeper/backends.html" },
