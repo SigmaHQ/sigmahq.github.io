@@ -557,7 +557,7 @@ tags:
 
 The Sigma team have defined a tag naming convention under the Sigma Specification repository. You can find more
 information about
-this [here on the `sigma-specification` repo](https://github.com/SigmaHQ/sigma-specification/blob/main/Tags_specification.md).
+this [here on the `sigma-specification` repo](https://github.com/SigmaHQ/sigma-specification/blob/main/appendix/sigma-tags-appendix.md).
 
 :::
 
