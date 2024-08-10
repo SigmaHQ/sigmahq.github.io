@@ -16,13 +16,13 @@ Each Sigma logsource is then usually (depending on your SIEM) prepended to the s
 
 ## Logsource Basics
 
-Before Sigma queries can be used effectively within an organisation's SIEM or Alerting tooling, it's important to identify whether the detection can search over the appropriate types of logs that the Sigma detection requires.
+Before Sigma queries can be used effectively within an organization's SIEM or Alerting tooling, it's important to identify whether the detection can search over the appropriate types of logs that the Sigma detection requires.
 
 Because each logsource will look fairly similar – especially in Sigma rules targeting Microsoft Windows&trade; domain – it's important to know when Sigma rules will match again a logsource, as any mismatches in logsource can render the detection ineffective.
 
 ::: info Sigma Specification for Logsources
 
-The Sigma Specification repository outlines a [standard set of logsources](https://github.com/SigmaHQ/sigma-specification/blob/main/Taxonomy_specification.md#log-sources), that is supported across the community in the Sigma rule collection.
+The Sigma Specification repository outlines a [standard set of logsources](https://github.com/SigmaHQ/sigma-specification/blob/main/appendix/sigma-taxonomy-appendix.md#log-sources), that is supported across the community in the Sigma rule collection.
 
 :::
 
