@@ -406,5 +406,5 @@ OR fieldname="* –f *" OR fieldname="* —f *" OR fieldname="* ―f *" \
 
 The windash modifier will convert any provided command-line arguments or flags to use `-`, as well as `/`, `–` (En Dash), `—` (Em Dash), and `―` (Horizontal Bar).
 
-This is incredibly useful in the the Windows ecosystem, where Windows has [two standards for passing arguments to commands](https://learn.microsoft.com/en-us/powershell/scripting/learn/shell/running-commands?view=powershell-7.3#passing-arguments-to-native-commands), usually `-` for PowerShell (e.g. `-a`), and `/` for `cmd.exe` (e.g. `/a`), but a large number of commands will commonly accept both. 
+This is incredibly useful in the the Windows ecosystem, where Windows has [two standards for passing arguments to commands](https://learn.microsoft.com/en-us/powershell/scripting/learn/shell/running-commands?view=powershell-7.3#passing-arguments-to-native-commands), usually `-` for PowerShell (e.g. `-a`), and `/` for `cmd.exe` (e.g. `/a`), but a large number of commands will commonly accept both.
 Many tools, including PowerShell, will not only accept a normal hyphen, but other similar looking dashes like `–` (En Dash), `—` (Em Dash), and `―` (Horizontal Bar)
