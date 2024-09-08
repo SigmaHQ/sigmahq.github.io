@@ -36,8 +36,8 @@ references:
     - https://developer.okta.com/docs/reference/api/system-log/
     - https://developer.okta.com/docs/reference/api/event-types/
 author: Austin Songer @austinsonger
-date: 2021/09/12
-modified: 2022/10/09
+date: 2021-09-12
+modified: 2022-10-09
 tags:
     - attack.impact
 logsource:
@@ -305,7 +305,7 @@ It splits up each defined logsource into three distinct fields - `category`, `pr
 
 ```yaml
 author: Austin Songer @austinsonger
-date: 2021/09/12
+date: 2021-09-12
 logsource: // [!code focus:3]
     product: okta
     service: okta
@@ -482,13 +482,13 @@ author: Sirens [sirens@sigma.hq]
 The `date` / `modified` field states the creation / last modified date of the rule.
 
 ```yaml
-date: 2023/01/01
-modified: 2023/01/02
+date: 2023-01-01
+modified: 2023-01-02
 ```
 
 :::info Date Format
 
-The `date` and `modified` fields should be standardised to use the `YYYY/MM/DD` or `YYYY-MM-DD` date format.
+The `date` and `modified` fields should be standardised to use the ISO 8601 date with separator format : YYYY-MM-DD.
 
 :::
 
