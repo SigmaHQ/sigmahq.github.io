@@ -33,10 +33,12 @@ Below is a list of available field modifiers.
 <ul class="columns-2 lg:columns-3 pb-8 pb-8 block">
     <li><a href="#all"><code>all</code></a></li>
     <li><a href="#base64-base64offset"><code>base64</code> / <code>base64offset</code></a></li>
+    <li><a href="#cased"><code>cased</code></a></li>
     <li><a href="#cidr"><code>cidr</code></a></li>
     <li><a href="#contains"><code>contains</code></a></li>
     <li><a href="#endswith"><code>endswith</code></a></li>
     <li><a href="#expand"><code>expand</code></a></li>
+    <li><a href="#fieldref"><code>fieldref</code></a></li>
     <li><a href="#gt"><code>gt</code></a></li>
     <li><a href="#gte"><code>gte</code></a></li>
     <li><a href="#lt"><code>lt</code></a></li>
@@ -125,6 +127,27 @@ The `base64offset` modifier is usually preferred over the `base64` modifier, bec
 
 ---
 
+### cased
+
+::: code-group
+
+```yaml [/rules/needle_in_end_of_haystack.yaml]
+detection:
+  selection:
+    fieldname|case: 'CaseSensitiveValue'
+  condition: selection
+```
+
+```splunk [Splunk Output]
+```
+
+:::
+
+The `cased` modifier indicates that the value is applied in a case-sensitive manner.
+Sigma's default behavior is case-insensitive matching.
+
+---
+
 ### cidr
 
 ::: code-group
@@ -183,26 +206,6 @@ The `contains` modifier will insert a wildcard token (usually `*`) around the pr
 
 ---
 
-### startswith
-
-::: code-group
-
-```yaml [/rules/needle_in_start_of_haystack.yaml]
-detection:
-  selection:
-    fieldname|startswith: needle
-```
-
-```splunk [Splunk Output]
-fieldname="needle*"
-```
-
-:::
-
-The `startswith` modifier will insert a wildcard token (usually `*`) at the start of the provided value(s), such that the value is matched at the beginning of the field.
-
----
-
 ### endswith
 
 ::: code-group
@@ -252,6 +255,30 @@ user="Administrator"
 :::
 
 The `expand` modifier can be used with Sigma Pipelines in order to replace placeholder values with another value common across that processing pipeline.
+
+---
+
+### fieldref
+
+::: code-group
+
+```yaml [/rules/needle_in_end_of_haystack.yaml]
+detection:
+    selection:
+        fieldname|fieldref: fieldasString
+    condition: selection
+```
+
+```splunk [Splunk Output]
+*
+| where match(fieldname,fieldasString)
+```
+
+:::
+
+The `fieldref` mofidier will convert a plain string into a field reference.
+`fieldname` and `fieldasString` must have the same value.
+A field reference can be used to compare fields of matched events directly at query/matching time.
 
 ---
 
@@ -353,7 +380,37 @@ detection:
 
 The `re` modifier will provide a search where the value of `fieldname` matches the provided regex.
 
+There are re sub-modifiers `re|?`:
+
+- `i`: (insensitive) to enable case-insensitive matching.
+- `m`: (multi line) to match across multiple lines. `^`/`$` match the start/end of line.
+- `s`: (single line) to enable that dot (.) matches all characters, including the newline character.
+
 ---
+
+
+### startswith
+
+::: code-group
+
+```yaml [/rules/needle_in_start_of_haystack.yaml]
+detection:
+  selection:
+    fieldname|startswith: needle
+```
+
+```splunk [Splunk Output]
+fieldname="needle*"
+```
+
+:::
+
+The `startswith` modifier will insert a wildcard token (usually `*`) at the start of the provided value(s), such that the value is matched at the beginning of the field.
+
+---
+
+
+
 
 ### utf16 / utf16le / utf16be / wide {#wide}
 
@@ -408,3 +465,5 @@ The windash modifier will convert any provided command-line arguments or flags t
 
 This is incredibly useful in the the Windows ecosystem, where Windows has [two standards for passing arguments to commands](https://learn.microsoft.com/en-us/powershell/scripting/learn/shell/running-commands?view=powershell-7.3#passing-arguments-to-native-commands), usually `-` for PowerShell (e.g. `-a`), and `/` for `cmd.exe` (e.g. `/a`), but a large number of commands will commonly accept both.
 Many tools, including PowerShell, will not only accept a normal hyphen, but other similar looking dashes like `–` (En Dash), `—` (Em Dash), and `―` (Horizontal Bar)
+
+---
