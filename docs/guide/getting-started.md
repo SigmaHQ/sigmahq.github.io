@@ -173,8 +173,8 @@ references:
     - https://developer.okta.com/docs/reference/api/system-log/
     - https://developer.okta.com/docs/reference/api/event-types/
 author: Austin Songer @TheAustinSonger
-date: 2021/09/12
-modified: 2022/10/09
+date: 2021-09-12
+modified: 2022-10-09
 tags:
     - attack.impact
 logsource:
@@ -294,7 +294,7 @@ description: >
 references:
   - https://wiki.example.com/DOG/Sad+Puppy+Playbook+(2023)
 author: Toto <toto@example.com>
-date: 2023/04/06
+date: 2023-04-06
 logsource:
   product: puppy
   service: app
