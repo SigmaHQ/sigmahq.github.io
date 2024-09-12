@@ -550,7 +550,7 @@ tags:
 
   # CVE
   - cve.2022.27925 # OR
-  - cve-2022-27925
+  - cve.2022-27925
 ```
 
 ::: tip Tags Naming Convention
