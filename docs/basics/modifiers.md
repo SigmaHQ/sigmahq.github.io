@@ -134,11 +134,12 @@ The `base64offset` modifier is usually preferred over the `base64` modifier, bec
 ```yaml [/rules/needle_in_end_of_haystack.yaml]
 detection:
   selection:
-    fieldname|case: 'CaseSensitiveValue'
+    fieldname|case: "CaseSensitiveValue"
   condition: selection
 ```
 
 ```splunk [Splunk Output]
+
 ```
 
 :::
@@ -264,9 +265,9 @@ The `expand` modifier can be used with Sigma Pipelines in order to replace place
 
 ```yaml [/rules/needle_in_end_of_haystack.yaml]
 detection:
-    selection:
-        fieldname|fieldref: fieldasString
-    condition: selection
+  selection:
+    fieldname|fieldref: fieldasString
+  condition: selection
 ```
 
 ```splunk [Splunk Output]
@@ -388,7 +389,6 @@ There are re sub-modifiers `re|?`:
 
 ---
 
-
 ### startswith
 
 ::: code-group
@@ -408,9 +408,6 @@ fieldname="needle*"
 The `startswith` modifier will insert a wildcard token (usually `*`) at the start of the provided value(s), such that the value is matched at the beginning of the field.
 
 ---
-
-
-
 
 ### utf16 / utf16le / utf16be / wide {#wide}
 
