@@ -549,7 +549,6 @@ tags:
   - tlp.green
 
   # CVE
-  - cve.2022.27925 # OR
   - cve.2022-27925
 ```
 
