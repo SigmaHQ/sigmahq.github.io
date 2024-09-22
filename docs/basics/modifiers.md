@@ -36,6 +36,7 @@ Below is a list of available field modifiers.
     <li><a href="#cidr"><code>cidr</code></a></li>
     <li><a href="#contains"><code>contains</code></a></li>
     <li><a href="#endswith"><code>endswith</code></a></li>
+    <li><a href="#exists"><code>exists</code></a></li>
     <li><a href="#expand"><code>expand</code></a></li>
     <li><a href="#gt"><code>gt</code></a></li>
     <li><a href="#gte"><code>gte</code></a></li>
@@ -220,6 +221,46 @@ fieldname="*needle"
 :::
 
 The `endswith` modifier will insert a wildcard token (usually `*`) at the end of the provided value(s), such that the value is matched at the end of the field.
+
+---
+
+### exists
+
+::: code-group
+
+```yaml [/rules/rule.yml]
+title: Administrator Usage
+logsource:
+  product: windows
+detection:
+  selection:
+    user|exists: true
+  condition: selection
+```
+```netwitness [NetWitness Output]
+user exists
+```
+
+:::
+
+::: code-group
+
+```yaml [/rules/rule.yml]
+title: Administrator Usage
+logsource:
+  product: windows
+detection:
+  selection:
+    user|exists: false
+  condition: selection
+```
+```netwitness [NetWitness Output]
+user !exists
+```
+
+:::
+
+The `exists` modifier will generate a query to check if `fieldname` exists. The value for the modifier can either be `true` or `false`. Setting the value to `false` will result in a not exists query.
 
 ---
 
