@@ -569,8 +569,8 @@ transformations:
     field_name_conditions:
       - type: include_fields
         fields:
-        - EventID
-        - Provider_Name
+          - EventID
+          - Provider_Name
     rule_conditions:
       - type: logsource
         service: system
