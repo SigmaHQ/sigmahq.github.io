@@ -553,3 +553,31 @@ transformations:
 ```
 
 :::
+
+### Detection Item Condition
+
+A rule condition that matches if a detection item within the rule contains the specified field name and value.
+
+::: code-group
+
+```yaml [/pipelines/transformation_demo.yml]{15-17}
+name: transformation_demo
+priority: 100
+transformations:
+  - id: service_control_manager_drop
+    type: drop_detection_item
+    field_name_conditions:
+      - type: include_fields
+        fields:
+          - EventID
+          - Provider_Name
+    rule_conditions:
+      - type: logsource
+        service: system
+        product: windows
+      - type: contains_detection_item
+        field: "Provider_Name"
+        value: "Service Control Manager"
+```
+
+:::
