@@ -1,5 +1,5 @@
 ---
-title: 'Documentation - Sigma Detections'
+title: "Documentation - Sigma Detections"
 layout: home
 ---
 

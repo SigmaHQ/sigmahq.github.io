@@ -1,4 +1,5 @@
-<a href="https://sigmahq.io/">
+<a href="https://sigmahq.io/"> <!-- markdownlint-disable MD041 -->
+
 <p align="center">
 <br />
 <picture>
@@ -37,7 +38,7 @@ npm install
 To start a local preview server of the documentation locally, run the following.
 
 ```bash
-npm install docs:dev
+npm run docs:dev
 ```
 
 ### Building
@@ -47,6 +48,18 @@ Finally, to compile the documentation into a bundle locally, run the following.
 ```bash
 npm run docs:build
 npm run docs:serve
+```
+
+### Testing / Linting
+
+Before contributing to the documentation, please make sure to run the following to ensure all docs are linted correctly.
+
+```bash
+# To run the linter
+npm run lint
+
+# To fix any linting issues
+npm run lint:fix
 ```
 
 ### Acknowledgement

@@ -1,5 +1,5 @@
 ---
-title: 'Logsources'
+title: "Logsources"
 ---
 
 # {{ $frontmatter.title }}
@@ -8,21 +8,21 @@ For each [Sigma rule](/docs/basics/rules.md) to be effective at detection, it is
 
 Each logsource definition within a Sigma rule is made up of **three** separate fields. These fields, when used in combination, define a given logsource.
 
+- `category`
 - `product`
 - `service`
-- `category`
 
 Each Sigma logsource is then usually (depending on your SIEM) prepended to the start of a detection query, in order for that query to target only those specific set of logs relevant to that detection. See this example below:
 
 ## Logsource Basics
 
-Before Sigma queries can be used effectively within an organisation's SIEM or Alerting tooling, it's important to identify whether the detection can search over the appropriate types of logs that the Sigma detection requires.
+Before Sigma queries can be used effectively within an organization's SIEM or Alerting tooling, it's important to identify whether the detection can search over the appropriate types of logs that the Sigma detection requires.
 
 Because each logsource will look fairly similar – especially in Sigma rules targeting Microsoft Windows&trade; domain – it's important to know when Sigma rules will match again a logsource, as any mismatches in logsource can render the detection ineffective.
 
 ::: info Sigma Specification for Logsources
 
-The Sigma Specification repository outlines a [standard set of logsources](https://github.com/SigmaHQ/sigma-specification/blob/main/Taxonomy_specification.md#log-sources), that is supported across the community in the Sigma rule collection.
+The Sigma Specification repository outlines a [standard set of logsources](https://github.com/SigmaHQ/sigma-specification/blob/main/appendix/sigma-taxonomy-appendix.md#log-sources), that is supported across the community in the Sigma rule collection.
 
 :::
 
@@ -60,8 +60,8 @@ Below is a list of standard Sigma logsources. These are the logsources used with
 <!--suppress ES6UnusedImports -->
 <script setup>
 import PipelinesBox from "/.vitepress/theme/components/Boxes/PipelinesBox.vue";
-import {reactive, onMounted} from "vue"; 
-import { data } from '/.vitepress/theme/lib/logsources.v2.data'; 
+import {reactive, onMounted} from "vue";
+import { data } from '/.vitepress/theme/lib/logsources.v2.data';
 import {withBase} from "vitepress";
 
 </script>
@@ -70,10 +70,11 @@ import {withBase} from "vitepress";
 
 <h4 id="" class="truncate">{{logsource.title}}</h4>
 
-[//]: # (<span class="truncate overflow-hidden">)
+[//]: # '<span class="truncate overflow-hidden">'
+
 <Badge type="info" v-for="tag in logsource.tags">{{tag}}</Badge>
 
-[//]: # (</span>)
+[//]: # "</span>"
 
 ```yaml-vue
 {{ logsource.yaml.trim() }}
@@ -92,5 +93,3 @@ With the use of [Pipelines](/docs/digging-deeper/pipelines), you can specify gra
 </a>
 
 You can also see a basic example of logsource and field-mapping within the [Getting Started](/docs/guide/getting-started.html#custom-field-source-mapping) page.
-
-

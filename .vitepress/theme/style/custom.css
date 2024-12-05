@@ -10,57 +10,58 @@
 Code
  */
 
-
-
-.footnotes p, .footnotes ul, .footnotes ol {
-    font-size: 9pt;
-    line-height: 12pt;
+.footnotes p,
+.footnotes ul,
+.footnotes ol {
+  font-size: 9pt;
+  line-height: 12pt;
 }
 
 .VPSidebarItem .VPLink[target="_blank"] > * {
-    display: inline-block;
+  display: inline-block;
 }
 
 .VPSidebarItem .text {
-    padding-top: 0 !important;
-    padding-bottom: 0 !important;
-    margin: 2px 0;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  margin: 2px 0;
 }
 
 /*New version Above*/
 
 .vp-doc hr {
-    margin: 52px 0;
+  margin: 52px 0;
 }
 
 /**
 Layout
  */
 
-.vp-doc p, .vp-doc summary {
-    margin: 16px 0 24px;
+.vp-doc p,
+.vp-doc summary {
+  margin: 16px 0 24px;
 }
 
 @media (min-width: 960px) {
-    /*.VPNavBarTitle.has-sidebar .title {*/
-    /*    border-bottom-color: transparent !important;*/
-    /*}*/
+  /*.VPNavBarTitle.has-sidebar .title {*/
+  /*    border-bottom-color: transparent !important;*/
+  /*}*/
 }
 
 /** Between 960 and 1040 set .VPNav to fixed */
 /** Fixes bug in medium breakpoint where navbar would change top padding */
 @media (min-width: 960px) and (max-width: 1024px) {
-    header.VPNav {
-        position: relative !important;
-    }
+  header.VPNav {
+    position: relative !important;
+  }
 }
 
 .VPNavBarTitle .title img {
-    transform: translateY(2px);
+  transform: translateY(2px);
 }
 
 .VPNavBarTitle .title {
-    transform: translateY(-2px);
+  transform: translateY(-2px);
 }
 
 /**
@@ -79,135 +80,133 @@ General
 /*    }*/
 /*}*/
 
-
 .vp-doc ul {
-    list-style: none;
-    padding-left: 0;
-    padding-right: 0;
-    margin-left: 0;
-    margin-right: 0;
+  list-style: none;
+  padding-left: 0;
+  padding-right: 0;
+  margin-left: 0;
+  margin-right: 0;
 }
 
 .vp-doc ul li {
-    margin-left: 2rem;
+  margin-left: 2rem;
 }
 
-
 .vp-doc ul li:before {
-    content: "•";
-    padding-right: 1rem;
-    /* + .5rem to the above */
-    margin-left: -1.5rem;
+  content: "•";
+  padding-right: 1rem;
+  /* + .5rem to the above */
+  margin-left: -1.5rem;
 }
 
 .dark .vp-doc > div > ul li b,
 .dark .vp-doc > div > ul li strong,
 .dark .vp-doc > div > nav > ul li strong {
-    color: #f2f2f5;
+  color: #f2f2f5;
 }
 
 .dark .vp-doc > div > ul li:before,
 .dark .vp-doc > div > nav > ul li:before {
-    color: #43434d;
+  color: #43434d;
 }
 
 .custom-block blockquote p {
-    color: inherit;
-    font-size: inherit;
+  color: inherit;
+  font-size: inherit;
 }
 
 .custom-block a {
-    text-decoration: underline;
+  text-decoration: underline;
 }
 
-.dark .custom-block [class*='language-'] {
-    border-width: 1px;
-    border-color: #3e3e59;
+.dark .custom-block [class*="language-"] {
+  border-width: 1px;
+  border-color: #3e3e59;
 }
 
-.custom-block [class*='language-'] {
-    border-radius: 6px;
+.custom-block [class*="language-"] {
+  border-radius: 6px;
 }
 
-
-.dark div:not([class]) > p, .dark .vp-doc > div > ul, .dark .vp-doc > div > ol {
-    color: var(--vp-c-text-2);
+.dark div:not([class]) > p,
+.dark .vp-doc > div > ul,
+.dark .vp-doc > div > ol {
+  color: var(--vp-c-text-2);
 }
 
 @media (min-width: 768px) {
-    .VPNav.no-sidebar {
-        -webkit-backdrop-filter: saturate(50%) blur(8px);
-        backdrop-filter: saturate(50%) blur(8px);
-        background: transparent !important;
-    }
+  .VPNav.no-sidebar {
+    -webkit-backdrop-filter: saturate(50%) blur(8px);
+    backdrop-filter: saturate(50%) blur(8px);
+    background: transparent !important;
+  }
 }
 
 .dark .vp-doc th {
-    background-color: rgb(17, 17, 26);
+  background-color: rgb(17, 17, 26);
 }
 
-.vp-doc th, .vp-doc td {
-    font-size: 14px;
+.vp-doc th,
+.vp-doc td {
+  font-size: 14px;
 }
 
 .dark .VPLink.VPFeature .icon {
-    background: var(--vp-c-bg-alt);
+  background: var(--vp-c-bg-alt);
 }
 
 .VPNavBarTitle .title .logo {
-    height: 40px;
+  height: 40px;
 }
 
 .VPNavBarTitle .title {
-    font-size: 20px !important;
+  font-size: 20px !important;
 }
 
-
 .dark .VPHero .text {
-    color: white;
+  color: white;
 }
 
 .VPHero .name {
-    line-height: 30px !important;
-    font-size: 20px !important;
+  line-height: 30px !important;
+  font-size: 20px !important;
 }
 
 .VPHero .text {
-    line-height: 38px !important;
-    font-size: 30px !important;
+  line-height: 38px !important;
+  font-size: 30px !important;
 }
 
 @media (min-width: 640px) {
-    .VPHero .name {
-        line-height: 48px !important;
-        font-size: 38px !important;
-    }
+  .VPHero .name {
+    line-height: 48px !important;
+    font-size: 38px !important;
+  }
 
-    .VPHero .text {
-        line-height: 56px !important;
-        font-size: 48px !important;
-    }
+  .VPHero .text {
+    line-height: 56px !important;
+    font-size: 48px !important;
+  }
 }
 
 @media (min-width: 960px) {
-    .VPHero .name {
-        line-height: 48px !important;
-        font-size: 38px !important;
-    }
+  .VPHero .name {
+    line-height: 48px !important;
+    font-size: 38px !important;
+  }
 
-    .VPHero .text {
-        line-height: 52px !important;
-        font-size: 50px !important;
-    }
-
+  .VPHero .text {
+    line-height: 52px !important;
+    font-size: 50px !important;
+  }
 }
 
 .dark .light-mode-only {
-    display: none;
+  display: none;
 }
 
 html:not(.dark) .dark-mode-only {
-    display: none;
+  display: none;
 }
 
 /**
@@ -215,21 +214,20 @@ html:not(.dark) .dark-mode-only {
  */
 
 @media (min-width: 768px) {
-    .DocSearch-Button[type="button"] {
-        background-color: var(--vp-c-bg-alt);
-    }
-    #local-search {
-        padding-right: 16px;
-    }
+  .DocSearch-Button[type="button"] {
+    background-color: var(--vp-c-bg-alt);
+  }
+  #local-search {
+    padding-right: 16px;
+  }
 }
 
 .search-bar input.search-input {
-    background-color: transparent;
+  background-color: transparent;
 }
 
 .search-bar input.search-input:focus {
-    outline: none !important;
-    border: none !important;
-    box-shadow: none !important;
+  outline: none !important;
+  border: none !important;
+  box-shadow: none !important;
 }
-

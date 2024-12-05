@@ -1,18 +1,17 @@
 ---
-title: 'Rules'
+title: "Rules"
 ---
 
 <script setup lang="ts">
-import {withBase} from "vitepress"; 
+import {withBase} from "vitepress";
 import LogsourceBox from "/.vitepress/theme/components/Boxes/LogsourceBox.vue";
 </script>
 
 # Sigma {{ $frontmatter.title }}
 
-Sigma rules are `YAML` files that contain all the information required to detect odd, bad or malicious behaviour when inspecting log files – usually within the context of a [SIEM](https://en.wikipedia.org/wiki/Security_information_and_event_management?useskin=vector). 
+Sigma rules are `YAML` files that contain all the information required to detect odd, bad or malicious behaviour when inspecting log files – usually within the context of a [SIEM](https://en.wikipedia.org/wiki/Security_information_and_event_management?useskin=vector).
 
 To make the most out of the Sigma rules, it is important to understand how Sigma rules are used in detection, what all the different fields mean, and how to start writing and sharing your own Sigma detection rules.
-
 
 ::: tip Are you new to Sigma?
 If you're unfamiliar with what the Sigma Detection format is, or why it might be useful, visit the [About Sigma](/docs/guide/about.md) page to learn more about the project & available toolsets.
@@ -23,8 +22,9 @@ If you're unfamiliar with what the Sigma Detection format is, or why it might be
 Below shows a full example of an in-use Sigma rule.
 <br />This example detects an "Okta User Account Locked Out" event. [^source]
 
-[^source]: Rule sourced from SigmaHQ/sigma repository 8 Dec
-2022: <https://github.com/SigmaHQ/sigma/blob/master/rules/cloud/okta/okta_user_account_locked_out.yml>
+[^source]:
+    Rule sourced from SigmaHQ/sigma repository 8 Dec
+    2022: <https://github.com/SigmaHQ/sigma/blob/master/rules/cloud/okta/okta_user_account_locked_out.yml>
 
 ```yaml:line-numbers
 # ./rules/cloud/okta/okta_user_account_locked_out.yml
@@ -36,8 +36,8 @@ references:
     - https://developer.okta.com/docs/reference/api/system-log/
     - https://developer.okta.com/docs/reference/api/event-types/
 author: Austin Songer @austinsonger
-date: 2021/09/12
-modified: 2022/10/09
+date: 2021-09-12
+modified: 2022-10-09
 tags:
     - attack.impact
 logsource:
@@ -56,7 +56,7 @@ level: medium
 
 To help understand what the above code snippet accomplishes, this Sigma rule will be separated into three main components:
 
-- **[Detection](#detections)**<br />_What malicious behaviour the rule searching for._
+- **[Detection](#detection)**<br />_What malicious behaviour the rule searching for._
 - **[Logsource](#logsources)**<br />_What types of logs this detection should search over._
 - **[Metadata](#metadata)**<br />_Other information about the detection._
 
@@ -83,8 +83,7 @@ This specific detection above is searching for anywhere an Okta User's account h
 
 The Sigma detection format can be quite daunting and confusing for newcomers, as some Sigma rules can be complex in how they construct detections. It's important to understand the following guiding principles:
 
-
-#### Selections 
+#### Selections
 
 Each Sigma detection is categorised & split up into groups called "`selections`". Each "`selection`" contains the definition for the detection itself.
 
@@ -101,22 +100,25 @@ Sigma use "selection" groups to organise detections for readability & filtering,
 
 The other main consideration, is that Sigma completes **"AND"** and **"OR"** operations by using YAML Lists and Dictionaries.
 
-- The `list` syntax to represent an **"OR"** operation, and 
+- The `list` syntax to represent an **"OR"** operation, and
+
 ```yaml
 detection:
-    selection:
-        field_name:
-            - this  # or
-            - that
-    condition: selection
+  selection:
+    field_name:
+      - this # or
+      - that
+  condition: selection
 ```
+
 - The `dictionary`/`object` syntax to represent an **"AND"** operation.
+
 ```yaml
 detection:
-    selection:
-        field_name: this  # and
-        other_field_name: that
-    condition: selection
+  selection:
+    field_name: this # and
+    other_field_name: that
+  condition: selection
 ```
 
 #### Detection Methods
@@ -179,15 +181,15 @@ Keep in mind that while keyword-based searches are easy to write, most SIEMs wil
 
 ### by Field {#detection-and}
 
-Next, Sigma rules can also be used to complete field-value searches. 
+Next, Sigma rules can also be used to complete field-value searches.
 
-To do this, represent the fields as a YAML "object" with their respective names and values. 
+To do this, represent the fields as a YAML "object" with their respective names and values.
 
 ```yaml
 detection:
-    selection:
-        Username: 'Administrator'
-    condition: selection
+  selection:
+    Username: "Administrator"
+  condition: selection
 ```
 
 You can also see where **multiple** fields appear together, by adding more field-value pairs to the YAML object.
@@ -203,7 +205,7 @@ To search for where both of these occur, place both together within the `selecti
 ```yaml
 title: External Disk Drive Or USB Storage Device
 description: >
-    Detects external diskdrives or plugged in USB devices, 
+    Detects external diskdrives or plugged in USB devices,
     EventID 6416 on windows 10 or later
 logsource:
     product: windows
@@ -238,7 +240,7 @@ For example, you might want to search `Windows\Security` logs and detect when:
 - [`EventID: 4730`](https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4730) A Security Group was
   deleted
 
-You can represent this in Sigma by using a YAML list, where each field value is prepended by a newline, followed by a "`-`".  
+You can represent this in Sigma by using a YAML list, where each field value is prepended by a newline, followed by a "`-`".
 
 ```yaml
 title: Group Modification Logging
@@ -273,9 +275,9 @@ attempting to detect.
 
 ```yaml
 detection:
-    selection:
-        field: value
-    condition: selection 
+  selection:
+    field: value
+  condition: selection
 ```
 
 ::: info Conditions
@@ -288,8 +290,6 @@ condition: (selection_one or selection_two) and not filter
 If you want to learn more about combining different "selection groups",
 [you can check out the Conditions section of the documentation](/docs/basics/conditions.md).
 :::
-
-### 
 
 ## Logsources
 
@@ -305,7 +305,7 @@ It splits up each defined logsource into three distinct fields - `category`, `pr
 
 ```yaml
 author: Austin Songer @austinsonger
-date: 2021/09/12
+date: 2021-09-12
 logsource: // [!code focus:3]
     product: okta
     service: okta
@@ -336,7 +336,6 @@ detection:
 
 :::
 
-
 <a :href="withBase('/docs/basics/log-sources.html')">
     <LogsourceBox />
 </a>
@@ -345,7 +344,7 @@ detection:
 
 <Badge type="tip" text="Optional" class="relative -top-2" />
 
-Everything else that you can see around the [logsource](#logsources) and [detection](#detections) sections is what Sigma calls "Metadata", and can include fields such as `tags`, `level`, `references`, `description` and more.
+Everything else that you can see around the [logsource](#logsources) and [detection](#detection) sections is what Sigma calls "Metadata", and can include fields such as `tags`, `level`, `references`, `description` and more.
 
 ::: info Sigma Specification
 There is a [defined Sigma specification](https://github.com/SigmaHQ/sigma-specification/) that outlines what Sigma considers to be "standard" fields, but it's important to note that Sigma rules can contain any amount of Metadata fields you like.
@@ -406,13 +405,11 @@ Rule identifiers should only change for the following reasons:
 - Major changes in the rule. (E.g. a different rule logic.)
 - Derivation of a new rule from an existing or refinement of a rule in a way that both are kept active.
 - Merge of rules.
-:::
+  :::
 
-[//]: # (::: tip Correlations)
-
-[//]: # (Sigma IDs are heavily used in [Sigma Correlations]&#40;/docs/digging-deeper/correlations.md&#41;, so make sure you include one when making your Sigma rule.)
-
-[//]: # (:::)
+[//]: # "::: tip Correlations"
+[//]: # "Sigma IDs are heavily used in [Sigma Correlations](/docs/digging-deeper/correlations.md), so make sure you include one when making your Sigma rule."
+[//]: # ":::"
 
 ---
 
@@ -420,7 +417,7 @@ Rule identifiers should only change for the following reasons:
 
 The `status` field advertises the current state of the Sigma rules as in-development, in-testing or ready for use.
 
-> Values: `stable` | `test` | `experimental` | `deprecated` | `unsupported`  
+> Values: `stable` | `test` | `experimental` | `deprecated` | `unsupported`
 
 ```yaml
 status: stable
@@ -430,7 +427,7 @@ status: stable
 
 #### Description { #metadata-description }
 
-The `description` field gives some explanation of the reason why the rule is in existence, how to best use it, and when it will trigger.  
+The `description` field gives some explanation of the reason why the rule is in existence, how to best use it, and when it will trigger.
 
 ```yaml
 description: This rule detects Windows RDP administrative logon
@@ -438,13 +435,12 @@ description: This rule detects Windows RDP administrative logon
 
 ::: warning Writing Good Descriptions
 
-Descriptions are often used by other products and services to help susinctly explain what the rule is trying to achieve.  Try to avoid using:
+Descriptions are often used by other products and services to help susinctly explain what the rule is trying to achieve. Try to avoid using:
 
 - "Detects when ..." or "Detects if ..."
 - "This rule will ..."
 
 :::
-
 
 ---
 
@@ -456,13 +452,13 @@ The `license` field optionally specifies a SPDX IDs reference on how the Sigma r
 
 ```yaml
 license: MIT
-# OR 
+# OR
 license: GPL-2.0-or-later
 ```
 
-::: warning Publishing Sigma Rules 
+::: warning Publishing Sigma Rules
 
-When contributing rules to the community, some repositories will usually have a `LICENSE` file that outlines the license of the entire repository, and all the detection rules pertained inside of it. 
+When contributing rules to the community, some repositories will usually have a `LICENSE` file that outlines the license of the entire repository, and all the detection rules pertained inside of it.
 
 Remember to discuss the topic of any possible conflicting licenses with the repository owner before contributing any rules.
 
@@ -486,13 +482,13 @@ author: Sirens [sirens@sigma.hq]
 The `date` / `modified` field states the creation / last modified date of the rule.
 
 ```yaml
-date: 2023/01/01
-modified: 2023/01/02
+date: 2023-01-01
+modified: 2023-01-02
 ```
 
 :::info Date Format
 
-The `date` and `modified` fields should be standardised to use the `YYYY/MM/DD` or `YYYY-MM-DD` date format.
+The `date` and `modified` fields should be standardised to use the ISO 8601 date with separator format : YYYY-MM-DD.
 
 :::
 
@@ -517,7 +513,7 @@ the author.
 ```yaml
 references: https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-6416
 
-# OR 
+# OR
 
 references:
     - Plain Text (Eg. CVE-2025-22222)
@@ -540,28 +536,27 @@ availability standards. These include, but are not limited to:
 
 ```yaml
 tags:
-    # MITRE ATT&CK framework references
-    - attack.discovery
-    - attack.t1012
+  # MITRE ATT&CK framework references
+  - attack.discovery
+  - attack.t1012
 
-    # MITRE Cyber Analytics Repository (CAR)
-    - car.2016-04-005
-    - car-2016-04-005
+  # MITRE Cyber Analytics Repository (CAR)
+  - car.2016-04-005
+  - car-2016-04-005
 
-    # Traffic Light Protocol
-    - tlp.amber
-    - tlp.green
-        
-    # CVE
-    - cve.2022.27925 # OR
-    - cve-2022-27925 
+  # Traffic Light Protocol
+  - tlp.amber
+  - tlp.green
+
+  # CVE
+  - cve.2022-27925
 ```
 
 ::: tip Tags Naming Convention
 
 The Sigma team have defined a tag naming convention under the Sigma Specification repository. You can find more
 information about
-this [here on the `sigma-specification` repo](https://github.com/SigmaHQ/sigma-specification/blob/main/Tags_1_0_0.md).
+this [here on the `sigma-specification` repo](https://github.com/SigmaHQ/sigma-specification/blob/main/appendix/sigma-tags-appendix.md).
 
 :::
 
@@ -572,15 +567,15 @@ this [here on the `sigma-specification` repo](https://github.com/SigmaHQ/sigma-s
 The `falsepositives` field outlines a list of possible known false positives that may occur.
 
 ```yaml
-falsepositives: 
-    - This rule can sometimes create false-positives when a user forefully restarts their workstation  
+falsepositives:
+  - This rule can sometimes create false-positives when a user forefully restarts their workstation
 ```
 
-::: warning False Positives vs Filters
+::: tip False Positives vs Filters
 
-False-positives are not parsed by the Sigma convertors, and are simply there to help the detection-engineer or analyst to triage the alert as to when the rule might trigger in a non-malicious context. 
+False-positives are not parsed by the Sigma convertors, and are simply there to help the detection-engineer or analyst to triage the alert as to when the rule might trigger in a non-malicious context.
 
-[//]: # (False-positives are not defeats, and are simply there to help the analyst. To automatically filter out any values from your Sigma rule that are known not to be true-positives, you can see the [section on Defeats]&#40;/docs/digging-deeper/filters.md&#41;.)
+If you want to filter out certain events, you should use the `condition` field in combination with a `filter` condition in the `detection` section, or use the [newly published Sigma Filters feature](/docs/meta/filters) to help tune your alerts.
 
 :::
 
