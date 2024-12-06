@@ -36,8 +36,8 @@ references:
     - https://developer.okta.com/docs/reference/api/system-log/
     - https://developer.okta.com/docs/reference/api/event-types/
 author: Austin Songer @austinsonger
-date: 2021/09/12
-modified: 2022/10/09
+date: 2021-09-12
+modified: 2022-10-09
 tags:
     - attack.impact
 logsource:
@@ -305,7 +305,7 @@ It splits up each defined logsource into three distinct fields - `category`, `pr
 
 ```yaml
 author: Austin Songer @austinsonger
-date: 2021/09/12
+date: 2021-09-12
 logsource: // [!code focus:3]
     product: okta
     service: okta
@@ -482,13 +482,13 @@ author: Sirens [sirens@sigma.hq]
 The `date` / `modified` field states the creation / last modified date of the rule.
 
 ```yaml
-date: 2023/01/01
-modified: 2023/01/02
+date: 2023-01-01
+modified: 2023-01-02
 ```
 
 :::info Date Format
 
-The `date` and `modified` fields should be standardised to use the `YYYY/MM/DD` or `YYYY-MM-DD` date format.
+The `date` and `modified` fields should be standardised to use the ISO 8601 date with separator format : YYYY-MM-DD.
 
 :::
 
@@ -549,15 +549,14 @@ tags:
   - tlp.green
 
   # CVE
-  - cve.2022.27925 # OR
-  - cve-2022-27925
+  - cve.2022-27925
 ```
 
 ::: tip Tags Naming Convention
 
 The Sigma team have defined a tag naming convention under the Sigma Specification repository. You can find more
 information about
-this [here on the `sigma-specification` repo](https://github.com/SigmaHQ/sigma-specification/blob/main/Tags_specification.md).
+this [here on the `sigma-specification` repo](https://github.com/SigmaHQ/sigma-specification/blob/main/appendix/sigma-tags-appendix.md).
 
 :::
 

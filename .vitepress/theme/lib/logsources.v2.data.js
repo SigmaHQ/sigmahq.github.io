@@ -131,10 +131,10 @@ export default {
           tags: ["cron", "linux"],
         },
         {
-          title: "Linux - File Create",
-          yaml: "logsource:\n  category: file_create\n  product: linux\n",
-          logsource: { product: "linux", category: "file_create" },
-          tags: ["create", "file", "file_create", "linux"],
+          title: "Linux - File Event",
+          yaml: "logsource:\n product: linux\n category: file_event\n",
+          logsource: { product: "linux", category: "file_event" },
+          tags: ["event", "file", "file_event", "linux"],
         },
         {
           title: "Linux - Guacamole",

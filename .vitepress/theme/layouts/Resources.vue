@@ -224,7 +224,7 @@ let tools = ref([
             </a>
             <a
               target="_blank"
-              href="https://github.com/SigmaHQ/sigma-specification/tree/version_2"
+              href="https://github.com/SigmaHQ/sigma-specification"
             >
               <Box>
                 <template #icon><BeakerIcon /></template>

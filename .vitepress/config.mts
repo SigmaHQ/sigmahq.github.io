@@ -284,12 +284,12 @@ export default defineConfig({
           collapsed: true,
           items: [
             {
-              text: "Sigma Main Repo",
+              text: "Sigma Rules Main Repo",
               link: "https://github.com/SigmaHQ/sigma",
             },
             {
               text: "Sigma Rule Packages",
-              link: "https://github.com/SigmaHQ/sigma/blob/master/Releases.md",
+              link: "https://github.com/SigmaHQ/sigma/releases",
             },
             { text: "pySigma", link: "https://github.com/SigmaHQ/pySigma" },
             { text: "Sigma CLI", link: "https://github.com/SigmaHQ/sigma-cli" },
@@ -300,24 +300,32 @@ export default defineConfig({
           collapsed: true,
           items: [
             {
-              text: "Sigma",
-              link: "https://github.com/SigmaHQ/sigma-specification/blob/main/Sigma_specification.md",
+              text: "Sigma Rules",
+              link: "https://github.com/SigmaHQ/sigma-specification/blob/main/specification/sigma-rules-specification.md",
             },
             {
-              text: "Sigma Tags",
-              link: "https://github.com/SigmaHQ/sigma-specification/blob/main/Tags_specification.md",
+              text: "Sigma Correlations",
+              link: "https://github.com/SigmaHQ/sigma-specification/blob/main/specification/sigma-correlation-rules-specification.md",
             },
             {
-              text: "Logsources & Fields",
-              link: "https://github.com/SigmaHQ/sigma-specification/blob/main/Taxonomy_specification.md#log-sources",
+              text: "Sigma Filters",
+              link: "https://github.com/SigmaHQ/sigma-specification/blob/main/specification/sigma-filters-specification.md",
             },
             {
-              text: "Filename",
-              link: "https://github.com/SigmaHQ/sigma-specification/blob/main/sigmahq/Sigmahq_filename_rule.md",
+              text: "Sigma Modifiers Appendix",
+              link: "https://github.com/SigmaHQ/sigma-specification/blob/main/appendix/sigma-modifiers-appendix.md",
             },
             {
-              text: "Rule Conventions",
-              link: "https://github.com/SigmaHQ/sigma-specification/blob/main/sigmahq/sigmahq_conventions.md",
+              text: "Sigma Tags Appendix",
+              link: "https://github.com/SigmaHQ/sigma-specification/blob/main/appendix/sigma-tags-appendix.md",
+            },
+            {
+              text: "Sigma Taxonomy Appendix",
+              link: "https://github.com/SigmaHQ/sigma-specification/blob/main/appendix/sigma-taxonomy-appendix.md",
+            },
+            {
+              text: "SigmaHQ Conventions",
+              link: "https://github.com/SigmaHQ/sigma-specification/tree/main/sigmahq",
             },
           ],
         },
