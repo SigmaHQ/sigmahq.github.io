@@ -241,6 +241,7 @@ detection:
     user|exists: true
   condition: selection
 ```
+
 ```netwitness [NetWitness Output]
 user exists
 ```
@@ -258,6 +259,7 @@ detection:
     user|exists: false
   condition: selection
 ```
+
 ```netwitness [NetWitness Output]
 user !exists
 ```
