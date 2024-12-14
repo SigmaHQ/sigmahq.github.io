@@ -1,21 +1,20 @@
 ---
-title: 'Frequently Asked Question'
-subtitle: 'Guide'
+title: "Frequently Asked Question"
+subtitle: "Guide"
 ---
 
 <!--suppress ES6UnusedImports -->
 <script setup>
 import {withBase} from "vitepress";  
-import RulesBox from "/.vitepress/theme/components/Boxes/RulesBox.vue"; 
-import LogsourceBox from "/.vitepress/theme/components/Boxes/LogsourceBox.vue"; 
-import BackendBox from "/.vitepress/theme/components/Boxes/BackendBox.vue"; 
+import RulesBox from "/.vitepress/theme/components/Boxes/RulesBox.vue";
+import LogsourceBox from "/.vitepress/theme/components/Boxes/LogsourceBox.vue";
+import BackendBox from "/.vitepress/theme/components/Boxes/BackendBox.vue";
 
 </script>
 
 # {{ $frontmatter.title }}
 
 This is a simple Frequently Asked Question.
-
 
 ## Convertion
 
@@ -37,13 +36,12 @@ For `process_creation` can be use on Windows with internal Security EventID 4688
 Sigma is open, you can use the ECS taxonomy for your internal rules.  
 Just keep in mind, the day you change your detection technology, you'll have to rewrite all your rules.
 
-
 ## Correlation
 
 - How write a Rule X triggers at least Y times in B minutes for the same field Z and with different values for field A ?
 
 ```yaml
- correlation:
+correlation:
   type: value_count
   rules:
     - X
@@ -53,12 +51,12 @@ Just keep in mind, the day you change your detection technology, you'll have to 
   condition:
     field: A
     gte: Y
- ```
+```
 
 - How write Rule X triggers at least Y times in B minute for the same field Z ?
 
 ```yaml
- correlation:
+correlation:
   type: value_count
   rules:
     - X
@@ -67,12 +65,12 @@ Just keep in mind, the day you change your detection technology, you'll have to 
   timespan: Bm
   condition:
     gte: Y
- ```
+```
 
 - How write Rules X,Y triggers in the last B minute for the same field Z ?
 
 ```yaml
- correlation:
+correlation:
   type: temporal
   rules:
     - X
@@ -82,12 +80,12 @@ Just keep in mind, the day you change your detection technology, you'll have to 
   timespan: Bm
   condition:
     gte: Y
- ```
+```
 
 - How write Rules X then Y triggers in the last B minute for the same field Z ?
 
 ```yaml
- correlation:
+correlation:
   type: temporal_ordered
   rules:
     - X
@@ -97,4 +95,4 @@ Just keep in mind, the day you change your detection technology, you'll have to 
   timespan: Bm
   condition:
     gte: Y
- ```
+```
