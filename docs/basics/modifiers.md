@@ -242,7 +242,7 @@ detection:
   condition: selection
 ```
 
-```netwitness [NetWitness Output]
+```[NetWitness Output]
 user exists
 ```
 
@@ -260,7 +260,7 @@ detection:
   condition: selection
 ```
 
-```netwitness [NetWitness Output]
+```[NetWitness Output]
 user !exists
 ```
 
