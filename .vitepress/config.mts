@@ -217,7 +217,7 @@ export default defineConfig({
             // { text: 'New in v2', link: '/docs/guide/new-in-v2' },
             { text: "About Sigma", link: "/docs/guide/about" },
             { text: "Getting Started", link: "/docs/guide/getting-started" },
-            { text: "Frequently Asked Question", link: "/docs/guide/faq" },
+            { text: "FAQs", link: "/docs/guide/faq" },
             // { text: 'CLI Usage', link: '/docs/guide/usage' },
           ],
         },
