@@ -23,7 +23,7 @@ title: Filter Out Domain Controllers
 description: Filter out events from Domain Controllers
 logsource:
     product: windows
-filter: // [!code ++] // [!code focus:7]
+filter: // [!code highlight]
   rules:
     - files_added_to_an_archive_using_rar_exe
     - login_on_jump_host

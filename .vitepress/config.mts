@@ -346,20 +346,7 @@ export default defineConfig({
       { icon: "github", link: "https://github.com/SigmaHQ/sigma" },
     ],
     search: {
-      provider: "local",
-      options: {
-        _render(src, env, md) {
-          let html = md.render(src, env);
-
-          const title_regex = /{{\s\$frontmatter\.title\s}}/;
-          html = html.replace(title_regex, env.frontmatter?.title || "");
-
-          if (env.frontmatter?.search == false) {
-            return "";
-          }
-          return html;
-        },
-      },
+      provider: "algolia",
     },
   },
   markdown: {

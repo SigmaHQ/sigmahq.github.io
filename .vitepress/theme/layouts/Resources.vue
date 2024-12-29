@@ -11,7 +11,8 @@ import BlogPostLink from "../components/Resources/BlogPostLink.vue";
 const { Layout } = DefaultTheme;
 const { frontmatter } = useData();
 
-import { data } from "/.vitepress/theme/lib/blog.data";
+// import { data } from "/.vitepress/theme/lib/blog.data";
+const data = []; // TODO Fix me
 import {
   BeakerIcon,
   DocumentCheckIcon,

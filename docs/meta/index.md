@@ -52,7 +52,7 @@ detection: // [!code --]
 
 ```yaml
 status: test
-correlation: // [!code ++] // [!code focus:10]
+correlation: // [!code focus:10]
     type: event_count
     rules:
         - failed_logon
@@ -69,7 +69,7 @@ And [Sigma Filters](/docs/meta/filters) are designated by the special `filter` k
 
 ```yaml
 status: test
-filter: // [!code ++] // [!code focus:8]
+filter: // [!code focus:8]
     rules:
         - failed_logon
     selection:

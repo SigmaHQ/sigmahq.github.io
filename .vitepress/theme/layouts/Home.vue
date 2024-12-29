@@ -3,7 +3,7 @@ import { useData, withBase } from "vitepress";
 import { ArrowDownCircleIcon } from "@heroicons/vue/24/outline/index";
 import { ArrowTopRightOnSquareIcon } from "@heroicons/vue/20/solid/index";
 import {
-  ArrowSmallRightIcon,
+  ArrowRightIcon,
   BeakerIcon,
   BookOpenIcon,
   GiftIcon,
@@ -72,18 +72,18 @@ const { frontmatter } = useData();
                 class="group"
                 href="https://blog.sigmahq.io/introducing-sigma-rule-packages-releases-76043ce42e81"
               >
-                <div
+                <span
                   class="inline-block items-center text-nowrap rounded-full bg-sigma-500/[.15] px-3 py-1 text-[12px] font-medium text-[--vp-c-brand-3] text-sigma-600 transition-all group-hover:underline dark:bg-sigma-700/20 dark:text-sigma-400"
                 >
-                  <div class="flex items-center">
+                  <span class="flex items-center">
                     <GiftIcon class="mr-2 h-3" />
                     Introducing new SigmaHQ Rule Packs
 
-                    <ArrowSmallRightIcon
+                    <ArrowRightIcon
                       class="h-3 pl-1.5 transition-all group-hover:ml-1"
                     />
-                  </div>
-                </div>
+                  </span>
+                </span>
               </a>
             </p>
             <h2>
@@ -95,9 +95,10 @@ const { frontmatter } = useData();
             </h2>
             <h2 id="" class="text-4xl font-semibold md:text-5xl xl:text-[40pt]">
               <slot name="home-hero-text">
-                <span class="hero-title"
-                  >The shareable<br />detection format for </span
-                ><br class="hidden lg:block" /><span
+                <span class="hero-title">
+                  The shareable<br />detection format for </span
+                ><br class="hidden lg:block" />
+                <span
                   class="fill hero-title-highlighted bg-[var(--vp-c-brand-2)] bg-clip-text"
                   >security professionals</span
                 >.
@@ -149,10 +150,10 @@ const { frontmatter } = useData();
               allows security teams to detect relevant log events in a simple
               and shareable way.
             </p>
-            <a href="/docs/guide/about" class="more text-sm text-sigma-500"
+            <a class="more text-sm text-sigma-500" href="/docs/guide/about"
               >Learn more about Sigma
-              <ChevronRightIcon class="inline-block h-3 w-3"
-            /></a>
+              <ChevronRightIcon class="inline-block h-3 w-3" />
+            </a>
           </div>
           <div class="md:basis-3/5">
             <img
@@ -182,9 +183,8 @@ const { frontmatter } = useData();
               </template>
               <template #heading>Documentation</template>
               <template #text
-                >Learn more about how to use the Sigma detection
-                format.</template
-              >
+                >Learn more about how to use the Sigma detection format.
+              </template>
             </Box>
           </a>
           <a :href="withBase('/resources/')">
@@ -240,9 +240,8 @@ const { frontmatter } = useData();
                 />
               </template>
               <template #text
-                >See articles written by the Core SigmaHQ development
-                team.</template
-              >
+                >See articles written by the Core SigmaHQ development team.
+              </template>
             </Box>
           </a>
           <a
@@ -261,8 +260,8 @@ const { frontmatter } = useData();
                 />
               </template>
               <template #text
-                >Shape the future of the Sigma specification.</template
-              >
+                >Shape the future of the Sigma specification.
+              </template>
             </Box>
           </a>
         </div>

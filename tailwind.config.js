@@ -5,8 +5,9 @@ module.exports = {
     "./.vitepress/**/*.js",
     "./.vitepress/**/*.vue",
     "./.vitepress/**/*.ts",
-    "./docs/*.md",
-    "./*.md",
+    "./docs/**/*.md",
+    "./resources/**/*.md",
+    "./index.md",
     "./index.html",
   ],
   theme: {

@@ -49,7 +49,7 @@ Below is an example of a correlation rule that detects multiple failed logons fo
 ```yaml
 title: Multiple failed logons for a single user (possible brute force attack)
 status: test
-correlation: // [!code ++] // [!code focus:10]
+correlation: // [!code focus:10]
     type: event_count
     rules:
         - failed_logon
