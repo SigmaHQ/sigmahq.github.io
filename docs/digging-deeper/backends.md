@@ -147,7 +147,7 @@ file an issue on the relevant Sigma Plugin's project page.
 <script setup lang="ts">
 import {reactive, onMounted, computed, ref, watch, watchEffect} from "vue";
 import {titleCase} from "/.vitepress/theme/util/string";
-import { data } from '/.vitepress/theme/lib/backends.v2.data';
+import { data } from '/.vitepress/theme/lib/backends.data';
 import ListBox from "../../.vitepress/theme/components/ListBox.vue";
 const get_title = (plugin) => titleCase(plugin.id);
 const pluginType = ref({id: 'backend', name: 'Backends'});

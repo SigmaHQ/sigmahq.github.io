@@ -61,20 +61,16 @@ Below is a list of standard Sigma logsources. These are the logsources used with
 <script setup>
 import PipelinesBox from "/.vitepress/theme/components/Boxes/PipelinesBox.vue";
 import {reactive, onMounted} from "vue";
-import { data } from '/.vitepress/theme/lib/logsources.v2.data';
+import { data } from '/.vitepress/theme/lib/logsources.data';
 import {withBase} from "vitepress";
 
 </script>
 
-<div v-for="logsource in data.logsources ?? []" class="">
+<div v-for="logsource in data[0] ?? []" class="">
 
-<h4 id="" class="truncate">{{logsource.title}}</h4>
+<h4 id="" class="truncate">{{logsource.title}} <Badge type="info" v-for="tag in logsource.tags">{{tag}}</Badge></h4>
 
-[//]: # '<span class="truncate overflow-hidden">'
 
-<Badge type="info" v-for="tag in logsource.tags">{{tag}}</Badge>
-
-[//]: # "</span>"
 
 ```yaml-vue
 {{ logsource.yaml.trim() }}
