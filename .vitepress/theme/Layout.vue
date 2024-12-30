@@ -1,15 +1,10 @@
 <script setup>
-import DefaultTheme from "vitepress/theme";
 import { useData } from "vitepress/dist/client/theme-default/composables/data";
 import Home from "./layouts/Home.vue";
 import Docsv2 from "./layouts/Docsv2.vue";
-import Docsv1 from "./layouts/Docsv1.vue";
-import Blog from "./layouts/Blog.vue";
-import Article from "./layouts/Article.vue";
 import Resources from "./layouts/Resources.vue";
 
-const { Layout } = DefaultTheme;
-const { frontmatter, page } = useData();
+const { frontmatter } = useData();
 </script>
 
 <template>

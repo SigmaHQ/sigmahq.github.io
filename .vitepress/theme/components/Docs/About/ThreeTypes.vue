@@ -72,7 +72,7 @@ import {
   FolderIcon as FolderIconOutline,
 } from "@heroicons/vue/24/outline";
 
-const props = defineProps({
+defineProps({
   // format / tools / rules
   active: {
     required: false,

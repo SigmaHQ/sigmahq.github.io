@@ -331,7 +331,7 @@ sigma convert \
 ```
 
 ```splunk
-index="puppy_prod" source="PuppyApp/App" puppy.status="sad" 
+index="puppy_prod" source="PuppyApp/App" puppy.status="sad"
 | table puppy.name, puppy.breed, puppy.status
 ```
 

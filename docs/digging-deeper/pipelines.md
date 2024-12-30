@@ -15,6 +15,7 @@ A processing pipeline defines an ordered sequence of transformations that are ap
 - Adding conditions or modifying rule structure for specific environments
 
 Pipelines can be defined in two ways:
+
 - **YAML files** - Used by end-users for configuration
 - **Python code** - Used by backend developers
 
@@ -514,7 +515,6 @@ A variable that is set within the processing pipeline and can serve for differen
 
 - `key`: The key to modified
 - `val`: The values to assign to the key
-
 
 ::: code-group
 

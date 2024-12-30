@@ -24,7 +24,7 @@
 <script setup>
 import { truncate } from "/.vitepress/theme/util/string";
 
-const props = defineProps(["href", "title", "description", "img_src"]);
+defineProps(["href", "title", "description", "img_src"]);
 </script>
 
 <style scoped></style>

@@ -1,11 +1,7 @@
 <script setup>
-import { useData } from "vitepress";
-
 import VPSkipLink from "vitepress/dist/client/theme-default/components/VPSkipLink.vue";
 import VPNav from "vitepress/dist/client/theme-default/components/VPNav.vue";
 import VPFooter from "vitepress/dist/client/theme-default/components/VPFooter.vue";
-
-const { frontmatter } = useData();
 </script>
 
 <template>
