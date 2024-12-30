@@ -4,5 +4,10 @@
     "node": true
   },
   "extends": ["plugin:vue/essential", "eslint:recommended"],
-  "rules": {}
+  "rules": {},
+  "files": [
+    "**/*.ts",
+    "**/*.js",
+    "**/*.vue"
+  ]
 }

@@ -28,7 +28,7 @@
     "docs:dev": "vitepress dev .",
     "docs:build": "vitepress build .",
     "docs:serve": "vitepress serve .",
-    "lint": "prettier --check . && markdownlint-cli2 --config .markdownlint.json '**/*.md' '#node_modules' && eslint --ext .ts,.js,.vue .",
-    "lint:fix": "prettier --write . && markdownlint-cli2 --config .markdownlint.json '**/*.md' '#node_modules' --fix && eslint --ext .ts,.js,.vue . --fix"
+    "lint": "prettier --check . && markdownlint-cli2 --config .markdownlint.json '**/*.md' '#node_modules' && eslint .",
+    "lint:fix": "prettier --write . && markdownlint-cli2 --config .markdownlint.json '**/*.md' '#node_modules' --fix && eslint . --fix"
   }
 }

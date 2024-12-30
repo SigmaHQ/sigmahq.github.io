@@ -70,8 +70,6 @@ import {withBase} from "vitepress";
 
 <h4 id="" class="truncate">{{logsource.title}} <Badge type="info" v-for="tag in logsource.tags">{{tag}}</Badge></h4>
 
-
-
 ```yaml-vue
 {{ logsource.yaml.trim() }}
 ```

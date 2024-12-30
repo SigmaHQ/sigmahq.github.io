@@ -38,7 +38,7 @@ pip3 install sigma-cli
 Be sure that you’ve added Python's binary location (usually `~/.local/bin`) to your PATH, so you can run `sigma-cli` straight from your CLI. [Visit Python's website for Windows and more info.](https://packaging.python.org/en/latest/tutorials/installing-packages/#installing-to-the-user-site)
 :::
 
-### From Source
+### or from Source
 
 If you don't want to use `pip`, or if you instead want to download and install `sigma-cli` from source, first install [Poetry](https://python-poetry.org/docs/basic-usage/) on your system, then clone and install the required dependencies using Poetry.
 
@@ -49,9 +49,7 @@ poetry install && poetry shell
 sigma --version
 ```
 
-## Install your SIEM plugin
-
-<div class="-mt-3"><Badge  type="tip" text="New" /></div>
+## Install your SIEM plugin <div class="inline-block -mt-3"><Badge  type="tip" text="New" /></div>
 
 Once you've [installed `sigma-cli`](#installation), you will need to install your backend plugin through `sigma-cli`.
 
@@ -59,6 +57,9 @@ Newly introduced, the `sigma-cli` tool now offers a selection of **installable [
 
 ```bash
 sigma plugin list
+```
+
+```text
 +----------------------+----------+---------+--------------------------------------------------------------+-------------+
 | Identifier           | Type     | State   | Description                                                  | Compatible? |
 +----------------------+----------+---------+--------------------------------------------------------------+-------------+
@@ -316,9 +317,7 @@ level: high
 ::: tip Explainer
 
 In this configuration example, any rules that have a match on the following:<br />
-`product: puppy` and `service: app`
-
-Sigma will apply `index='puppy_prod' source='PuppyApp/App'` to the resultant SIEM query output, and map each field across, for example `status` to `puppy.status`, `dog_name` to `puppy.name` etc.
+`product: puppy` and `service: app`, Sigma will apply `index='puppy_prod' source='PuppyApp/App'` to the resultant SIEM query output, and map each field across, for example `status` to `puppy.status`, `dog_name` to `puppy.name` etc.
 
 :::
 
@@ -332,8 +331,8 @@ sigma convert \
 ```
 
 ```splunk
-index="puppy_prod" source="PuppyApp/App" Status="sad"
-| table dog_name,dog_breed,Status
+index="puppy_prod" source="PuppyApp/App" puppy.status="sad" 
+| table puppy.name, puppy.breed, puppy.status
 ```
 
 ::: info Learn more about Logsources & Field Mapping

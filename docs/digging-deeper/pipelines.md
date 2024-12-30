@@ -1,30 +1,30 @@
 ---
-title: "Pipelines"
+title: "Processing Pipelines"
 ---
-
-<script setup>
-import DraftWarning from '../../.vitepress/theme/components/DraftWarning.vue';
-</script>
-
-<DraftWarning class="block! w-full mb-6" />
 
 # {{ $frontmatter.title }}
 
-Pipelines (or "processing pipelines") provide a more nuanced way to configure and fine-tune how Sigma rules get converted into their SIEM specific format. Pipelines are often used to ensure that the fields used within Sigma [are mapped correctly](#field-name-mapping) to the fields used in each SIEM, or to ensure that [the correct logsource](#change-logsource) is being inserted / updated.
+Processing pipelines provide granular control over how Sigma rules are converted into SIEM-specific formats. They enable field mapping, log source transformations, and other customizations needed for accurate rule conversion.
 
-## Basics
+## Overview
 
-A processing pipeline defines a sequence of transformations that are applied to a Sigma rule before it is converted into the target query language. These transformations can be [field mappings](#field-name-mapping), [adding suffixes to field names](#field-name-suffix), or any of the others listed below.
+A processing pipeline defines an ordered sequence of transformations that are applied to a Sigma rule during conversion. Common use cases include:
 
-Processing pipelines are written as **YAML files** – usually used by end-users, or as **Python code** – usually used by developers of Sigma backends. For this documentation we'll be solely focusing on YAML files.
+- Mapping Sigma field names to SIEM-specific field names
+- Transforming generic log sources into platform-specific ones
+- Adding conditions or modifying rule structure for specific environments
 
-Each Sigma backend also usually provide pre-defined pipelines Sigma CLI makes available during conversion – such as `splunk_windows`, `splunk_cim` and `splunk_sysmon_acceleration` pipelines for the [pySigma Splunk Backend](https://github.com/SigmaHQ/pySigma-backend-splunk).
+Pipelines can be defined in two ways:
+- **YAML files** - Used by end-users for configuration
+- **Python code** - Used by backend developers
 
-## Writing Pipelines
+This documentation focuses on YAML-based pipeline configuration.
 
-Similar to creating a Sigma rule, constructing processing pipelines is done by creating a `.yml` file, usually in a folder called `config/` or `pipelines/`, adjacent to the `rules/` folder.
+## Creating Pipelines
 
-There often exists a lot of different standards on how to name the Event ID / Event Code field when dealing with Windows Event Log (`event_id`, `event_code`, `EventId`, `EventCode`, `evtid`, `code` etc), a good starting point would be to ensure is to ensure that all Sigma `EventID` fields are correctly mapped.
+Pipelines are defined in YAML files, typically stored in a `config/` or `pipelines/` directory alongside your rules.
+
+Here's an example pipeline that standardizes Windows Event ID field names:
 
 ```bash
 # Create the pipelines folder
@@ -129,7 +129,47 @@ Pipelines are executed from the lowest priority to the highest.
 
 :::
 
+## Pipeline Variables and State
+
+Pipelines can define variables that are used during processing via the `vars` section:
+
 ## Placeholders
+
+Additionally, pipelines maintain state that can be accessed and modified during processing through the set_state transformation.
+
+Replace placeholders with predefined values:
+
+```yaml
+vars:
+  admin_users:
+    - "Administrator"
+    - "Admin"
+transformations:
+  - type: value_placeholders
+    include:
+      - "admin_users"
+```
+
+Query Expression Placeholders
+
+Insert query expressions with placeholder replacement:
+
+```yaml
+transformations:
+  - type: query_expression_placeholders
+    include:
+      - "admin_users"
+    expression: "[| inputlookup {id} | rename user as {field}]"
+```
+
+Wildcard Placeholders
+
+Replace undefined placeholders with wildcards:
+
+```yaml
+transformations:
+  - type: wildcard_placeholders
+```
 
 ## Conditions
 
@@ -474,7 +514,9 @@ A variable that is set within the processing pipeline and can serve for differen
 
 - `key`: The key to modified
 - `val`: The values to assign to the key
-  ::: code-group
+
+
+::: code-group
 
 ```yaml [/pipelines/transformation_demo.yml]{5-7,9-14}
 name: transformation_demo
@@ -581,3 +623,40 @@ transformations:
 ```
 
 :::
+
+## Finalizers
+
+Finalizers process the final query output after all transformations are complete. Common finalizers include:
+
+Concatenate Queries
+Join multiple queries with a separator:
+
+```yaml
+finalizers:
+  - type: concat
+    separator: " OR "
+    prefix: "("
+    suffix: ")"
+```
+
+JSON Output
+Convert queries to JSON:
+
+```yaml
+finalizers:
+  - type: json
+    indent: 2
+```
+
+Template Output
+Apply a Jinja2 template:
+
+```yaml
+finalizers:
+  - type: template
+    template: |
+      {
+        "query": {{ query | tojson }},
+        "rule": {{ rule.title | tojson }}
+      }
+```
