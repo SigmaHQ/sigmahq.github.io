@@ -135,7 +135,7 @@ The `base64offset` modifier is usually preferred over the `base64` modifier, bec
 ```yaml [/rules/needle_in_end_of_haystack.yaml]
 detection:
   selection:
-    fieldname|case: "CaseSensitiveValue"
+    fieldname|cased: "CaseSensitiveValue"
   condition: selection
 ```
 
