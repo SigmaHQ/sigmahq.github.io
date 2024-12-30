@@ -17,7 +17,7 @@ Code
   line-height: 12pt;
 }
 
-.VPSidebarItem .VPLink[target="_blank"] > * {
+.VPSidebarItem .VPLink[target="_blank"]>* {
   display: inline-block;
 }
 
@@ -43,9 +43,17 @@ Layout
 }
 
 @media (min-width: 960px) {
-  /*.VPNavBarTitle.has-sidebar .title {*/
-  /*    border-bottom-color: transparent !important;*/
-  /*}*/
+  .VPNavBarTitle.has-sidebar .title {
+    border-bottom-color: transparent !important;
+  }
+
+  html.dark .VPNavBar:not(.home.top) .content-body {
+    box-shadow: 0 20px 20px hsla(233, 22%, 10%, 0.6);
+  }
+
+  .divider-line {
+    display: none;
+  }
 }
 
 /** Between 960 and 1040 set .VPNav to fixed */
@@ -99,14 +107,14 @@ General
   margin-left: -1.5rem;
 }
 
-.dark .vp-doc > div > ul li b,
-.dark .vp-doc > div > ul li strong,
-.dark .vp-doc > div > nav > ul li strong {
+.dark .vp-doc>div>ul li b,
+.dark .vp-doc>div>ul li strong,
+.dark .vp-doc>div>nav>ul li strong {
   color: #f2f2f5;
 }
 
-.dark .vp-doc > div > ul li:before,
-.dark .vp-doc > div > nav > ul li:before {
+.dark .vp-doc>div>ul li:before,
+.dark .vp-doc>div>nav>ul li:before {
   color: #43434d;
 }
 
@@ -128,9 +136,9 @@ General
   border-radius: 6px;
 }
 
-.dark div:not([class]) > p,
-.dark .vp-doc > div > ul,
-.dark .vp-doc > div > ol {
+.dark div:not([class])>p,
+.dark .vp-doc>div>ul,
+.dark .vp-doc>div>ol {
   color: var(--vp-c-text-2);
 }
 
@@ -217,6 +225,7 @@ html:not(.dark) .dark-mode-only {
   .DocSearch-Button[type="button"] {
     background-color: var(--vp-c-bg-alt);
   }
+
   #local-search {
     padding-right: 16px;
   }
