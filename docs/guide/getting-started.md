@@ -22,7 +22,7 @@ The Sigma ecosystem offers several tools for your use. This documentation will m
 
 ### Requirements
 
-To use `sigma-cli` (the Sigma Rule Converter) & the underlying library, you must have Python >= `3.8` installed.
+To use `sigma-cli` (the Sigma Rule Converter) & the underlying library, you must have Python >= `3.9` installed.
 
 ---
 
