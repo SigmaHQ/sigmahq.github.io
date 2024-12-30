@@ -28,7 +28,7 @@ import { ref } from "vue";
 
 let checked = ref(false);
 
-const props = defineProps({
+defineProps({
   number: Number,
   heading: String,
 });

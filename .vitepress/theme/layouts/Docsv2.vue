@@ -1,13 +1,11 @@
 <script setup lang="ts">
 import DefaultTheme from "vitepress/theme";
-import { useData } from "vitepress/dist/client/theme-default/composables/data";
 import { BookOpenIcon, RectangleGroupIcon } from "@heroicons/vue/20/solid";
-import { useRoute, useRouter, withBase } from "vitepress";
+import { useRoute, withBase } from "vitepress";
 
 const { Layout } = DefaultTheme;
-const { frontmatter } = useData();
 
-function active_link(link: string) {
+function active_link(link) {
   return useRoute().data.relativePath.includes(link);
 }
 </script>

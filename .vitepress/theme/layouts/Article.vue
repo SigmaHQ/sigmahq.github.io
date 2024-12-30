@@ -1,12 +1,10 @@
 <script setup>
-import { Content, useData } from "vitepress";
+import { Content } from "vitepress";
 
 import VPSkipLink from "vitepress/dist/client/theme-default/components/VPSkipLink.vue";
 import VPNav from "vitepress/dist/client/theme-default/components/VPNav.vue";
 import VPFooter from "vitepress/dist/client/theme-default/components/VPFooter.vue";
 import { ChevronLeftIcon } from "@heroicons/vue/24/solid";
-
-const { frontmatter } = useData();
 </script>
 
 <template>

@@ -1,15 +1,10 @@
 <script setup>
-import DefaultTheme from "vitepress/theme";
-import { useData } from "vitepress/dist/client/theme-default/composables/data";
 import {
   ArrowTopRightOnSquareIcon,
   ChevronRightIcon,
 } from "@heroicons/vue/20/solid";
 import Docsv2 from "./Docsv2.vue";
 import BlogPostLink from "../components/Resources/BlogPostLink.vue";
-
-const { Layout } = DefaultTheme;
-const { frontmatter } = useData();
 
 import { data } from "/.vitepress/theme/lib/blog.data";
 import {
@@ -87,14 +82,15 @@ let tools = ref([
           <div class="mt-5 grid gap-4">
             <a
               v-for="repo in repos"
-              target="_blank"
+              :key="repo.title"
               :href="repo.link"
               class="box group relative z-10 flex h-full w-full flex-col items-center gap-4 overflow-hidden rounded-xl bg-[#E3F2FA]/40 p-6 px-6 py-6 !text-inherit text-white outline outline-1 outline-[#C6D2ED]/40 !transition-all hover:bg-[#DEF5FC] hover:!no-underline hover:outline-2 hover:outline-[#AAD0EC] dark:bg-[#252C3B]/25 dark:outline-[#383C5E]/50 dark:hover:bg-[#37455E]/40 dark:hover:outline-[var(--vp-c-brand-1)] md:flex-row md:px-8 md:py-7"
+              target="_blank"
             >
               <div class="md:order-2">
                 <img
-                  :src="repo.og_image"
                   :alt="repo.og_image_alt"
+                  :src="repo.og_image"
                   class="w-full rounded shadow-xl md:w-60 lg:w-80"
                 />
               </div>
@@ -102,13 +98,14 @@ let tools = ref([
                 <h3>{{ repo.title }}</h3>
                 <div class="!mb-4 items-baseline gap-2 md:flex">
                   <p class="inline text-slate-500">{{ repo.description }}</p>
-                  <Badge type="tip" :text="repo.subtitle" class="inline" />
+                  <Badge :text="repo.subtitle" class="inline" type="tip" />
                 </div>
 
                 <button
                   class="rounded-lg bg-sky-400 p-2 px-4 text-sm font-semibold text-white transition-all group-hover:bg-sky-500 dark:bg-sky-500 dark:shadow group-hover:dark:bg-sky-600"
                 >
-                  Explore <ChevronRightIcon class="inline-block h-5 w-5" />
+                  Explore
+                  <ChevronRightIcon class="inline-block h-5 w-5" />
                 </button>
               </div>
             </a>
@@ -127,14 +124,15 @@ let tools = ref([
             <div class="grid gap-4">
               <a
                 v-for="tool in tools"
-                target="_blank"
+                :key="tool.title"
                 :href="tool.link"
                 class="box group relative z-10 flex h-full w-full flex-col items-center gap-4 overflow-hidden rounded-xl bg-[#E3F2FA]/40 p-6 px-6 py-6 !text-inherit text-white outline outline-1 outline-[#C6D2ED]/40 !transition-all hover:bg-[#DEF5FC] hover:!no-underline hover:outline-2 hover:outline-[#AAD0EC] dark:bg-[#252C3B]/25 dark:outline-[#383C5E]/50 dark:hover:bg-[#37455E]/40 dark:hover:outline-[var(--vp-c-brand-1)] md:flex-row md:px-8 md:py-7"
+                target="_blank"
               >
                 <div class="md:order-2">
                   <img
-                    :src="tool.og_image"
                     :alt="tool.og_image_alt"
+                    :src="tool.og_image"
                     class="w-full rounded shadow-xl md:w-60 lg:w-80"
                   />
                 </div>
@@ -142,13 +140,14 @@ let tools = ref([
                   <h3>{{ tool.title }}</h3>
                   <div class="!mb-4 items-baseline gap-2 md:flex">
                     <p class="inline text-slate-500">{{ tool.description }}</p>
-                    <Badge type="tip" :text="tool.subtitle" class="inline" />
+                    <Badge :text="tool.subtitle" class="inline" type="tip" />
                   </div>
 
                   <button
                     class="rounded-lg bg-sky-400 p-2 px-4 text-sm font-semibold text-white transition-all group-hover:bg-sky-500 dark:bg-sky-500 dark:shadow group-hover:dark:bg-sky-600"
                   >
-                    Learn More <ChevronRightIcon class="inline-block h-5 w-5" />
+                    Learn More
+                    <ChevronRightIcon class="inline-block h-5 w-5" />
                   </button>
                 </div>
               </a>
@@ -167,13 +166,14 @@ let tools = ref([
           <div class="mt-5 grid gap-4 md:grid-cols-2">
             <BlogPostLink
               v-for="post in data.posts"
-              :href="post.requestUrl"
-              :img_src="post.ogImage[0]?.url"
-              :title="post.ogTitle"
+              :key="post.ogTitle"
               :description="
                 post?.ogDescription ||
                 'Check out this exciting new Sigma Blog Post...'
               "
+              :href="post.requestUrl"
+              :img_src="post.ogImage[0]?.url"
+              :title="post.ogTitle"
             ></BlogPostLink>
           </div>
         </section>
@@ -190,26 +190,31 @@ let tools = ref([
             </p>
           </div>
           <div class="grid gap-4 md:grid-cols-3">
-            <a target="_blank" href="https://github.com/SigmaHQ/sigma/">
+            <a href="https://github.com/SigmaHQ/sigma/" target="_blank">
               <Box>
-                <template #icon><RectangleStackIcon /></template>
+                <template #icon>
+                  <RectangleStackIcon />
+                </template>
                 <template #heading
                   >Rule Repository
                   <ArrowTopRightOnSquareIcon
                     class="ml-1 inline h-[14px] w-[14px] text-slate-400 dark:text-white/30"
-                /></template>
+                  />
+                </template>
                 <template #text
                   >Explore the thousands of existing Sigma detections in
-                  SigmaHQ/sigma.</template
-                >
+                  SigmaHQ/sigma.
+                </template>
               </Box>
             </a>
             <a
-              target="_blank"
               href="https://github.com/SigmaHQ/sigma-specification"
+              target="_blank"
             >
               <Box>
-                <template #icon><DocumentCheckIcon /></template>
+                <template #icon>
+                  <DocumentCheckIcon />
+                </template>
                 <template #heading
                   >Specification
                   <ArrowTopRightOnSquareIcon
@@ -217,26 +222,28 @@ let tools = ref([
                   />
                 </template>
                 <template #text
-                  >Learn more about how to use the Sigma detection
-                  format.</template
-                >
+                  >Learn more about how to use the Sigma detection format.
+                </template>
               </Box>
             </a>
             <a
-              target="_blank"
               href="https://github.com/SigmaHQ/sigma-specification"
+              target="_blank"
             >
               <Box>
-                <template #icon><BeakerIcon /></template>
+                <template #icon>
+                  <BeakerIcon />
+                </template>
                 <template #heading>
-                  Specification (v2) <Badge type="tip" text="In Dev" />
+                  Specification (v2)
+                  <Badge text="In Dev" type="tip" />
                   <ArrowTopRightOnSquareIcon
                     class="ml-1 inline h-[14px] w-[14px] text-slate-400 dark:text-white/30"
                   />
                 </template>
                 <template #text
-                  >Shape the future of the Sigma specification.</template
-                >
+                  >Shape the future of the Sigma specification.
+                </template>
               </Box>
             </a>
           </div>

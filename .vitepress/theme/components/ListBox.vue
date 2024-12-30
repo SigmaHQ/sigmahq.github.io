@@ -59,7 +59,7 @@
 </template>
 
 <script setup>
-import { reactive, ref } from "vue";
+import { reactive } from "vue";
 import {
   Listbox,
   ListboxButton,
@@ -73,10 +73,14 @@ const plugins = reactive([
   { id: "pipeline", name: "Pipelines" },
 ]);
 
-const props = defineProps({
+defineProps({
   modelValue: {
     type: Object,
-    default: { name: "Backends" },
+    default() {
+      return {
+        name: "Backends",
+      };
+    },
   },
 });
 const emit = defineEmits(["update:modelValue"]);

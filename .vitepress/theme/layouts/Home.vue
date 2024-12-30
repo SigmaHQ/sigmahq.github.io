@@ -1,5 +1,5 @@
 <script setup>
-import { useData, withBase } from "vitepress";
+import { withBase } from "vitepress";
 import { ArrowDownCircleIcon } from "@heroicons/vue/24/outline/index";
 import { ArrowTopRightOnSquareIcon } from "@heroicons/vue/20/solid/index";
 import {
@@ -19,8 +19,6 @@ import VPFooter from "vitepress/dist/client/theme-default/components/VPFooter.vu
 import Box from "../components/Boxes/Box.vue";
 import CodeBox from "../components/Home/CodeBox.vue";
 import RulesBox from "../components/Boxes/RulesBox.vue";
-
-const { frontmatter } = useData();
 </script>
 
 <template>

@@ -4,10 +4,8 @@ import DraftWarning from "../components/DraftWarning.vue";
 import WideSigmav2Warning from "../components/WideSigmav2Warning.vue";
 import OutdatedWarning from "../components/OutdatedWarning.vue";
 import WideOutdatedWarning from "../components/WideOutdatedWarning.vue";
-import { useData } from "vitepress/dist/client/theme-default/composables/data";
 
 const { Layout } = DefaultTheme;
-const { frontmatter } = useData();
 </script>
 
 <template>
