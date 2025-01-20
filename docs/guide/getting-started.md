@@ -46,7 +46,7 @@ If you don't want to use `pip`, or if you instead want to download and install `
 git clone https://github.com/SigmaHQ/sigma-cli.git
 cd sigma-cli
 poetry install && poetry shell
-sigma --version
+sigma version
 ```
 
 ## Install your SIEM plugin <div class="inline-block -mt-3"><Badge  type="tip" text="New" /></div>
