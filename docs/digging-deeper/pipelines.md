@@ -174,25 +174,452 @@ transformations:
 
 ## Conditions
 
-Conditions can be attached transformations, so that a transformation may only trigger when a given logsource is present, or only if another transformation was applied previously during the conversion process.
+Conditions can be attached transformations, so that a transformation may only trigger when a given logsource is present, or only if another transformation was applied previously during the conversion process. Conditions also support a conditional logic system implemented in PySigma version v0.11.19 that perform similar to how the detection logic in a Sigma rule itself works allowing you to assign an identifier to a transformation and perform logical operations against those identifiers.
+
+::: code-group
+
+```yaml
+name: m365
+priority: 20
+transformations:
+  - id: atp_index
+    type: add_condition
+    conditions:
+      index: microsoft_atp
+    rule_conditions:
+      - type: logsource
+        product: m365
+        service: threat_detection  
+  - id: defender_index
+    type: add_condition
+    conditions:
+      index: "microsoft_defender"
+    rule_conditions:
+      logsource_cond:
+        type: logsource
+        product: m365
+      logsource_cond2:
+        type: processing_item_applied
+        processing_item_id: atp_index
+    rule_cond_expr: logsource_cond and not logsource_cond2
+```
 
 ### Rule-based Conditions
 
-<Badge type="warning" text="WIP" class="relative -top-2" />
+| Identifier                  |
+| --------------------------- |
+| logsource                   |
+| contains_detection_item     |
+| processing_item_applied     |
+| processing_state            |
+| is_sigma_rule               |
+| is_sigma_correlation_rule   |
+| rule_attribute              |
+| tag                         |
 
-TODO
+#### logsource
+
+Matches log source on rule. Not specified log source fields are ignored. For Correlation rules, the condition returns true if any of the associated rules have the required log source fields.
+
+**Parameters:**
+
+- 'category': the category field in the sigma rule logsource section
+- 'product': the product field in the sigma rule logsource section
+- 'service': the service field in the sigma rule logsource section
+
+::: code-group
+
+```yaml
+name: transformation_demo
+priority: 100
+transformations:
+  - id: atp_index
+    type: add_condition
+    conditions:
+      index: microsoft_atp
+    rule_conditions:
+      - type: logsource
+        product: m365
+        service: threat_detection  
+```
+
+:::
+
+#### contains_detection_item
+
+Returns True if rule contains a detection item that matches the given field name and value.
+
+**Parameters:**
+- 'field': The field you'd like to match on.
+- 'value': The value you'd like to match on.
+
+::: code-group
+
+```yaml
+name: transformation_demo
+priority: 100
+transformations:
+  - id: atp_index
+    type: add_condition
+    conditions:
+      index: microsoft_atp
+    rule_conditions:
+      - type: contains_detection_item
+        field: Severity
+        value: Informational
+```
+
+#### processing_item_applied
+
+Checks if processing item was applied to rule.
+
+**Parameters:**
+- 'processing_item_id': The identifier of the processing item you'd like to match on
+
+::: code-group
+
+```yaml
+name: transformation_demo
+priority: 100
+transformations:
+  - id: test_id
+    type: add_condition
+    conditions:
+      hello: world
+  - id: atp_index
+    type: add_condition
+    conditions:
+      index: microsoft_atp
+    rule_conditions:
+      - type: processing_item_applied
+        processing_item_id: test_id
+```
+
+#### processing_state
+
+Matches on processing pipeline state.
+
+**Parameters:**
+- 'key': The key for the processing state.
+- 'val': The value for the processing state key.
+
+::: code-group
+
+```yaml
+name: transformation_demo
+priority: 100
+transformations:
+  - id: atp_index
+    type: add_condition
+    conditions:
+      index: microsoft_atp
+    rule_conditions:
+      - type: processing_state
+        key: key-test
+        val: val-test
+```
+
+#### is_sigma_rule
+
+Checks if rule is a SigmaRule.
+
+**Parameters:**
+- N/A
+
+::: code-group
+
+```yaml
+name: transformation_demo
+priority: 100
+transformations:
+  - id: atp_index
+    type: add_condition
+    conditions:
+      index: microsoft_atp
+    rule_conditions:
+      - type: is_sigma_rule
+```
+
+#### is_sigma_correlation_rule
+
+Checks if rule is a SigmaRule.
+
+**Parameters:**
+- N/A
+
+::: code-group
+
+```yaml
+name: transformation_demo
+priority: 100
+transformations:
+  - id: atp_index
+    type: add_condition
+    conditions:
+      index: microsoft_atp
+    rule_conditions:
+      - type: is_sigma_correlation_rule
+```
+
+#### rule_attribute
+
+Generic match on rule attributes with supported types:
+
+- strings (exact matches)
+- UUIDs (exact matches)
+- numbers (relations: eq, ne, gte, ge, lte, le)
+- dates (relations: eq, ne, gte, ge, lte, le)
+- Rule severity levels (relations: eq, ne, gte, ge, lte, le)
+- Rule statuses (relations: eq, ne, gte, ge, lte, le)
+- Fields that contain lists of values, maps or other complex data structures are not supported and raise a SigmaConfigurationError. If the type of the value doesn’t allows a particular relation, the condition also raises a SigmaConfigurationError on match.
+
+**Parameters:**
+- 'attribute': The attribute to match on.
+- 'value': The value to match on.
+- 'op': The relational comparison type to match on (eq (equals), ne (not equals), gte (greater than or equals), gt (greater than), lte (less than or equals), lt (less than)) with the default value of eq
+
+::: code-group
+
+```yaml
+name: transformation_demo
+priority: 100
+transformations:
+  - id: atp_index
+    type: add_condition
+    conditions:
+      index: microsoft_atp
+    rule_conditions:
+      - type: rule_attribute
+        attribute: date
+        value: '2025-01-01'
+        op: gte
+```
+
+#### tag
+
+Matches if rule is tagged with a specific tag.
+
+**Parameters:**
+- 'tag': The tag to match on.
+
+::: code-group
+
+```yaml
+name: transformation_demo
+priority: 100
+transformations:
+  - id: atp_index
+    type: add_condition
+    conditions:
+      index: microsoft_atp
+    rule_conditions:
+      - type: tag
+        tag: attack.discovery
+```
 
 ### Detection-based Conditions
 
-<Badge type="warning" text="WIP" class="relative -top-2" />
+| Identifier                  |
+| --------------------------- |
+| match_string                |
+| is_null                     |
+| processing_item_applied     |
+| processing_state            |
 
-TODO
+#### match_string
+
+Match string values with a regular expression ‘pattern’. The parameter ‘cond’ determines for detection items with multiple values if any or all strings must match. Generally, values which aren’t strings are skipped in any mode or result in a false result in all match mode.
+
+**Parameters:**
+- 'cond': 'any' or 'all'
+- 'pattern': The pattern to match on
+- 'negate': Default to false, but can be changed to True to make a negated condition
+
+:::code-block
+
+```yaml
+name: transformation_demo
+priority: 100
+transformations:
+  - id: atp_index
+    type: add_condition
+    conditions:
+      index: microsoft_atp
+    detection_item_conditions:
+      - type: match_string
+        cond: any
+        pattern: 'informational'
+        negate: False
+```
+
+#### is_null
+
+Match null values. The parameter ‘cond’ determines for detection items with multiple values if any or all strings must match. Generally, values which aren’t strings are skipped in any mode or result in a false result in all match mode.
+
+**Parameters:**
+- 'cond': 'any' or 'all'
+
+:::code-block
+
+```yaml
+name: transformation_demo
+priority: 100
+transformations:
+  - id: atp_index
+    type: add_condition
+    conditions:
+      index: microsoft_atp
+    detection_item_conditions:
+      - type: is_null
+        cond: any
+```
+
+#### processing_item_applied
+
+Checks if processing item was applied to detection item.
+
+**Parameters:**
+- 'processing_item_id': The identifier of the processing item you'd like to match on
+
+:::code-block
+
+```yaml
+name: transformation_demo
+priority: 100
+transformations:
+  - id: test_id
+    type: add_condition
+    conditions:
+      hello: world
+  - id: atp_index
+    type: add_condition
+    conditions:
+      index: microsoft_atp
+    detection_item_conditions:
+      - type: processing_item_applied
+        processing_item_id: test_id
+```
+
+#### processing_state
+
+Matches on processing pipeline state.
+
+**Parameters:**
+- 'key': The key for the processing state.
+- 'val': The value for the processing state key.
+
+::: code-group
+
+```yaml
+name: transformation_demo
+priority: 100
+transformations:
+  - id: atp_index
+    type: add_condition
+    conditions:
+      index: microsoft_atp
+    detection_item_conditions:
+      - type: processing_state
+        key: key-test
+        val: val-test
+```
 
 ### Field-based Conditions
 
-<Badge type="warning" text="WIP" class="relative -top-2" />
+| Identifier                  |
+| --------------------------- |
+| include_fields              |
+| exclude_fields              |
+| processing_item_applied     |
+| processing_state            |
 
-TODO
+#### include_fields
+
+Matches on field name if it is contained in fields list. The parameter ‘type’ determines if field names are matched as plain string (“plain”) or regular expressions (“re”).
+
+**Parameters:**
+- 'fields': The fields to match on
+- 'type': Plain match or regex match using 'plain' or 're'.
+
+:::code-block
+
+```yaml
+name: transformation_demo
+priority: 100
+transformations:
+  - id: atp_index
+    type: drop_detection_item
+    field_name_conditions:
+      - type: include_fields
+        fields: 
+          - 'name'
+          - 'type'
+```
+
+#### exclude_fields
+
+**Parameters:**
+- 'fields': The fields to match on
+- 'type': Plain match or regex match using 'plain' or 're'.
+
+:::code-block
+
+```yaml
+name: transformation_demo
+priority: 100
+transformations:
+  - id: atp_index
+    type: drop_detection_item
+    field_name_conditions:
+      - type: exclude_fields
+        fields: 
+          - 'name'
+          - 'value'
+```
+Adding documentation for conditionson
+
+:::code-block
+
+```yaml
+name: transformation_demo
+priority: 100
+transformations:
+  - id: test_id
+    type: add_condition
+    conditions:
+      hello: world
+  - id: atp_index
+    type: add_condition
+    conditions:
+      index: microsoft_atp
+    field_name_conditions:
+      - type: processing_item_applied
+        processing_item_id: test_id
+```
+
+#### processing_state
+
+Matches on processing pipeline state.
+
+**Parameters:**
+- 'key': The key for the processing state.
+- 'val': The value for the processing state key.
+
+::: code-group
+
+```yaml
+name: transformation_demo
+priority: 100
+transformations:
+  - id: atp_index
+    type: add_condition
+    conditions:
+      index: microsoft_atp
+    field_name_conditions:
+      - type: processing_state
+        key: key-test
+        val: val-test
+```
 
 ## Transformations
 
