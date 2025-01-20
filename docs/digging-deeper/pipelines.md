@@ -189,7 +189,7 @@ transformations:
     rule_conditions:
       - type: logsource
         product: m365
-        service: threat_detection  
+        service: threat_detection
   - id: defender_index
     type: add_condition
     conditions:
@@ -206,16 +206,16 @@ transformations:
 
 ### Rule-based Conditions
 
-| Identifier                  |
-| --------------------------- |
-| logsource                   |
-| contains_detection_item     |
-| processing_item_applied     |
-| processing_state            |
-| is_sigma_rule               |
-| is_sigma_correlation_rule   |
-| rule_attribute              |
-| tag                         |
+| Identifier                |
+| ------------------------- |
+| logsource                 |
+| contains_detection_item   |
+| processing_item_applied   |
+| processing_state          |
+| is_sigma_rule             |
+| is_sigma_correlation_rule |
+| rule_attribute            |
+| tag                       |
 
 #### logsource
 
@@ -240,7 +240,7 @@ transformations:
     rule_conditions:
       - type: logsource
         product: m365
-        service: threat_detection  
+        service: threat_detection
 ```
 
 :::
@@ -250,6 +250,7 @@ transformations:
 Returns True if rule contains a detection item that matches the given field name and value.
 
 **Parameters:**
+
 - 'field': The field you'd like to match on.
 - 'value': The value you'd like to match on.
 
@@ -274,6 +275,7 @@ transformations:
 Checks if processing item was applied to rule.
 
 **Parameters:**
+
 - 'processing_item_id': The identifier of the processing item you'd like to match on
 
 ::: code-group
@@ -300,6 +302,7 @@ transformations:
 Matches on processing pipeline state.
 
 **Parameters:**
+
 - 'key': The key for the processing state.
 - 'val': The value for the processing state key.
 
@@ -324,6 +327,7 @@ transformations:
 Checks if rule is a SigmaRule.
 
 **Parameters:**
+
 - N/A
 
 ::: code-group
@@ -345,6 +349,7 @@ transformations:
 Checks if rule is a SigmaRule.
 
 **Parameters:**
+
 - N/A
 
 ::: code-group
@@ -374,6 +379,7 @@ Generic match on rule attributes with supported types:
 - Fields that contain lists of values, maps or other complex data structures are not supported and raise a SigmaConfigurationError. If the type of the value doesn’t allows a particular relation, the condition also raises a SigmaConfigurationError on match.
 
 **Parameters:**
+
 - 'attribute': The attribute to match on.
 - 'value': The value to match on.
 - 'op': The relational comparison type to match on (eq (equals), ne (not equals), gte (greater than or equals), gt (greater than), lte (less than or equals), lt (less than)) with the default value of eq
@@ -391,7 +397,7 @@ transformations:
     rule_conditions:
       - type: rule_attribute
         attribute: date
-        value: '2025-01-01'
+        value: "2025-01-01"
         op: gte
 ```
 
@@ -400,6 +406,7 @@ transformations:
 Matches if rule is tagged with a specific tag.
 
 **Parameters:**
+
 - 'tag': The tag to match on.
 
 ::: code-group
@@ -419,18 +426,19 @@ transformations:
 
 ### Detection-based Conditions
 
-| Identifier                  |
-| --------------------------- |
-| match_string                |
-| is_null                     |
-| processing_item_applied     |
-| processing_state            |
+| Identifier              |
+| ----------------------- |
+| match_string            |
+| is_null                 |
+| processing_item_applied |
+| processing_state        |
 
 #### match_string
 
 Match string values with a regular expression ‘pattern’. The parameter ‘cond’ determines for detection items with multiple values if any or all strings must match. Generally, values which aren’t strings are skipped in any mode or result in a false result in all match mode.
 
 **Parameters:**
+
 - 'cond': 'any' or 'all'
 - 'pattern': The pattern to match on
 - 'negate': Default to false, but can be changed to True to make a negated condition
@@ -448,7 +456,7 @@ transformations:
     detection_item_conditions:
       - type: match_string
         cond: any
-        pattern: 'informational'
+        pattern: "informational"
         negate: False
 ```
 
@@ -457,6 +465,7 @@ transformations:
 Match null values. The parameter ‘cond’ determines for detection items with multiple values if any or all strings must match. Generally, values which aren’t strings are skipped in any mode or result in a false result in all match mode.
 
 **Parameters:**
+
 - 'cond': 'any' or 'all'
 
 :::code-block
@@ -479,6 +488,7 @@ transformations:
 Checks if processing item was applied to detection item.
 
 **Parameters:**
+
 - 'processing_item_id': The identifier of the processing item you'd like to match on
 
 :::code-block
@@ -505,6 +515,7 @@ transformations:
 Matches on processing pipeline state.
 
 **Parameters:**
+
 - 'key': The key for the processing state.
 - 'val': The value for the processing state key.
 
@@ -526,18 +537,19 @@ transformations:
 
 ### Field-based Conditions
 
-| Identifier                  |
-| --------------------------- |
-| include_fields              |
-| exclude_fields              |
-| processing_item_applied     |
-| processing_state            |
+| Identifier              |
+| ----------------------- |
+| include_fields          |
+| exclude_fields          |
+| processing_item_applied |
+| processing_state        |
 
 #### include_fields
 
 Matches on field name if it is contained in fields list. The parameter ‘type’ determines if field names are matched as plain string (“plain”) or regular expressions (“re”).
 
 **Parameters:**
+
 - 'fields': The fields to match on
 - 'type': Plain match or regex match using 'plain' or 're'.
 
@@ -551,14 +563,15 @@ transformations:
     type: drop_detection_item
     field_name_conditions:
       - type: include_fields
-        fields: 
-          - 'name'
-          - 'type'
+        fields:
+          - "name"
+          - "type"
 ```
 
 #### exclude_fields
 
 **Parameters:**
+
 - 'fields': The fields to match on
 - 'type': Plain match or regex match using 'plain' or 're'.
 
@@ -572,10 +585,11 @@ transformations:
     type: drop_detection_item
     field_name_conditions:
       - type: exclude_fields
-        fields: 
-          - 'name'
-          - 'value'
+        fields:
+          - "name"
+          - "value"
 ```
+
 Adding documentation for conditionson
 
 :::code-block
@@ -602,6 +616,7 @@ transformations:
 Matches on processing pipeline state.
 
 **Parameters:**
+
 - 'key': The key for the processing state.
 - 'val': The value for the processing state key.
 
