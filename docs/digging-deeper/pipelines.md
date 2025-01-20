@@ -270,7 +270,7 @@ transformations:
         value: Informational
 ```
 
-#### processing_item_applied
+#### Rule-Based processing_item_applied
 
 Checks if processing item was applied to rule.
 
@@ -297,7 +297,7 @@ transformations:
         processing_item_id: test_id
 ```
 
-#### processing_state
+#### Rule-Based processing_state
 
 Matches on processing pipeline state.
 
@@ -456,7 +456,7 @@ transformations:
     detection_item_conditions:
       - type: match_string
         cond: any
-        pattern: "informational"
+        pattern: informational
         negate: False
 ```
 
@@ -483,7 +483,7 @@ transformations:
         cond: any
 ```
 
-#### processing_item_applied
+#### Detection-Based processing_item_applied
 
 Checks if processing item was applied to detection item.
 
@@ -510,7 +510,7 @@ transformations:
         processing_item_id: test_id
 ```
 
-#### processing_state
+#### Detection-Based processing_state
 
 Matches on processing pipeline state.
 
@@ -564,8 +564,8 @@ transformations:
     field_name_conditions:
       - type: include_fields
         fields:
-          - "name"
-          - "type"
+          - name
+          - type
 ```
 
 #### exclude_fields
@@ -586,11 +586,17 @@ transformations:
     field_name_conditions:
       - type: exclude_fields
         fields:
-          - "name"
-          - "value"
+          - name
+          - value
 ```
 
-Adding documentation for conditionson
+#### Field-based processing_item_applied
+
+Checks if processing item was applied to detection item.
+
+**Parameters:**
+
+- 'processing_item_id': The identifier of the processing item you'd like to match on
 
 :::code-block
 
@@ -611,7 +617,7 @@ transformations:
         processing_item_id: test_id
 ```
 
-#### processing_state
+#### Field-based processing_state
 
 Matches on processing pipeline state.
 
