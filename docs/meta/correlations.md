@@ -21,7 +21,7 @@ Correlations build on-top of the existing Sigma format, providing detection engi
   <div class="flex justify-start md:justify-end gap-4">
     <img :src="withBase('/images/backend_logos/splunk.png')" class="w-10 h-10" alt="Splunk">
     <img :src="withBase('/images/backend_logos/elastic.png')" class="w-10 h-10" alt="Elastic">
-    <img :src="withBase('/images/backend_logos/loki.png')" class="w-10 h-10" alt="Elastic">
+    <img :src="withBase('/images/backend_logos/loki.png')" class="w-10 h-10" alt="Loki">
   </div>
 </div>
 
