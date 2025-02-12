@@ -16,7 +16,7 @@ Correlations build on-top of the existing Sigma format, providing detection engi
 
 <div class="flex flex-col md:flex-row md:items-center gap-4 py-2">
   <p class="md:flex-grow md:pr-14">
-    This feature is still fairly new and is currently only supported in <a href="https://docs.splunk.com/Documentation/Splunk/latest/Search/Aboutthesearchlanguage">Splunk's SPL</a>,  <a href="https://www.elastic.co/blog/esql-elasticsearch-piped-query-language">Elasticsearch's ES|QL</a>, and <a href="https://grafana.com/docs/loki/latest/query/metric_queries/#log-range-aggregations">Grafana Loki query languages.
+    This feature is still fairly new and is currently only supported in <a href="https://docs.splunk.com/Documentation/Splunk/latest/Search/Aboutthesearchlanguage">Splunk's SPL</a>,  <a href="https://www.elastic.co/blog/esql-elasticsearch-piped-query-language">Elasticsearch's ES|QL</a>, and <a href="https://grafana.com/docs/loki/latest/query/metric_queries/#log-range-aggregations">Grafana's Loki</a> query languages.
   </p>
   <div class="flex justify-start md:justify-end gap-4">
     <img :src="withBase('/images/backend_logos/splunk.png')" class="w-10 h-10" alt="Splunk">
