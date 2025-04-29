@@ -224,7 +224,7 @@ fieldname="*needle"
 
 :::
 
-The `endswith` modifier will insert a wildcard token (usually `*`) at the end of the provided value(s), such that the value is matched at the end of the field.
+The `endswith` modifier will insert a wildcard token (usually `*`) at the start of the provided value(s), such that the value is matched at the end of the field.
 
 ---
 
@@ -448,7 +448,7 @@ fieldname="needle*"
 
 :::
 
-The `startswith` modifier will insert a wildcard token (usually `*`) at the start of the provided value(s), such that the value is matched at the beginning of the field.
+The `startswith` modifier will insert a wildcard token (usually `*`) at the end of the provided value(s), such that the value is matched at the beginning of the field.
 
 ---
 
