@@ -3,26 +3,26 @@
   "dependencies": {
     "@headlessui/vue": "^1.7.23",
     "@heroicons/vue": "^2.2.0",
-    "autoprefixer": "^10.4.20",
-    "fuse.js": "^7.0.0",
+    "autoprefixer": "^10.4.21",
+    "fuse.js": "^7.1.0",
     "highlight.js": "^11.11.1",
     "highlightjs-spl": "^0.1.2",
-    "markdown-it-footnote": "^4",
-    "open-graph-scraper": "^6.8.3",
+    "markdown-it-footnote": "^4.0.0",
+    "open-graph-scraper": "^6.10.0",
     "postcss": "^8.5.3",
     "tailwindcss": "^3.4.17",
-    "vitepress": "^1.5.0",
-    "vue": "^3.4.13"
+    "vitepress": "^1.6.3",
+    "vue": "^3.5.13"
   },
   "devDependencies": {
     "@tailwindcss/forms": "^0.5.10",
     "@tailwindcss/typography": "^0.5.16",
-    "@vue/eslint-config-typescript": "^14.0",
-    "markdown-it": "^14",
-    "markdownlint": "^0.37",
+    "@vue/eslint-config-typescript": "^14.5.0",
+    "markdown-it": "^14.1.0",
+    "markdownlint": "^0.38.0",
     "markdownlint-cli2": "^0.17.2",
-    "prettier": "^3.4.2",
-    "prettier-plugin-tailwindcss": "^0.6.9"
+    "prettier": "^3.5.3",
+    "prettier-plugin-tailwindcss": "^0.6.11"
   },
   "scripts": {
     "docs:dev": "vitepress dev .",

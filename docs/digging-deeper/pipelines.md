@@ -178,7 +178,7 @@ Conditions can be attached transformations, so that a transformation may only tr
 
 ::: code-group
 
-```yaml
+```yaml [/pipelines/m365.yml]
 name: m365
 priority: 20
 transformations:
@@ -203,6 +203,8 @@ transformations:
         processing_item_id: atp_index
     rule_cond_expr: logsource_cond and not logsource_cond2
 ```
+
+:::
 
 ### Rule-based Conditions
 
@@ -229,7 +231,7 @@ Matches log source on rule. Not specified log source fields are ignored. For Cor
 
 ::: code-group
 
-```yaml
+```yaml [/pipelines/transformation_demo.yml]
 name: transformation_demo
 priority: 100
 transformations:
@@ -256,7 +258,7 @@ Returns True if rule contains a detection item that matches the given field name
 
 ::: code-group
 
-```yaml
+```yaml [/pipelines/transformation_demo.yml]
 name: transformation_demo
 priority: 100
 transformations:
@@ -270,6 +272,8 @@ transformations:
         value: Informational
 ```
 
+:::
+
 #### Rule-Based processing_item_applied
 
 Checks if processing item was applied to rule.
@@ -280,7 +284,7 @@ Checks if processing item was applied to rule.
 
 ::: code-group
 
-```yaml
+```yaml [/pipelines/processing_item_applied_demo.yml]
 name: transformation_demo
 priority: 100
 transformations:
@@ -297,6 +301,8 @@ transformations:
         processing_item_id: test_id
 ```
 
+:::
+
 #### Rule-Based processing_state
 
 Matches on processing pipeline state.
@@ -308,7 +314,7 @@ Matches on processing pipeline state.
 
 ::: code-group
 
-```yaml
+```yaml [/pipelines/processing_state_demo.yml]
 name: transformation_demo
 priority: 100
 transformations:
@@ -322,6 +328,8 @@ transformations:
         val: val-test
 ```
 
+:::
+
 #### is_sigma_rule
 
 Checks if rule is a SigmaRule.
@@ -332,7 +340,7 @@ Checks if rule is a SigmaRule.
 
 ::: code-group
 
-```yaml
+```yaml [/pipelines/transformation_demo.yml]
 name: transformation_demo
 priority: 100
 transformations:
@@ -344,6 +352,8 @@ transformations:
       - type: is_sigma_rule
 ```
 
+:::
+
 #### is_sigma_correlation_rule
 
 Checks if rule is a SigmaRule.
@@ -354,7 +364,7 @@ Checks if rule is a SigmaRule.
 
 ::: code-group
 
-```yaml
+```yaml [/pipelines/transformation_demo.yml]
 name: transformation_demo
 priority: 100
 transformations:
@@ -365,6 +375,8 @@ transformations:
     rule_conditions:
       - type: is_sigma_correlation_rule
 ```
+
+:::
 
 #### rule_attribute
 
@@ -386,7 +398,7 @@ Generic match on rule attributes with supported types:
 
 ::: code-group
 
-```yaml
+```yaml [/pipelines/transformation_demo.yml]
 name: transformation_demo
 priority: 100
 transformations:
@@ -401,6 +413,8 @@ transformations:
         op: gte
 ```
 
+:::
+
 #### tag
 
 Matches if rule is tagged with a specific tag.
@@ -411,7 +425,7 @@ Matches if rule is tagged with a specific tag.
 
 ::: code-group
 
-```yaml
+```yaml [/pipelines/transformation_demo.yml]
 name: transformation_demo
 priority: 100
 transformations:
@@ -423,6 +437,8 @@ transformations:
       - type: tag
         tag: attack.discovery
 ```
+
+:::
 
 ### Detection-based Conditions
 
@@ -443,9 +459,9 @@ Match string values with a regular expression ‘pattern’. The parameter ‘co
 - 'pattern': The pattern to match on
 - 'negate': Default to false, but can be changed to True to make a negated condition
 
-:::code-block
+::: code-group
 
-```yaml
+```yaml [/pipelines/transformation_demo.yml]
 name: transformation_demo
 priority: 100
 transformations:
@@ -460,6 +476,8 @@ transformations:
         negate: False
 ```
 
+:::
+
 #### is_null
 
 Match null values. The parameter ‘cond’ determines for detection items with multiple values if any or all strings must match. Generally, values which aren’t strings are skipped in any mode or result in a false result in all match mode.
@@ -468,9 +486,9 @@ Match null values. The parameter ‘cond’ determines for detection items with 
 
 - 'cond': 'any' or 'all'
 
-:::code-block
+::: code-group
 
-```yaml
+```yaml [/pipelines/transformation_demo.yml]
 name: transformation_demo
 priority: 100
 transformations:
@@ -483,6 +501,8 @@ transformations:
         cond: any
 ```
 
+:::
+
 #### Detection-Based processing_item_applied
 
 Checks if processing item was applied to detection item.
@@ -491,9 +511,9 @@ Checks if processing item was applied to detection item.
 
 - 'processing_item_id': The identifier of the processing item you'd like to match on
 
-:::code-block
+::: code-group
 
-```yaml
+```yaml [/pipelines/processing_item_applied_demo.yml]
 name: transformation_demo
 priority: 100
 transformations:
@@ -510,6 +530,8 @@ transformations:
         processing_item_id: test_id
 ```
 
+:::
+
 #### Detection-Based processing_state
 
 Matches on processing pipeline state.
@@ -521,7 +543,7 @@ Matches on processing pipeline state.
 
 ::: code-group
 
-```yaml
+```yaml [/pipelines/processing_state_demo.yml]
 name: transformation_demo
 priority: 100
 transformations:
@@ -534,6 +556,8 @@ transformations:
         key: key-test
         val: val-test
 ```
+
+:::
 
 ### Field-based Conditions
 
@@ -553,10 +577,10 @@ Matches on field name if it is contained in fields list. The parameter ‘type�
 - 'fields': The fields to match on
 - 'type': Plain match or regex match using 'plain' or 're'.
 
-:::code-block
+::: code-group
 
-```yaml
-name: transformation_demo
+```yaml [/pipelines/include_fields_demo.yml]
+name: include_fields_demo
 priority: 100
 transformations:
   - id: atp_index
@@ -568,6 +592,8 @@ transformations:
           - type
 ```
 
+:::
+
 #### exclude_fields
 
 **Parameters:**
@@ -575,9 +601,9 @@ transformations:
 - 'fields': The fields to match on
 - 'type': Plain match or regex match using 'plain' or 're'.
 
-:::code-block
+::: code-group
 
-```yaml
+```yaml [/pipelines/exclude_fields_demo.yml]
 name: transformation_demo
 priority: 100
 transformations:
@@ -590,6 +616,8 @@ transformations:
           - value
 ```
 
+:::
+
 #### Field-based processing_item_applied
 
 Checks if processing item was applied to detection item.
@@ -598,9 +626,9 @@ Checks if processing item was applied to detection item.
 
 - 'processing_item_id': The identifier of the processing item you'd like to match on
 
-:::code-block
+::: code-group
 
-```yaml
+```yaml [/pipelines/processing_item_applied_demo.yml]
 name: transformation_demo
 priority: 100
 transformations:
@@ -617,6 +645,8 @@ transformations:
         processing_item_id: test_id
 ```
 
+:::
+
 #### Field-based processing_state
 
 Matches on processing pipeline state.
@@ -628,7 +658,7 @@ Matches on processing pipeline state.
 
 ::: code-group
 
-```yaml
+```yaml [/pipelines/processing_state_demo.yml]
 name: transformation_demo
 priority: 100
 transformations:
@@ -641,6 +671,8 @@ transformations:
         key: key-test
         val: val-test
 ```
+
+:::
 
 ## Transformations
 
@@ -857,9 +889,8 @@ transformations:
     include:
       - Admins_Workstations
     expression: "[| inputlookup {id} | rename user as {field}]"
+#  For the rule: [User with Privileges Logon](https://github.com/SigmaHQ/sigma/blob/e1a713d264ac072bb76b5c4e5f41315a015d3f41/rules-placeholder/windows/builtin/security/win_security_admin_logon.yml#L30)
 ```
-
-For the rule: [User with Privileges Logon](https://github.com/SigmaHQ/sigma/blob/e1a713d264ac072bb76b5c4e5f41315a015d3f41/rules-placeholder/windows/builtin/security/win_security_admin_logon.yml#L30)
 
 ```splunk [Splunk Output]
 EventID IN (4672, 4964) NOT (SubjectUserSid="S-1-5-18" OR [| inputlookup Admins_Workstations | rename user as SubjectUserName])
