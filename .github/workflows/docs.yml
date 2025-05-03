@@ -31,10 +31,9 @@ jobs:
     steps:
       - name: Checkout Docs
         uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: oven-sh/setup-bun@v2
         with:
-          node-version: 18
-          cache: bun
+          bun-version: latest
       - run: bun install
       - name: Build
         run: bun run docs:build
@@ -53,10 +52,9 @@ jobs:
     steps:
       - name: Checkout Docs
         uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: oven-sh/setup-bun@v2
         with:
-          node-version: 18
-          cache: bun
+          bun-version: latest
       - run: bun install
       - name: Build
         run: bun run docs:build
