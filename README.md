@@ -27,10 +27,10 @@ The Sigma website is powered by Vitepress. [To learn more about Vitepress, click
 
 ### Installation
 
-To install the documentation locally, install NodeJS 16+ and `npm`, and run the following.
+To install the documentation locally, install NodeJS 16+ and [`bun`](https://bun.sh/), and run the following.
 
 ```bash
-npm install
+bun install
 ```
 
 ### Running
@@ -38,7 +38,7 @@ npm install
 To start a local preview server of the documentation locally, run the following.
 
 ```bash
-npm run docs:dev
+bun run docs:dev
 ```
 
 ### Building
@@ -46,8 +46,8 @@ npm run docs:dev
 Finally, to compile the documentation into a bundle locally, run the following.
 
 ```bash
-npm run docs:build
-npm run docs:serve
+bun run docs:build
+bun run docs:serve
 ```
 
 ### Testing / Linting
@@ -56,10 +56,10 @@ Before contributing to the documentation, please make sure to run the following 
 
 ```bash
 # To run the linter
-npm run lint
+bun run lint
 
 # To fix any linting issues
-npm run lint:fix
+bun run lint:fix
 ```
 
 ### Acknowledgement
