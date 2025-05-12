@@ -20,7 +20,7 @@
     "@vue/eslint-config-typescript": "^14.5.0",
     "markdown-it": "^14.1.0",
     "markdownlint": "^0.38.0",
-    "markdownlint-cli2": "^0.17.2",
+    "markdownlint-cli2": "^0.18.0",
     "prettier": "^3.5.3",
     "prettier-plugin-tailwindcss": "^0.6.11"
   },
