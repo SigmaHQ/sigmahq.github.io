@@ -12,7 +12,7 @@
     "postcss": "^8.5.3",
     "tailwindcss": "^3.4.17",
     "vitepress": "^1.6.3",
-    "vue": "^3.5.13"
+    "vue": "^3.5.15"
   },
   "devDependencies": {
     "@tailwindcss/forms": "^0.5.10",
