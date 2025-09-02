@@ -287,13 +287,13 @@ level: high
 | search event_type_count >= 2
 ```
 
-### `ordered_temporal`
+### `temporal_ordered`
 
-The ordered temporal correlation is similar to the former, but adds the order of the events as another condition. This correlation type should be used cautiously due to several factors:
+The temporal ordered correlation is similar to the former, but adds the order of the events as another condition. This correlation type should be used cautiously due to several factors:
 
 - Often, the appearance of certain events in a specific time frame is already sufficient for the detection. E.g. the famous example of multiple failed logons followed by a successful one delivers mostly the same results if the failed and successful logon just appear within the same time frame.
 - Compared to the temporal correlation the queries required to check the order are usually more complex and less efficient.
-- Some backends don’t implement support for ordered temporal correlation or it’s even not possible to implement this within a query language.
+- Some backends don’t implement support for temporal ordered correlation or it’s even not possible to implement this within a query language.
 - Especially when events appear very near to each other and events from different log sources are correlated, different time resolutions and clock skews can cause that the events appear in a different order as they occurred.
 
 Altogether, this correlation type should only be used if really required.
