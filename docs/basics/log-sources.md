@@ -22,7 +22,7 @@ Because each logsource will look fairly similar – especially in Sigma rules ta
 
 ::: info Sigma Specification for Logsources
 
-The Sigma Specification repository outlines a [standard set of logsources](https://github.com/SigmaHQ/sigma-specification/blob/main/appendix/sigma-taxonomy-appendix.md#log-sources), that is supported across the community in the Sigma rule collection.
+The Sigma Specification repository outlines a [standard set of logsources](https://github.com/SigmaHQ/sigma-specification/blob/main/specification/sigma-appendix-taxonomy.md#log-sources), that is supported across the community in the Sigma rule collection.
 
 :::
 
