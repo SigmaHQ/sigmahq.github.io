@@ -1138,7 +1138,6 @@ finalizers:
   - type: template
     template: |
       {
-        "query": {{ queries[0] | tojson }},
-        "rule": {{ pipeline.state.rule.title | tojson }}
+        "query": {{ queries[0] | tojson }}
       }
 ```
