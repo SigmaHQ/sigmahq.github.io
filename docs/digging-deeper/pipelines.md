@@ -1128,14 +1128,17 @@ finalizers:
 ```
 
 Template Output
-Apply a Jinja2 template:
+Apply a Jinja2 template. Supports the variables:
+
+* `queries` that contains the final query output as a list
+* `pipeline` that contains all the context provided to the processing pipeline
 
 ```yaml
 finalizers:
   - type: template
     template: |
       {
-        "query": {{ query | tojson }},
-        "rule": {{ rule.title | tojson }}
+        "query": {{ queries[0] | tojson }},
+        "rule": {{ pipeline.state.rule.title | tojson }}
       }
 ```
