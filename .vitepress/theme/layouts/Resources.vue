@@ -57,6 +57,7 @@ let tools = ref([
     og_image_alt: "Sigma Open Source Conversion Tool",
   },
 ]);
+
 </script>
 
 <template>
