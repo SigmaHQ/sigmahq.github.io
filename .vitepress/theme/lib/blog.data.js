@@ -8,7 +8,13 @@ const urls = [
 ];
 
 async function fetch_og_data(url) {
-  let result = (await ogs({ url })).result;
+  let result;
+  try {
+    result = (await ogs({ url })).result;
+  } catch (e) {
+    console.error("OGS error for url:", url, e);
+    return {}
+  }
 
   if (result.ogImage[0].url.startsWith("/")) {
     let hostname = new URL(result.requestUrl).hostname;
