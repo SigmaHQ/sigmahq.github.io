@@ -415,9 +415,7 @@
           "@context": "https://schema.org",
           "@id": "https://micahbabinski.medium.com/creating-a-sigma-backend-for-fun-and-no-profit-ed16d20da142",
           "@type": "SocialMediaPosting",
-          "image": [
-            "https://miro.medium.com/0*bo6PhJp9fPPlhhJ8"
-          ],
+          "image": ["https://miro.medium.com/0*bo6PhJp9fPPlhhJ8"],
           "url": "https://micahbabinski.medium.com/creating-a-sigma-backend-for-fun-and-no-profit-ed16d20da142",
           "dateCreated": "2022-04-12T16:48:27Z",
           "datePublished": "2022-04-12T16:48:27Z",

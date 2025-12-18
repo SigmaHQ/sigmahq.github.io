@@ -19,10 +19,14 @@ async function fetch_og_data(url) {
     result = (await ogs({ url })).result;
   } catch (e) {
     console.error("OGS error for url:", url, e);
-    return {}
+    return {};
   }
 
-  if (result.ogImage && result.ogImage[0] && result.ogImage[0].url.startsWith("/")) {
+  if (
+    result.ogImage &&
+    result.ogImage[0] &&
+    result.ogImage[0].url.startsWith("/")
+  ) {
     let hostname = new URL(result.requestUrl).hostname;
     let path = result.ogImage[0].url;
     result.ogImage[0].url = new URL("https://" + hostname + path)?.href;
@@ -38,7 +42,9 @@ function loadStaticBlogData() {
     console.log("Using static blog data from:", staticDataPath);
     return staticData.posts;
   } catch (error) {
-    console.warn("Static blog data not found or invalid, falling back to dynamic fetch");
+    console.warn(
+      "Static blog data not found or invalid, falling back to dynamic fetch",
+    );
     return null;
   }
 }
@@ -55,7 +61,7 @@ export default {
     try {
       return {
         posts: await Promise.all(
-          urls.slice(0, 4).map(url => fetch_og_data(url)),
+          urls.slice(0, 4).map((url) => fetch_og_data(url)),
         ),
       };
     } catch (error) {

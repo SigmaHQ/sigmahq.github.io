@@ -33,12 +33,16 @@ async function fetch_og_data(url) {
     return {
       error: e.message,
       url: url,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     };
   }
 
   // Fix relative image URLs
-  if (result.ogImage && result.ogImage[0] && result.ogImage[0].url.startsWith("/")) {
+  if (
+    result.ogImage &&
+    result.ogImage[0] &&
+    result.ogImage[0].url.startsWith("/")
+  ) {
     let hostname = new URL(result.requestUrl).hostname;
     let path = result.ogImage[0].url;
     result.ogImage[0].url = new URL("https://" + hostname + path)?.href;
@@ -53,25 +57,28 @@ async function main() {
 
   try {
     const posts = await Promise.all(
-      urls.slice(0, 4).map(url => fetch_og_data(url))
+      urls.slice(0, 4).map((url) => fetch_og_data(url)),
     );
 
     const blogData = {
       posts: posts,
       lastUpdated: new Date().toISOString(),
-      generatedBy: "scripts/fetch-blog-data.js"
+      generatedBy: "scripts/fetch-blog-data.js",
     };
 
     // Save to static data file
-    const outputPath = path.join(__dirname, "../.vitepress/theme/lib/blog-static.json");
+    const outputPath = path.join(
+      __dirname,
+      "../.vitepress/theme/lib/blog-static.json",
+    );
     await fs.writeFile(outputPath, JSON.stringify(blogData, null, 2));
 
     console.log(`\n✓ Blog data saved to: ${outputPath}`);
     console.log(`✓ Successfully processed ${posts.length} URLs`);
 
     // Show summary
-    const successCount = posts.filter(post => !post.error).length;
-    const errorCount = posts.filter(post => post.error).length;
+    const successCount = posts.filter((post) => !post.error).length;
+    const errorCount = posts.filter((post) => post.error).length;
 
     console.log(`\nSummary:`);
     console.log(`  Successful: ${successCount}`);
@@ -79,11 +86,12 @@ async function main() {
 
     if (errorCount > 0) {
       console.log(`\nFailed URLs:`);
-      posts.filter(post => post.error).forEach(post => {
-        console.log(`  - ${post.url}: ${post.error}`);
-      });
+      posts
+        .filter((post) => post.error)
+        .forEach((post) => {
+          console.log(`  - ${post.url}: ${post.error}`);
+        });
     }
-
   } catch (error) {
     console.error("Script failed:", error);
     process.exit(1);
