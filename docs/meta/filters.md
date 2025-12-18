@@ -6,24 +6,22 @@ title: "Filters"
 
 When deploying Sigma rules out to your organization, you may find that some Sigma rules are noisier than others, or that a Sigma rule needs to be updated to only detect upon a given set of `host` computers, or `user` accounts.
 
-**Sigma Filters** are a new way to build lists of these "exclusions" without having to modify the Sigma rule itself – meaning keeping each Sigma rule can now remain in its original state. This makes updating from Sigma's build-in [rule-packs](https://github.com/SigmaHQ/sigma/releases) even easier.
-
-::: tip Filters are in `ALPHA`
-In 2024, Sigma Introduced a new feature called Filters. This feature is still in `ALPHA`. However, filters should work in most backends out of the box, without backend-specific support required.
-
-If you find any issues with Filters, please [open an issue here](https://github.com/SigmaHQ/sigma-specification/issues/new?assignees=&labels=bug&template=bug_report.md&title=).
-:::
+**Sigma Filters** are a new way to build lists of these "exclusions" without having to modify the Sigma rule itself – meaning keeping each Sigma rule can now remain in its original state. This makes updating from Sigma's built-in [rule-packs](https://github.com/SigmaHQ/sigma/releases) even easier.
 
 ## Overview
 
 Sigma Filters resemble Sigma rules in their structure, but use the `filter` keyword in place of `detection`.
 
-```yaml
+Writing Sigma Filters is nearly identical to writing Sigma, but allow you to split out your exclusions into separate files – as well as target multiple rules using the same filter.
+
+::: code-group
+
+```yaml [./filters/win_filter_domain_controllers.yml]
 title: Filter Out Domain Controllers
 description: Filter out events from Domain Controllers
 logsource:
-    product: windows
-filter: // [!code highlight]
+  product: windows
+filter: # [!code highlight]
   rules:
     - files_added_to_an_archive_using_rar_exe
     - login_on_jump_host
@@ -32,11 +30,11 @@ filter: // [!code highlight]
   condition: not selection
 ```
 
-Writing Sigma Filters is nearly identical to writing Sigma, but allow you to split out your exclusions into separate files – as well as target multiple rules using the same filter.
+:::
 
 Filters are used to define a set of conditions that can be applied to Sigma rules to exclude or include specific events based on the conditions defined in the filter.
 
-## Usage
+## Referencing rules by `name` / `ID`
 
 When applying Filters in your "detection-as-code" strategy, filters can be applied recursively when converting your Sigma rules for use in your SIEM.
 
@@ -50,7 +48,7 @@ logsource:
   product: windows
 filter:
   rules:
-    - proc_creation_win_sc_create_service // [!code highlight]
+    - proc_creation_win_sc_create_service # [!code highlight]
   selection:
     User|startswith: "adm_"
   condition: not selection
@@ -58,7 +56,7 @@ filter:
 
 ```yaml [./rules/windows/process_creation/proc_creation_win_sc_create_service.yml]
 title: New Service Creation Using Sc.EXE
-name: proc_creation_win_sc_create_service // [!code highlight]
+name: proc_creation_win_sc_create_service # [!code highlight]
 description: Detects the creation of a new service using the "sc.exe" utility.
 author: Timur Zinniatullin, Daniil Yugoslavskiy, oscd.community
 logsource:
@@ -71,10 +69,6 @@ detection:
       - "create"
       - "binPath"
   condition: selection
-falsepositives:
-  - Legitimate administrator or user creates a service for legitimate reasons.
-  - Software installation
-level: low
 ```
 
 :::
@@ -87,7 +81,7 @@ Here's an example of running the Sigma rule with the filter:
 
 ```bash
 sigma convert -t splunk --pipeline splunk_windows \
-  --filter ./filters/win_filter_admins.yml \ // [!code highlight]
+  --filter ./filters/win_filter_admins.yml \ # [!code highlight]
   ./rules/windows/process_creation/proc_creation_win_sc_create_service.yml
 ```
 
@@ -97,8 +91,30 @@ The resulting Splunk query will include the filter condition:
 Image="*\\sc.exe" \
   CommandLine="*create*" \
   CommandLine="*binPath*" \
-  NOT User="adm_*" // [!code ++]
+  NOT User="adm_*" # [!code ++]
 ```
+
+## Referencing all rules within a logsource
+
+You can also create filters that apply to all rules matching a specific logsource using the `rules: any` configuration:
+
+::: code-group
+
+```yaml [./filters/win_filter_all_domain_controllers.yml]
+title: Filter Out Domain Controller Events
+description: Filters out events from all Domain Controllers across all Windows rules
+logsource:
+  product: windows
+filter:
+  rules: any # [!code highlight]
+  selection:
+    ComputerName|startswith: "DC-"
+  condition: not selection
+```
+
+:::
+
+This filter will be applied to **all** Sigma rules that have a logsource matching `product: windows`, effectively filtering out events from Domain Controllers across your entire rule set without having to specify each individual rule.
 
 ::: info Filters and Field Mapping
 
@@ -108,7 +124,7 @@ Every field that is used in Filters also gets mapped according to any supplied p
 
 Filters support referencing the initial rule using the `id` or `name` field.
 
-## Design
+## Design of Inclusion vs Exclusion
 
 If you've been using Sigma for detections, it's likely that you've come across this pattern to filter out known false-positives at the detection stage.
 
@@ -123,7 +139,7 @@ detection:
     Details|contains:
       - 'C:\Windows\System32\'
       - 'C:\Windows\SysWOW64\'
-  condition: selection and registry and not filter // [!code focus]
+  condition: selection and registry and not filter # [!code focus]
 falsepositives:
   - Legitimate use of screen saver
 ```
@@ -143,32 +159,38 @@ detection:
 
 This allows Sigma Filters to either be used to exclude specific events – such as to tune your Sigma rule for false-positives or known-safe alerts, or to include **_only_** specific events.
 
-The advantage of using Sigma Filters is that you can now build a set of exclusions that can be applied to multiple Sigma rules, without having to modify the Sigma rule itself – making it easier to update from Sigma's build-in rule-packs.
+The advantage of using Sigma Filters is that you can now build a set of exclusions that can be applied to multiple Sigma rules, without having to modify the Sigma rule itself – making it easier to update from Sigma's built-in rule-packs.
 
-**Example of Exclusion:**
+**Examples of Exclusion:**
 
 ::: code-group
 
-```yaml[./filters/exclude_something.yml]
+```yaml [./filters/exclusion.yml]
+title: ...
+logsource:
+  product: example-product
 filter:
-    exclude_these_matches:
-        field: value
-    # This will exclude events where field equals value
-    condition: not exclude_these_matches
+  rules: any
+  exclude_these_matches:
+    field: value
+  # This will exclude events where field equals value
+  condition: not exclude_these_matches # [!code highlight]
 ```
-
-:::
 
 **Example of Inclusion:**
 
 ::: code-group
 
-```yaml[./filters/include_something.yml]
+```yaml [./filters/inclusion.yml]
+title: ...
+logsource:
+  product: example-product
 filter:
-    include_these_matches:
-        field: value
-    # This will scope the detection to only include events where field equals value
-    condition: include_these_matches
+  rules: any
+  include_these_matches:
+    field: value
+  # This will scope the detection to only include events where field equals value
+  condition: include_these_matches # [!code highlight]
 ```
 
 :::

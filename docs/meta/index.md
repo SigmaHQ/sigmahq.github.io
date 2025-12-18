@@ -42,26 +42,26 @@ of `detection`.
 
 ```yaml
 title: Sigma Rule Title
-detection: // [!code --]
-    selection:
-        EventID: 4625
-    condition: selection
+detection: # [!code --]
+  selection:
+    EventID: 4625
+  condition: selection
 ```
 
 [Sigma Correlations](/docs/meta/correlations) are designated by the special `correlation` keyword. Sigma Correlations allow you to write more sophisticated and targeted detections by combining and analyzing relationships between events.
 
 ```yaml
 status: test
-correlation: // [!code focus:10]
-    type: event_count
-    rules:
-        - failed_logon
-    group-by:
-        - TargetUserName
-        - TargetDomainName
-    timespan: 5m
-    condition:
-        gte: 10
+correlation: # [!code focus:10]
+  type: event_count
+  rules:
+    - failed_logon
+  group-by:
+    - TargetUserName
+    - TargetDomainName
+  timespan: 5m
+  condition:
+    gte: 10
 level: medium
 ```
 
@@ -69,13 +69,13 @@ And [Sigma Filters](/docs/meta/filters) are designated by the special `filter` k
 
 ```yaml
 status: test
-filter: // [!code focus:8]
-    rules:
-        - failed_logon
-    selection:
-        # Filter out Domain Controllers
-        ComputerName|startswith: 'DC-'
-    condition: not selection
+filter: # [!code focus:8]
+  rules:
+    - failed_logon
+  selection:
+    # Filter out Domain Controllers
+    ComputerName|startswith: "DC-"
+  condition: not selection
 level: low
 ```
 

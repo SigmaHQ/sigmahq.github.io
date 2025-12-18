@@ -1130,8 +1130,8 @@ finalizers:
 Template Output
 Apply a Jinja2 template. Supports the variables:
 
-* `queries` that contains the final query output as a list
-* `pipeline` that contains all the context provided to the processing pipeline
+- `queries` that contains the final query output as a list
+- `pipeline` that contains all the context provided to the processing pipeline
 
 ```yaml
 finalizers:

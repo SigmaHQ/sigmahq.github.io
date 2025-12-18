@@ -21,7 +21,7 @@ detection:
       - "10.0.0.0/8"
       - "172.16.0.0/12"
       - "192.168.0.0/24"
-  condition: not selection // [!code ++]
+  condition: not selection # [!code ++]
   # NOT (id.orig_h == "10.*" OR ... OR id.orig_h == "192.168.*")
 ```
 
@@ -35,7 +35,7 @@ detection:
     EventID: 4663
   selection_2:
     ObjectName: '\Device\CdRom0\setup.exe'
-  condition: selection_1 and selection_2 // [!code ++]
+  condition: selection_1 and selection_2 # [!code ++]
 ```
 
 ::: tip Filters
@@ -50,7 +50,7 @@ detection:
     DestinationIp:
       - "127.0.0.1"
       - "0.0.0.0"
-  condition: selection and not filter // [!code ++]
+  condition: selection and not filter # [!code ++]
 ```
 
 :::
@@ -67,7 +67,7 @@ detection:
   selection2:
     eventSource: iam.amazonaws.com
     eventName: UpdateSAMLProvider
-  condition: selection1 or selection2 // [!code ++]
+  condition: selection1 or selection2 # [!code ++]
 ```
 
 ### `brackets`
@@ -91,7 +91,7 @@ detection:
     DestinationHostname|contains:
       - "*.windowsupdate.com"
       - "*.microsoft.com"
-  condition: selection and not ( filter1 or filter2 or filter3 ) // [!code ++]
+  condition: selection and not ( filter1 or filter2 or filter3 ) # [!code ++]
 ```
 
 ## Advanced Conditions
@@ -132,7 +132,7 @@ detection:
       - ALLOW_STRONG_AUTHENTICATION
   selection_eventValue:
     new_value: "false"
-  condition: all of selection* // [!code ++]
+  condition: all of selection* # [!code ++]
 ```
 
 ### 1 of them
@@ -163,7 +163,7 @@ detection:
       - 13
     TargetObject|contains:
       - '\Microsoft\Windows\CurrentVersion\Run\' # persistence
-  condition: 1 of them // [!code ++]
+  condition: 1 of them # [!code ++]
   #  which means selection_file_creation or
   #              selection_registry_modifications or
   #              selection_registry_run
@@ -197,7 +197,7 @@ detection:
       - 13
     TargetObject|contains:
       - '\Microsoft\Windows\CurrentVersion\Run\' # persistence
-  condition: all of them // [!code ++]
+  condition: all of them # [!code ++]
   #  which means selection_file_creation and
   #              selection_registry_modifications and
   #              selection_registry_run

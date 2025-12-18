@@ -50,19 +50,19 @@ Below is an example of a correlation rule that detects multiple failed logons fo
 ```yaml
 title: Multiple failed logons for a single user (possible brute force attack)
 status: test
-correlation: // [!code focus:10]
-    type: event_count
-    rules:
-        - failed_logon
-    group-by:
-        - TargetUserName
-        - TargetDomainName
-    timespan: 5m
-    condition:
-        gte: 10
+correlation: # [!code focus:10]
+  type: event_count
+  rules:
+    - failed_logon
+  group-by:
+    - TargetUserName
+    - TargetDomainName
+  timespan: 5m
+  condition:
+    gte: 10
 tags:
-    - brute_force
-    - attack.t1110
+  - brute_force
+  - attack.t1110
 ```
 
 Because this correlation rule references another Sigma rule called `failed_logon`, a rule with the field `name: failed_logon` needs to be supplied alongside this rule when we're converting the correlation rule for our SIEM.
@@ -221,10 +221,6 @@ detection:
       - Remote Management Users
       - Distributed COM Users
   condition: selection
-level: informational
-falsepositives:
-  - Administrative activity
-  - Directory assessment tools
 ---
 title: Enumeration of multiple high-privilege groups by tools like BloodHound
 status: stable
@@ -238,10 +234,6 @@ correlation:
   condition:
     gte: 4
     field: TargetUserName
-level: high
-falsepositives:
-  - Administrative activity
-  - Directory assessment tools
 ```
 
 ```splunk

@@ -1,0 +1,465 @@
+{
+  "posts": [
+    {
+      "success": true,
+      "fbAppId": "1401488693436528",
+      "twitterSite": "@github",
+      "twitterCard": "summary_large_image",
+      "twitterTitle": "GitHub - SigmaHQ/sigmahq.github.io: Official Website Of The Sigma Project",
+      "twitterDescription": "Official Website Of The Sigma Project. Contribute to SigmaHQ/sigmahq.github.io development by creating an account on GitHub.",
+      "ogSiteName": "GitHub",
+      "ogType": "object",
+      "ogTitle": "GitHub - SigmaHQ/sigmahq.github.io: Official Website Of The Sigma Project",
+      "ogUrl": "https://github.com/SigmaHQ/sigmahq.github.io",
+      "ogDescription": "Official Website Of The Sigma Project. Contribute to SigmaHQ/sigmahq.github.io development by creating an account on GitHub.",
+      "ogImage": [
+        {
+          "height": "600",
+          "url": "https://opengraph.githubassets.com/7b6d40997037afc5802663029e6070167f477be3402903aa4d3e994fe7cd94e0/SigmaHQ/sigmahq.github.io",
+          "width": "1200",
+          "alt": "Official Website Of The Sigma Project. Contribute to SigmaHQ/sigmahq.github.io development by creating an account on GitHub."
+        }
+      ],
+      "twitterImage": [
+        {
+          "url": "https://opengraph.githubassets.com/7b6d40997037afc5802663029e6070167f477be3402903aa4d3e994fe7cd94e0/SigmaHQ/sigmahq.github.io"
+        }
+      ],
+      "ogLocale": "en",
+      "favicon": "https://github.githubassets.com/favicons/favicon.svg",
+      "charset": "utf-8",
+      "requestUrl": "https://github.com/SigmaHQ/sigmahq.github.io/"
+    },
+    {
+      "success": true,
+      "twitterCard": "summary_large_image",
+      "ogImage": [
+        {
+          "url": "https://www.nextron-systems.com/wp-content/uploads/2023/03/cyb3rops_Halls_of_Valhalla_blue_grey_black_and_white_Thor_Sigma_bf505c2c-f487-48b9-a021-7ce184125797.png",
+          "type": "png"
+        }
+      ],
+      "ogTitle": "Private Sigma Rule Feed in Valhalla and Partnership with SOC Prime - Nextron Systems",
+      "ogLocale": "en-US",
+      "ogUrl": "https://www.nextron-systems.com/2023/03/13/private-sigma-rule-feed-in-valhalla-and-partnership-with-soc-prime/",
+      "ogDate": "2025-12-16T17:06:31+01:00",
+      "favicon": "https://www.nextron-systems.com/wp-content/uploads/2017/11/cropped-Nextron_0.2s_inv_symbol_only-32x32.png",
+      "charset": "UTF-8",
+      "jsonLD": [
+        {
+          "@context": "https://schema.org",
+          "@graph": [
+            {
+              "@type": "Article",
+              "@id": "https://www.nextron-systems.com/2023/03/13/private-sigma-rule-feed-in-valhalla-and-partnership-with-soc-prime/#article",
+              "isPartOf": {
+                "@id": "https://www.nextron-systems.com/2023/03/13/private-sigma-rule-feed-in-valhalla-and-partnership-with-soc-prime/"
+              },
+              "author": {
+                "name": "Florian Roth",
+                "@id": "https://www.nextron-systems.com/#/schema/person/4fd503007d60aabaf1ae747502f36919"
+              },
+              "headline": "Private Sigma Rule Feed in Valhalla and Partnership with SOC Prime",
+              "datePublished": "2023-03-13T10:48:33+00:00",
+              "dateModified": "2024-06-06T14:28:02+00:00",
+              "mainEntityOfPage": {
+                "@id": "https://www.nextron-systems.com/2023/03/13/private-sigma-rule-feed-in-valhalla-and-partnership-with-soc-prime/"
+              },
+              "wordCount": 1376,
+              "publisher": {
+                "@id": "https://www.nextron-systems.com/#organization"
+              },
+              "image": {
+                "@id": "https://www.nextron-systems.com/2023/03/13/private-sigma-rule-feed-in-valhalla-and-partnership-with-soc-prime/#primaryimage"
+              },
+              "thumbnailUrl": "https://www.nextron-systems.com/wp-content/uploads/2023/03/cyb3rops_Halls_of_Valhalla_blue_grey_black_and_white_Thor_Sigma_bf505c2c-f487-48b9-a021-7ce184125797.png",
+              "keywords": [
+                "CTI",
+                "feed",
+                "plan",
+                "provider",
+                "queries",
+                "rule",
+                "rule set",
+                "SIEM",
+                "Sigma",
+                "subscription"
+              ],
+              "articleSection": [
+                "Homepage",
+                "Newsletter",
+                "Nextron",
+                "Security Monitoring",
+                "Sigma",
+                "VALHALLA"
+              ],
+              "inLanguage": "en-US"
+            },
+            {
+              "@type": "WebPage",
+              "@id": "https://www.nextron-systems.com/2023/03/13/private-sigma-rule-feed-in-valhalla-and-partnership-with-soc-prime/",
+              "url": "https://www.nextron-systems.com/2023/03/13/private-sigma-rule-feed-in-valhalla-and-partnership-with-soc-prime/",
+              "name": "Private Sigma Rule Feed in Valhalla and Partnership with SOC Prime - Nextron Systems",
+              "isPartOf": {
+                "@id": "https://www.nextron-systems.com/#website"
+              },
+              "primaryImageOfPage": {
+                "@id": "https://www.nextron-systems.com/2023/03/13/private-sigma-rule-feed-in-valhalla-and-partnership-with-soc-prime/#primaryimage"
+              },
+              "image": {
+                "@id": "https://www.nextron-systems.com/2023/03/13/private-sigma-rule-feed-in-valhalla-and-partnership-with-soc-prime/#primaryimage"
+              },
+              "thumbnailUrl": "https://www.nextron-systems.com/wp-content/uploads/2023/03/cyb3rops_Halls_of_Valhalla_blue_grey_black_and_white_Thor_Sigma_bf505c2c-f487-48b9-a021-7ce184125797.png",
+              "datePublished": "2023-03-13T10:48:33+00:00",
+              "dateModified": "2024-06-06T14:28:02+00:00",
+              "inLanguage": "en-US",
+              "potentialAction": [
+                {
+                  "@type": "ReadAction",
+                  "target": [
+                    "https://www.nextron-systems.com/2023/03/13/private-sigma-rule-feed-in-valhalla-and-partnership-with-soc-prime/"
+                  ]
+                }
+              ]
+            },
+            {
+              "@type": "ImageObject",
+              "inLanguage": "en-US",
+              "@id": "https://www.nextron-systems.com/2023/03/13/private-sigma-rule-feed-in-valhalla-and-partnership-with-soc-prime/#primaryimage",
+              "url": "https://www.nextron-systems.com/wp-content/uploads/2023/03/cyb3rops_Halls_of_Valhalla_blue_grey_black_and_white_Thor_Sigma_bf505c2c-f487-48b9-a021-7ce184125797.png",
+              "contentUrl": "https://www.nextron-systems.com/wp-content/uploads/2023/03/cyb3rops_Halls_of_Valhalla_blue_grey_black_and_white_Thor_Sigma_bf505c2c-f487-48b9-a021-7ce184125797.png",
+              "width": 1664,
+              "height": 960
+            },
+            {
+              "@type": "WebSite",
+              "@id": "https://www.nextron-systems.com/#website",
+              "url": "https://www.nextron-systems.com/",
+              "name": "Nextron Systems",
+              "description": "We Detect Hackers",
+              "publisher": {
+                "@id": "https://www.nextron-systems.com/#organization"
+              },
+              "potentialAction": [
+                {
+                  "@type": "SearchAction",
+                  "target": {
+                    "@type": "EntryPoint",
+                    "urlTemplate": "https://www.nextron-systems.com/?s={search_term_string}"
+                  },
+                  "query-input": {
+                    "@type": "PropertyValueSpecification",
+                    "valueRequired": true,
+                    "valueName": "search_term_string"
+                  }
+                }
+              ],
+              "inLanguage": "en-US"
+            },
+            {
+              "@type": "Organization",
+              "@id": "https://www.nextron-systems.com/#organization",
+              "name": "Nextron Systems GmbH",
+              "url": "https://www.nextron-systems.com/",
+              "logo": {
+                "@type": "ImageObject",
+                "inLanguage": "en-US",
+                "@id": "https://www.nextron-systems.com/#/schema/logo/image/",
+                "url": "https://www.nextron-systems.com/wp-content/uploads/2017/11/Nextron_0.2s_inv_symbol_only.png",
+                "contentUrl": "https://www.nextron-systems.com/wp-content/uploads/2017/11/Nextron_0.2s_inv_symbol_only.png",
+                "width": 260,
+                "height": 260,
+                "caption": "Nextron Systems GmbH"
+              },
+              "image": {
+                "@id": "https://www.nextron-systems.com/#/schema/logo/image/"
+              },
+              "sameAs": [
+                "https://x.com/nextronsystems",
+                "https://www.linkedin.com/company/nextron-systems",
+                "https://github.com/NextronSystems",
+                "https://www.youtube.com/@nextronsystems"
+              ]
+            },
+            {
+              "@type": "Person",
+              "@id": "https://www.nextron-systems.com/#/schema/person/4fd503007d60aabaf1ae747502f36919",
+              "name": "Florian Roth",
+              "image": {
+                "@type": "ImageObject",
+                "inLanguage": "en-US",
+                "@id": "https://www.nextron-systems.com/#/schema/person/image/",
+                "url": "https://www.nextron-systems.com/wp-content/uploads/2025/10/2023-07-22-18.58.42-scaled-96x96.jpg",
+                "contentUrl": "https://www.nextron-systems.com/wp-content/uploads/2025/10/2023-07-22-18.58.42-scaled-96x96.jpg",
+                "caption": "Florian Roth"
+              },
+              "description": "Florian Roth serves as the Head of Research and Development at Nextron Systems. With a background in IT security since 2000, he has delved deep into nation-state cyber attacks since 2012. Florian has developed the THOR Scanner and actively engages with the community via his Twitter handle @cyb3rops. He has contributed to open-source projects, including 'Sigma', a generic SIEM rule format, and 'LOKI', an open-source scanner. Additionally, he has shared valuable resources like a mapping of APT groups and operations and an Antivirus Event Analysis Cheat Sheet.",
+              "url": "https://www.nextron-systems.com/author/florian/"
+            }
+          ]
+        }
+      ],
+      "requestUrl": "https://www.nextron-systems.com/2023/03/13/private-sigma-rule-feed-in-valhalla-and-partnership-with-soc-prime/"
+    },
+    {
+      "success": true,
+      "twitterCard": "summary_large_image",
+      "ogImage": [
+        {
+          "url": "https://www.nextron-systems.com/wp-content/uploads/2023/03/cyb3rops_synthwave_city_scape_blue_and_grey_colours_greek_lower_64ac71bb-47e9-493d-bc6c-a661d28549de.png",
+          "type": "png"
+        }
+      ],
+      "ogTitle": "Demystifying SIGMA Log Sources - Nextron Systems",
+      "ogLocale": "en-US",
+      "ogUrl": "https://www.nextron-systems.com/2023/03/24/demystifying-sigma-log-sources/",
+      "ogDate": "2025-12-16T17:06:31+01:00",
+      "favicon": "https://www.nextron-systems.com/wp-content/uploads/2017/11/cropped-Nextron_0.2s_inv_symbol_only-32x32.png",
+      "charset": "UTF-8",
+      "jsonLD": [
+        {
+          "@context": "https://schema.org",
+          "@graph": [
+            {
+              "@type": "Article",
+              "@id": "https://www.nextron-systems.com/2023/03/24/demystifying-sigma-log-sources/#article",
+              "isPartOf": {
+                "@id": "https://www.nextron-systems.com/2023/03/24/demystifying-sigma-log-sources/"
+              },
+              "author": {
+                "name": "Nasreddine Bencherchali",
+                "@id": "https://www.nextron-systems.com/#/schema/person/7e223f744dcf194f8968dc39bd17f152"
+              },
+              "headline": "Demystifying SIGMA Log Sources",
+              "datePublished": "2023-03-24T12:51:57+00:00",
+              "dateModified": "2024-12-17T11:44:21+00:00",
+              "mainEntityOfPage": {
+                "@id": "https://www.nextron-systems.com/2023/03/24/demystifying-sigma-log-sources/"
+              },
+              "wordCount": 1349,
+              "publisher": {
+                "@id": "https://www.nextron-systems.com/#organization"
+              },
+              "image": {
+                "@id": "https://www.nextron-systems.com/2023/03/24/demystifying-sigma-log-sources/#primaryimage"
+              },
+              "thumbnailUrl": "https://www.nextron-systems.com/wp-content/uploads/2023/03/cyb3rops_synthwave_city_scape_blue_and_grey_colours_greek_lower_64ac71bb-47e9-493d-bc6c-a661d28549de.png",
+              "keywords": [
+                "coverage",
+                "detection",
+                "documentation",
+                "log sources",
+                "logsource",
+                "python",
+                "SIEM",
+                "Sigma",
+                "tool"
+              ],
+              "articleSection": [
+                "Homepage",
+                "Newsletter",
+                "Nextron",
+                "Security Monitoring",
+                "Sigma",
+                "Tool",
+                "Tutorial"
+              ],
+              "inLanguage": "en-US"
+            },
+            {
+              "@type": "WebPage",
+              "@id": "https://www.nextron-systems.com/2023/03/24/demystifying-sigma-log-sources/",
+              "url": "https://www.nextron-systems.com/2023/03/24/demystifying-sigma-log-sources/",
+              "name": "Demystifying SIGMA Log Sources - Nextron Systems",
+              "isPartOf": {
+                "@id": "https://www.nextron-systems.com/#website"
+              },
+              "primaryImageOfPage": {
+                "@id": "https://www.nextron-systems.com/2023/03/24/demystifying-sigma-log-sources/#primaryimage"
+              },
+              "image": {
+                "@id": "https://www.nextron-systems.com/2023/03/24/demystifying-sigma-log-sources/#primaryimage"
+              },
+              "thumbnailUrl": "https://www.nextron-systems.com/wp-content/uploads/2023/03/cyb3rops_synthwave_city_scape_blue_and_grey_colours_greek_lower_64ac71bb-47e9-493d-bc6c-a661d28549de.png",
+              "datePublished": "2023-03-24T12:51:57+00:00",
+              "dateModified": "2024-12-17T11:44:21+00:00",
+              "inLanguage": "en-US",
+              "potentialAction": [
+                {
+                  "@type": "ReadAction",
+                  "target": [
+                    "https://www.nextron-systems.com/2023/03/24/demystifying-sigma-log-sources/"
+                  ]
+                }
+              ]
+            },
+            {
+              "@type": "ImageObject",
+              "inLanguage": "en-US",
+              "@id": "https://www.nextron-systems.com/2023/03/24/demystifying-sigma-log-sources/#primaryimage",
+              "url": "https://www.nextron-systems.com/wp-content/uploads/2023/03/cyb3rops_synthwave_city_scape_blue_and_grey_colours_greek_lower_64ac71bb-47e9-493d-bc6c-a661d28549de.png",
+              "contentUrl": "https://www.nextron-systems.com/wp-content/uploads/2023/03/cyb3rops_synthwave_city_scape_blue_and_grey_colours_greek_lower_64ac71bb-47e9-493d-bc6c-a661d28549de.png",
+              "width": 1728,
+              "height": 864
+            },
+            {
+              "@type": "WebSite",
+              "@id": "https://www.nextron-systems.com/#website",
+              "url": "https://www.nextron-systems.com/",
+              "name": "Nextron Systems",
+              "description": "We Detect Hackers",
+              "publisher": {
+                "@id": "https://www.nextron-systems.com/#organization"
+              },
+              "potentialAction": [
+                {
+                  "@type": "SearchAction",
+                  "target": {
+                    "@type": "EntryPoint",
+                    "urlTemplate": "https://www.nextron-systems.com/?s={search_term_string}"
+                  },
+                  "query-input": {
+                    "@type": "PropertyValueSpecification",
+                    "valueRequired": true,
+                    "valueName": "search_term_string"
+                  }
+                }
+              ],
+              "inLanguage": "en-US"
+            },
+            {
+              "@type": "Organization",
+              "@id": "https://www.nextron-systems.com/#organization",
+              "name": "Nextron Systems GmbH",
+              "url": "https://www.nextron-systems.com/",
+              "logo": {
+                "@type": "ImageObject",
+                "inLanguage": "en-US",
+                "@id": "https://www.nextron-systems.com/#/schema/logo/image/",
+                "url": "https://www.nextron-systems.com/wp-content/uploads/2017/11/Nextron_0.2s_inv_symbol_only.png",
+                "contentUrl": "https://www.nextron-systems.com/wp-content/uploads/2017/11/Nextron_0.2s_inv_symbol_only.png",
+                "width": 260,
+                "height": 260,
+                "caption": "Nextron Systems GmbH"
+              },
+              "image": {
+                "@id": "https://www.nextron-systems.com/#/schema/logo/image/"
+              },
+              "sameAs": [
+                "https://x.com/nextronsystems",
+                "https://www.linkedin.com/company/nextron-systems",
+                "https://github.com/NextronSystems",
+                "https://www.youtube.com/@nextronsystems"
+              ]
+            },
+            {
+              "@type": "Person",
+              "@id": "https://www.nextron-systems.com/#/schema/person/7e223f744dcf194f8968dc39bd17f152",
+              "name": "Nasreddine Bencherchali",
+              "image": {
+                "@type": "ImageObject",
+                "inLanguage": "en-US",
+                "@id": "https://www.nextron-systems.com/#/schema/person/image/",
+                "url": "https://secure.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=96",
+                "contentUrl": "https://secure.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=96",
+                "caption": "Nasreddine Bencherchali"
+              },
+              "url": "https://www.nextron-systems.com/author/nasreddine/"
+            }
+          ]
+        }
+      ],
+      "requestUrl": "https://www.nextron-systems.com/2023/03/24/demystifying-sigma-log-sources/"
+    },
+    {
+      "success": true,
+      "twitterAppNameiPhone": "Medium",
+      "twitterAppIdiPhone": "828256236",
+      "alIosAppName": "Medium",
+      "alIosAppStoreId": "828256236",
+      "alAndroidPackage": "com.medium.reader",
+      "fbAppId": "542599432471018",
+      "ogSiteName": "Medium",
+      "ogType": "article",
+      "articlePublishedTime": "2022-04-12T16:48:27.105Z",
+      "ogTitle": "Creating a Sigma Backend for Fun (and no Profit)",
+      "alAndroidUrl": "medium://p/ed16d20da142",
+      "alIosUrl": "medium://p/ed16d20da142",
+      "alAndroidAppName": "Medium",
+      "ogDescription": "A few months ago I decided to check and see whether there was a Sigma backend for InsightIDR, the cloud-based SIEM from Rapid7. Imagine my…",
+      "ogUrl": "https://micahbabinski.medium.com/creating-a-sigma-backend-for-fun-and-no-profit-ed16d20da142",
+      "alWebUrl": "https://micahbabinski.medium.com/creating-a-sigma-backend-for-fun-and-no-profit-ed16d20da142",
+      "articleAuthor": "https://micahbabinski.medium.com",
+      "author": "Micah Babinski",
+      "twitterTitle": "Creating a Sigma Backend for Fun (and no Profit)",
+      "twitterSite": "@Medium",
+      "twitterAppUrliPhone": "medium://p/ed16d20da142",
+      "twitterDescription": "A few months ago I decided to check and see whether there was a Sigma backend for InsightIDR, the cloud-based SIEM from Rapid7. Imagine my…",
+      "twitterCard": "summary_large_image",
+      "twitterCreator": "@MicahBabinski",
+      "ogImage": [
+        {
+          "url": "https://miro.medium.com/v2/da:true/resize:fit:1200/0*bo6PhJp9fPPlhhJ8"
+        }
+      ],
+      "twitterImage": [
+        {
+          "url": "https://miro.medium.com/v2/da:true/resize:fit:1200/0*bo6PhJp9fPPlhhJ8"
+        }
+      ],
+      "ogLocale": "en",
+      "favicon": "https://miro.medium.com/v2/5d8de952517e8160e40ef9841c781cdc14a5db313057fa3c3de41c6f5b494b19",
+      "charset": "utf-8",
+      "jsonLD": [
+        {
+          "@context": "https://schema.org",
+          "@id": "https://micahbabinski.medium.com/creating-a-sigma-backend-for-fun-and-no-profit-ed16d20da142",
+          "@type": "SocialMediaPosting",
+          "image": ["https://miro.medium.com/0*bo6PhJp9fPPlhhJ8"],
+          "url": "https://micahbabinski.medium.com/creating-a-sigma-backend-for-fun-and-no-profit-ed16d20da142",
+          "dateCreated": "2022-04-12T16:48:27Z",
+          "datePublished": "2022-04-12T16:48:27Z",
+          "dateModified": "2022-04-12T16:48:27Z",
+          "headline": "Creating a Sigma Backend for Fun (and no Profit)",
+          "name": "Creating a Sigma Backend for Fun (and no Profit)",
+          "description": "Creating a Sigma Backend for Fun (and no Profit) A few months ago I decided to check and see whether there was a Sigma backend for InsightIDR, the cloud-based SIEM from Rapid7. Imagine my shock …",
+          "identifier": "ed16d20da142",
+          "author": {
+            "@context": "https://schema.org",
+            "@id": "https://medium.com/@micahbabinski",
+            "@type": "Person",
+            "identifier": "micahbabinski",
+            "name": "Micah Babinski",
+            "url": "https://medium.com/@micahbabinski"
+          },
+          "creator": {
+            "@context": "https://schema.org",
+            "@id": "https://medium.com/@micahbabinski",
+            "@type": "Person",
+            "identifier": "micahbabinski",
+            "name": "Micah Babinski",
+            "url": "https://medium.com/@micahbabinski"
+          },
+          "publisher": {
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            "@id": "https://medium.com",
+            "name": "Medium",
+            "url": "https://medium.com",
+            "logo": {
+              "@type": "ImageObject",
+              "width": 500,
+              "height": 110,
+              "url": "https://miro.medium.com/v2/resize:fit:500/7%2AV1_7XP4snlmqrc_0Njontw.png"
+            }
+          },
+          "mainEntityOfPage": "https://micahbabinski.medium.com/creating-a-sigma-backend-for-fun-and-no-profit-ed16d20da142",
+          "isAccessibleForFree": true
+        }
+      ],
+      "requestUrl": "https://micahbabinski.medium.com/creating-a-sigma-backend-for-fun-and-no-profit-ed16d20da142"
+    }
+  ],
+  "lastUpdated": "2025-12-18T16:16:41.439Z",
+  "generatedBy": "scripts/fetch-blog-data.js"
+}
