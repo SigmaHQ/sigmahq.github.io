@@ -69,7 +69,7 @@ The detection section is the most important component of any Sigma rule. It spec
 ```yaml
     product: okta
     service: okta
-detection: // [!code focus:4]
+detection: # [!code focus:4]
     selection:
         displaymessage: Max sign in attempts exceeded
     condition: selection
@@ -89,9 +89,9 @@ Each Sigma detection is categorised & split up into groups called "`selections`"
 
 ```yaml
 detection:
-    selection: // [!code focus:2]
-        displaymessage: Max sign in attempts exceeded
-    condition: selection
+  selection: # [!code focus:2]
+    displaymessage: Max sign in attempts exceeded
+  condition: selection
 ```
 
 Sigma use "selection" groups to organise detections for readability & filtering, which becomes important when exploring [Conditions](/docs/basics/conditions).
@@ -141,7 +141,7 @@ The below example Sigma rule uses a keyword-based search to detect when users mi
 ```yaml
 logsource:
     product: linux
-detection:// [!code focus:8]
+detection:# [!code focus:8]
     keywords:
         - 'rm *bash_history'
         - 'echo "" > *bash_history'
@@ -164,7 +164,7 @@ This example tells Sigma to generate a SIEM query that searches for any of the f
 <br />
 
 ::: info Naming of `keywords`
-The naming of the field "`keywords`" under the `detection` and `selection` fields in this example is arbitrary. However, you should use it as a standard when creating your own Sigma rules.  
+The naming of the field "`keywords`" under the `detection` and `selection` fields in this example is arbitrary. However, you should use it as a standard when creating your own Sigma rules.
 :::
 
 When we convert the rule into Splunk Query Language (for example) using [the `sigma-cli` tool](https://github.com/SigmaHQ/sigma-cli), the resulting query after conversion will be the following.
@@ -205,18 +205,18 @@ To search for where both of these occur, place both together within the `selecti
 ```yaml
 title: External Disk Drive Or USB Storage Device
 description: >
-    Detects external diskdrives or plugged in USB devices,
-    EventID 6416 on windows 10 or later
+  Detects external diskdrives or plugged in USB devices,
+  EventID 6416 on windows 10 or later
 logsource:
-    product: windows
-    service: security
-detection: // [!code focus:5]
-    selection:
-        EventID: 6416  # and where
-        ClassName: 'DiskDrive'
-    condition: selection
+  product: windows
+  service: security
+detection: # [!code focus:5]
+  selection:
+    EventID: 6416 # and where
+    ClassName: "DiskDrive"
+  condition: selection
 falsepositives:
-    - Legitimate administrative activity
+  - Legitimate administrative activity
 ```
 
 The resulting query after conversion will be the following <br/><i class="opacity-50">(Splunk Query Language used as an example):</i>
@@ -246,17 +246,17 @@ You can represent this in Sigma by using a YAML list, where each field value is 
 title: Group Modification Logging
 description: Triggers when an account is added to or removed from any group assigned administrative privileges.
 logsource:
-    product: windows
-    service: system
-detection: // [!code focus:7]
-    selection:
-        EventID:
-            - 4728  # or where
-            - 4729  # or where
-            - 4730
-    condition: selection
+  product: windows
+  service: system
+detection: # [!code focus:7]
+  selection:
+    EventID:
+      - 4728 # or where
+      - 4729 # or where
+      - 4730
+  condition: selection
 falsepositives:
-    - Unknown
+  - Unknown
 ```
 
 The resulting query after conversion will be the following <br/><i class="opacity-50">(Splunk Query Language used as an example):</i>
@@ -306,11 +306,11 @@ It splits up each defined logsource into three distinct fields - `category`, `pr
 ```yaml
 author: Austin Songer @austinsonger
 date: 2021-09-12
-logsource: // [!code focus:3]
-    product: okta
-    service: okta
+logsource: # [!code focus:3]
+  product: okta
+  service: okta
 detection:
-    selection:
+  selection:
 ```
 
 Sigma rules usually use [a standard combination](/docs/basics/log-sources.md#standard-logsources) of these fields to
@@ -325,13 +325,13 @@ correctly.
 tags:
   - attack.privilege_escalation
   - attack.t1548
-logsource: // [!code focus:4]
+logsource: # [!code focus:4]
   product: windows
   category: ps_script
   definition: Script Block Logging must be enabled
 detection:
   selection:
-    ScriptBlockText|contains: 'Invoke-Nightmare'
+    ScriptBlockText|contains: "Invoke-Nightmare"
 ```
 
 :::

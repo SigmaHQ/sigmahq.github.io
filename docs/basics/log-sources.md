@@ -42,7 +42,7 @@ You may also see a `definition` field within logsource description. This can als
 tags:
   - attack.privilege_escalation
   - attack.t1548
-logsource: // [!code focus:4]
+logsource: # [!code focus:4]
   product: windows
   category: ps_script
   definition: Script Block Logging must be enabled
