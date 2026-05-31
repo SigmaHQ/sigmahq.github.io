@@ -167,13 +167,13 @@ sigma convert \
   rules/windows/process_creation/proc_creation_win_sysinternals_procdump.yml
 ```
 
+<!--@include: ./pipelines/_transformations.md-->
+
 <!--@include: ./pipelines/_priorities.md-->
 
 <!--@include: ./pipelines/_vars_state.md-->
 
 <!--@include: ./pipelines/_placeholders.md-->
-
-<!--@include: ./pipelines/_transformations.md-->
 
 <!--@include: ./pipelines/_postprocessing.md-->
 
