@@ -27,7 +27,7 @@ import RulesBox from "../components/Boxes/RulesBox.vue";
   <VPNav>
     <template #nav-bar-title-after>
       <div
-        class="absolute left-12 top-10 block text-[10pt] text-[var(--vp-c-brand-1)]"
+        class="absolute top-10 left-12 block text-[10pt] text-[var(--vp-c-brand-1)]"
       >
         Detection&nbsp;Format
       </div>
@@ -41,7 +41,7 @@ import RulesBox from "../components/Boxes/RulesBox.vue";
   <div class="overflow-x-hidden">
     <div
       id="shade"
-      class="w-100 pointer-events-none absolute -left-0 bottom-0 right-0 top-0 -z-10 opacity-40 blur dark:opacity-[.20] lg:-top-80 lg:opacity-25"
+      class="pointer-events-none absolute top-0 right-0 bottom-0 -left-0 -z-10 w-full opacity-40 blur-sm lg:-top-80 lg:opacity-25 dark:opacity-[.20]"
       style="
         background: radial-gradient(
           circle at 0% 0%,
@@ -60,9 +60,9 @@ import RulesBox from "../components/Boxes/RulesBox.vue";
           class="flex flex-col items-center gap-6 pb-20 md:flex-row lg:gap-12"
         >
           <div class="flex basis-1 flex-col gap-2 md:basis-3/5 xl:pr-5">
-            <p class="mb-0.5 flex flex-wrap gap-2">
+            <p class="mb-0.5 flex flex-wrap items-center gap-2">
               <Badge
-                class="!transform-none text-nowrap !leading-6"
+                class="!transform-none !leading-6 text-nowrap"
                 text="Open Source"
                 type="tip"
               />
@@ -71,7 +71,7 @@ import RulesBox from "../components/Boxes/RulesBox.vue";
                 href="https://blog.sigmahq.io/introducing-sigma-rule-packages-releases-76043ce42e81"
               >
                 <span
-                  class="inline-block items-center text-nowrap rounded-full bg-sigma-500/[.15] px-3 py-1 text-[12px] font-medium text-[--vp-c-brand-3] text-sigma-600 transition-all group-hover:underline dark:bg-sigma-700/20 dark:text-sigma-400"
+                  class="bg-sigma-500/[.15] text-sigma-600 dark:bg-sigma-700/20 dark:text-sigma-400 inline-block items-center rounded-full px-3 py-1 text-[12px] font-medium text-nowrap transition-all group-hover:underline"
                 >
                   <span class="flex items-center">
                     <GiftIcon class="mr-2 h-3" />
@@ -110,12 +110,12 @@ import RulesBox from "../components/Boxes/RulesBox.vue";
             <div class="mt-6 flex flex-wrap gap-2">
               <a
                 :href="withBase('/docs/guide/getting-started.html')"
-                class="flex w-full items-center justify-center rounded-full border border-[--vp-c-brand-3] bg-[var(--vp-c-brand-3)] p-2 px-4 text-sm font-semibold text-white shadow-md transition hover:border-[var(--vp-c-brand-1)] hover:bg-[var(--vp-c-brand-2)] hover:shadow-lg dark:border-[var(--vp-c-brand-1)] dark:bg-[var(--vp-c-brand-3)] dark:hover:bg-[var(--vp-c-brand-1)] sm:w-auto"
+                class="flex w-full items-center justify-center rounded-full border border-[var(--vp-c-brand-3)] bg-[var(--vp-c-brand-3)] p-2 px-4 text-sm font-semibold text-white shadow-md transition hover:border-[var(--vp-c-brand-1)] hover:bg-[var(--vp-c-brand-2)] hover:shadow-lg sm:w-auto dark:border-[var(--vp-c-brand-1)] dark:bg-[var(--vp-c-brand-3)] dark:hover:bg-[var(--vp-c-brand-1)]"
               >
                 Get Started
               </a>
               <a
-                class="group flex w-full items-center justify-center rounded-full border border-solid border-[#677389]/25 p-2 px-4 pl-3 text-sm font-semibold transition hover:border-sigma-600/50 hover:shadow-md hover:shadow-sigma-700/10 dark:border-[#677389]/40 dark:hover:border-sigma-700 sm:w-auto"
+                class="group hover:border-sigma-600/50 hover:shadow-sigma-700/10 dark:hover:border-sigma-700 flex w-full items-center justify-center rounded-full border border-solid border-[#677389]/25 p-2 px-4 pl-3 text-sm font-semibold transition hover:shadow-md sm:w-auto dark:border-[#677389]/40"
                 href="https://github.com/SigmaHQ/sigma/releases"
               >
                 <ArrowDownCircleIcon
@@ -148,7 +148,7 @@ import RulesBox from "../components/Boxes/RulesBox.vue";
               allows security teams to detect relevant log events in a simple
               and shareable way.
             </p>
-            <a class="more text-sm text-sigma-500" href="/docs/guide/about"
+            <a class="more text-sigma-500 text-sm" href="/docs/guide/about"
               >Learn more about Sigma
               <ChevronRightIcon class="inline-block h-3 w-3" />
             </a>
@@ -156,12 +156,12 @@ import RulesBox from "../components/Boxes/RulesBox.vue";
           <div class="md:basis-3/5">
             <img
               alt=""
-              class="hidden scale-110 dark:block xl:origin-left xl:scale-125"
+              class="hidden scale-110 xl:origin-left xl:scale-125 dark:block"
               src="/images/Sigma_description_dark.png"
             />
             <img
               alt=""
-              class="block scale-110 dark:hidden xl:origin-left xl:scale-125"
+              class="block scale-110 xl:origin-left xl:scale-125 dark:hidden"
               src="/images/Sigma_description_light.png"
             />
           </div>
@@ -319,7 +319,7 @@ import RulesBox from "../components/Boxes/RulesBox.vue";
         </section>
         <section
           id="community"
-          class="border-1 -mx-6 flex flex-col gap-2 border bg-[#DAECF5]/10 p-6 dark:border-[#181A24] dark:bg-[#181A24]/40 md:-m-8 md:mr-0 md:rounded-xl md:p-8"
+          class="-mx-6 flex flex-col gap-2 border bg-[#DAECF5]/10 p-6 md:-m-8 md:mr-0 md:rounded-xl md:p-8 dark:border-[#181A24] dark:bg-[#181A24]/40"
         >
           <h2 class="text-2xl font-semibold">Community</h2>
           <p
@@ -360,7 +360,7 @@ import RulesBox from "../components/Boxes/RulesBox.vue";
         >
           Acknowledgements
         </h2>
-        <p class="text-balance text-sm text-slate-400">
+        <p class="text-sm text-balance text-slate-400">
           Sigma would not be possible without the hard work and dedications of
           hundreds of online contributors through Github.<br />If you would like
           to support the project in any way, please visit our

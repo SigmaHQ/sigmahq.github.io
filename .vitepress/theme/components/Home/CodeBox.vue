@@ -2,7 +2,7 @@
   <div class="relative">
     <div
       id="window-wrapper"
-      class="left-0 top-0 flex flex-col gap-2 md:absolute md:translate-y-[-50%] lg:gap-4"
+      class="top-0 left-0 flex flex-col gap-2 md:absolute md:translate-y-[-50%] lg:gap-4"
     >
       <div
         id="window"
@@ -18,19 +18,18 @@
         <div class="glow-top"></div>
         <div class="glow-bottom"></div>
         <div
-          class="absolute left-0 top-6 hidden w-full text-center text-xs text-slate-400/60 md:block"
+          class="absolute top-6 left-0 hidden w-full text-center text-xs text-slate-400/60 md:block"
         >
           aws_root_account_usage.yml
         </div>
         <pre
-          class="whitespace-pre-wrap text-wrap pt-2 md:whitespace-pre lg:pl-8"
+          class="pt-2 text-wrap whitespace-pre-wrap md:whitespace-pre lg:pl-8"
           v-html="sigma_rule_hl"
         ></pre>
       </div>
       <div
         class="flex w-full justify-center gap-2 md:justify-start lg:justify-center"
       >
-        <!--                <div class="absolute w-3 bg-[var(&#45;&#45;vp-c-brand-2)] -z-10 h-[200px] -translate-y-[50%] opacity-10"></div>-->
         <div
           class="relative inline-block rounded bg-slate-900 px-2.5 py-1.5 text-sm text-slate-300 dark:bg-[#0d0e13]"
         >
@@ -46,17 +45,17 @@
           </div>
         </div>
         <a
-          class="relative flex w-12 items-center justify-center rounded border-2 border-sigma-400 bg-sigma-50 text-sigma-700 outline outline-2 outline-offset-2 outline-transparent transition-all hover:bg-sigma-500 hover:text-white hover:outline-sigma-500 dark:bg-slate-400/20 dark:text-white md:w-8"
+          class="border-sigma-400 bg-sigma-50 text-sigma-700 hover:bg-sigma-500 hover:outline-sigma-500 relative flex w-12 items-center justify-center rounded border-2 outline outline-2 outline-offset-2 outline-transparent transition-all hover:text-white md:w-8 dark:bg-slate-400/20 dark:text-white"
           href="https://sigconverter.io/#backend=splunk&format=default&pipeline=&rule=dGl0bGU6IEFXUyBSb290IENyZWRlbnRpYWxzCmRlc2NyaXB0aW9uOiBEZXRlY3RzIEFXUyByb290IGFjY291bnQgdXNhZ2UKbG9nc291cmNlOgogICAgcHJvZHVjdDogYXdzCiAgICBzZXJ2aWNlOiBjbG91ZHRyYWlsCmRldGVjdGlvbjoKICAgIHNlbGVjdGlvbjoKICAgICAgICB1c2VySWRlbnRpdHkudHlwZTogUm9vdAogICAgZmlsdGVyOgogICAgICAgIGV2ZW50VHlwZTogQXdzU2VydmljZUV2ZW50CiAgICBjb25kaXRpb246IHNlbGVjdGlvbiBhbmQgbm90IGZpbHRlcgpmYWxzZXBvc2l0aXZlczoKICAgIC0gQVdTIFRhc2tzIFRoYXQgUmVxdWlyZSBSb290IFVzZXIgQ3JlZGVudGlhbHMKbGV2ZWw6IG1lZGl1bQ%3D%3D&pipelineYml=bmFtZTogRXhhbXBsZSBQaXBlbGluZQpwcmlvcml0eTogMzAKdHJhbnNmb3JtYXRpb25zOgotIGlkOiBzb3VyY2V0eXBlX2NvbmRpdGlvbgogIHR5cGU6IGFkZF9jb25kaXRpb24KICBjb25kaXRpb25zOgogICAgc291cmNldHlwZTogImF3czpjbG91ZHRyYWlsIgogIHJ1bGVfY29uZGl0aW9uczoKICAtIHR5cGU6IGxvZ3NvdXJjZQogICAgcHJvZHVjdDogYXdzCiAgICBzZXJ2aWNlOiBjbG91ZHRyYWls"
           target="_blank"
         >
           <ArrowUturnLeftIcon class="inline-block h-4 w-4 -scale-y-100" />
-          <span class="absolute -right-1.5 -top-1.5 flex h-3 w-3">
+          <span class="absolute -top-1.5 -right-1.5 flex h-3 w-3">
             <span
-              class="absolute inline-flex h-full w-full animate-ping rounded-full bg-sigma-400 opacity-75"
+              class="bg-sigma-400 absolute inline-flex h-full w-full animate-ping rounded-full opacity-75"
             ></span>
             <span
-              class="relative inline-flex h-3 w-3 rounded-full bg-sigma-500"
+              class="bg-sigma-500 relative inline-flex h-3 w-3 rounded-full"
             ></span>
           </span>
         </a>
@@ -87,7 +86,7 @@
       </div>
 
       <p
-        class="hidden w-full text-center text-xs dark:text-slate-500 md:block md:text-left lg:text-center"
+        class="hidden w-full text-center text-xs md:block md:text-left lg:text-center dark:text-slate-500"
       >
         ... or
         <a
@@ -140,6 +139,8 @@ splunk_output_hl.value = hljs.highlight(output, { language: "spl" }).value;
 </script>
 
 <style scoped>
+@reference "tailwindcss";
+
 #window {
   background-image: linear-gradient(
     290deg,
@@ -254,6 +255,9 @@ html.dark .glow-bottom {
 }
 
 pre {
+  /* Tailwind v4 omits Preflight here, so reset the UA default
+     `pre { margin: 1em 0 }` that v3's reset used to zero out. */
+  margin: 0;
   /*white-space: nowrap;*/
   /*text-overflow: ellipsis;*/
   /*overflow: hidden;*/
@@ -289,6 +293,13 @@ html.dark .line {
 }
 </style>
 
+<!--
+  highlight.js token colors. This MUST be a global (non-scoped) style block:
+  the highlighted markup is injected via `v-html`, so Vue's scoped-style data
+  attribute is never applied to it and `scoped` selectors would not match.
+  Colors are plain CSS (not Tailwind `@apply`) so they don't depend on a
+  `@reference` directive under Tailwind v4.
+-->
 <style>
 .hljs-attr,
 .hljs-bullet {
@@ -300,10 +311,10 @@ html:not(.dark) .hljs-string {
 }
 
 #splunk-output .hljs-literal {
-  @apply text-orange-400;
+  color: var(--color-orange-400);
 }
 
 #splunk-output .hljs-string {
-  @apply text-green-300;
+  color: var(--color-green-300);
 }
 </style>

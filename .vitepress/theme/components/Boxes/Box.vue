@@ -25,6 +25,8 @@ import { BoltIcon } from "@heroicons/vue/24/solid";
 </script>
 
 <style>
+@reference "tailwindcss";
+
 .box .box-icon svg {
   @apply h-6 w-6;
 }

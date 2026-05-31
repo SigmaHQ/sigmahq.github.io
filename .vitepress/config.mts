@@ -1,5 +1,6 @@
 import { defineConfig } from "vitepress";
 import footnote from "markdown-it-footnote";
+import tailwindcss from "@tailwindcss/vite";
 
 // import splunk_syntax from './syntax/splunk.tmLanguage.json'
 // import sumo_syntax from './syntax/sumologic.tmLanguage.json'
@@ -12,6 +13,9 @@ export default defineConfig({
     "A generic and open signature format that allows you to describe relevant log events in a straight-forward manner.",
   sitemap: {
     hostname: "https://sigmahq.io",
+  },
+  vite: {
+    plugins: [tailwindcss()],
   },
   head: [
     [

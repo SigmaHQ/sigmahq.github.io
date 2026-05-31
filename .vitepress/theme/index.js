@@ -1,7 +1,6 @@
 import DefaultTheme from "vitepress/theme";
 import "./style/theme.css";
 import "./style/custom.css";
-import "./tailwind.postcss";
 
 import Layout from "./Layout.vue";
 import LogsourceBox from "./components/Boxes/LogsourceBox.vue";

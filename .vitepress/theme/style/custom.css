@@ -7,6 +7,81 @@
  * -------------------------------------------------------------------------- */
 
 /**
+ * Tailwind v4 normally wraps everything in cascade layers via
+ * `@import "tailwindcss"`. That breaks utilities here because VitePress ships
+ * UNLAYERED resets (e.g. `h1..h6 { font-size:16px; font-weight:400; margin:0 }`
+ * and `img { display:block }`), and per the CSS cascade unlayered rules always
+ * beat layered ones regardless of specificity. The result was that `text-*`,
+ * `font-*`, `m*`/`p*`, `hidden`/`block` etc. silently lost to VitePress.
+ *
+ * To restore Tailwind v3 behaviour we expand the import manually and bring the
+ * UTILITIES in UNLAYERED, so they compete with VitePress on normal cascade
+ * (specificity + source order). `theme` (the design-token variables) stays in
+ * its layer. We intentionally do NOT import Tailwind's `preflight` reset since
+ * VitePress provides its own.
+ * -------------------------------------------------------------------------- */
+
+@layer theme;
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/utilities.css";
+/*@plugin "@tailwindcss/typography";*/
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --color-sigma-50: #e5f8ff;
+  --color-sigma-100: #cdf1fe;
+  --color-sigma-200: #9ce2fc;
+  --color-sigma-300: #72d4f8;
+  --color-sigma-400: #45c4f2;
+  --color-sigma-500: #1ab2ea;
+  --color-sigma-600: #0d93c4;
+  --color-sigma-700: #087096;
+  --color-sigma-800: #034963;
+  --color-sigma-900: #012532;
+  --color-sigma-950: #001319;
+}
+
+/**
+ * Even with Tailwind utilities now unlayered (see import block above), the
+ * single-class display utilities (`.hidden`, `.dark:hidden`, `.dark:block`)
+ * have specificity (0,1,0) and can lose to VitePress's `img { display:block }`
+ * reset depending on bundle source order. These rules pin the behaviour with a
+ * (class + element) specificity of (0,1,1), which always beats the element-only
+ * (0,0,1) reset, so the dark/light media swapping is order-independent.
+ * -------------------------------------------------------------------------- */
+
+img.hidden,
+svg.hidden,
+video.hidden,
+canvas.hidden,
+audio.hidden,
+iframe.hidden,
+embed.hidden,
+object.hidden {
+  display: none;
+}
+
+.dark img.dark\:block,
+.dark svg.dark\:block,
+.dark video.dark\:block,
+.dark canvas.dark\:block,
+.dark iframe.dark\:block,
+.dark embed.dark\:block,
+.dark object.dark\:block {
+  display: block;
+}
+
+.dark img.dark\:hidden,
+.dark svg.dark\:hidden,
+.dark video.dark\:hidden,
+.dark canvas.dark\:hidden,
+.dark iframe.dark\:hidden,
+.dark embed.dark\:hidden,
+.dark object.dark\:hidden {
+  display: none;
+}
+
+/**
 Code
  */
 
