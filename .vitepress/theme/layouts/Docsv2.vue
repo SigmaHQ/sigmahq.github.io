@@ -14,7 +14,7 @@ function active_link(link) {
   <Layout>
     <template #nav-bar-title-after>
       <div
-        class="absolute left-12 top-10 block text-[10pt] text-[var(--vp-c-brand-1)]"
+        class="absolute top-10 left-12 block text-[10pt] text-[var(--vp-c-brand-1)]"
       >
         Documentation
       </div>
@@ -33,12 +33,12 @@ function active_link(link) {
     <!--        </template>-->
 
     <template #sidebar-nav-before>
-      <div class="group flex flex-col gap-2 pb-4 pt-6">
+      <div class="group flex flex-col gap-2 pt-6 pb-4">
         <a
           :href="withBase('/docs/guide/getting-started.html')"
           class="-m-1.5 flex items-center gap-3 rounded-xl p-1.5 text-sm font-semibold text-sky-500 transition-all hover:bg-sky-400/10 dark:text-sky-200 dark:hover:bg-sky-400/20"
           :class="{
-            'bg-sky-400/[0.08] hover:!bg-sky-400/10 group-hover:bg-transparent':
+            'bg-sky-400/[0.08] group-hover:bg-transparent hover:!bg-sky-400/10':
               active_link('docs/'),
             '': !active_link('docs/'),
           }"
@@ -54,7 +54,7 @@ function active_link(link) {
           :href="withBase('/resources/')"
           class="-m-1.5 flex items-center gap-3 rounded-xl p-1.5 text-sm font-semibold text-indigo-500 transition-all hover:bg-indigo-400/10 dark:text-indigo-200 dark:hover:bg-indigo-400/20"
           :class="{
-            'bg-indigo-400/[0.08] hover:!bg-indigo-400/10 group-hover:bg-transparent':
+            'bg-indigo-400/[0.08] group-hover:bg-transparent hover:!bg-indigo-400/10':
               active_link('resources/'),
             '': !active_link('resources/'),
           }"
@@ -73,7 +73,7 @@ function active_link(link) {
 
     <template #sidebar-nav-after>
       <div
-        class="border-1 block w-full border-t border-[var(--vp-c-divider)] pt-6 text-xs text-slate-400 transition-all dark:text-slate-700"
+        class="block w-full border-t border-[var(--vp-c-divider)] pt-6 text-xs text-slate-400 transition-all dark:text-slate-700"
       >
         <div class="mb-0.5 font-semibold">
           Copyright &copy; <a href="https://sigmahq.io/">SigmaHQ</a>

@@ -40,10 +40,16 @@ If you're unfamiliar with new Sigma Meta Rules, it's recommended to read the [Me
 The `correlation` section has the following structure:
 
 - `type`: The type of correlation to be used ([see types below](#types-of-correlations)).
-- `rules`: A list of Sigma rules that are used for the correlation (either by name or ID).
+- `rules`: A list of Sigma rules that are used for the correlation, referenced by their `name` or `id` (UUID).
+- `timespan`: The time frame in which the events are aggregated (e.g. `5m`, `1h`, `7d`). See [Timespan](#timespan) for the supported units.
+- `condition`: The condition that has to be met for the correlation to match. Required for all types except [`temporal`](#temporal) and [`temporal_ordered`](#temporal_ordered).
 - `group-by`: _(Optional)_ A list of fields to group the events by.
-- `timespan`: The time frame in which the events are aggregated.
-- `condition`: The condition that has to be met for the correlation to match.
+- `aliases`: _(Optional)_ Field aliases used to correlate fields with different names across log sources ([see Field Aliases](#field-aliases)).
+- `generate`: _(Optional)_ Whether to also emit the queries for the referenced "base" rules ([see Retaining the Base Conversion](#retaining-the-base-conversion)). Defaults to `false`.
+
+::: warning Use `group-by`, not `group_by`
+The key is spelled with a hyphen (`group-by`). An underscore (`group_by`) is silently ignored, which is a common source of confusion.
+:::
 
 Below is an example of a correlation rule that detects multiple failed logons for a single user within a 5-minute time frame.
 
@@ -126,8 +132,8 @@ If the "base" rule being used is only being used to support the correlation rule
 
 There are a few things to note when working with Sigma Correlations:
 
-- Correlation Rules omits the `logsource` section, as they rely on referencing other Sigma rules to correlate events.
-- Correlation rules will also inhibit the original "base" rule in the output query, as the correlation rule is the one that will be used to generate the query.
+- Correlation rules omit the `logsource` section, as they rely on referencing other Sigma rules to correlate events.
+- By default, correlation rules suppress the output of the referenced "base" rule, as the correlation rule is the one used to generate the query. This can be changed with `generate: true` ([see below](#retaining-the-base-conversion)).
 
 ### Retaining the Base Conversion
 
@@ -150,9 +156,71 @@ correlation:
   generate: true # Retain the base rule in the output query // [!code ++]
 ```
 
+:::
+
+## Timespan
+
+The `timespan` defines the window over which events are aggregated. It is written as an integer count followed by a single-character unit, for example `30s`, `5m`, `1h` or `7d`.
+
+The following units are supported:
+
+| Unit | Meaning            |
+| ---- | ------------------ |
+| `s`  | seconds            |
+| `m`  | minutes            |
+| `h`  | hours              |
+| `d`  | days               |
+| `w`  | weeks              |
+| `M`  | months (uppercase) |
+| `y`  | years              |
+
+::: warning `m` vs `M`
+The unit is case-sensitive: lowercase `m` means **minutes**, while uppercase `M` means **months**. An invalid unit (or a missing count) raises `Timespan '<value>' is invalid.`
+:::
+
+## Condition
+
+The `condition` describes the threshold that must be met for the correlation to fire. It contains exactly one comparison operator mapped to a count:
+
+```yaml
+condition:
+  gte: 10
+```
+
+The supported operators are:
+
+| Operator | Meaning               |
+| -------- | --------------------- |
+| `gt`     | greater than          |
+| `gte`    | greater than or equal |
+| `lt`     | less than             |
+| `lte`    | less than or equal    |
+| `eq`     | equal                 |
+| `neq`    | not equal             |
+
+In addition to the operator, the `condition` may contain:
+
+- `field`: The field to aggregate on. Required for `value_count`, `value_sum`, `value_avg`, `value_median` and `value_percentile`.
+- `percentile`: The percentile to compute, used together with `field` for the `value_percentile` type.
+
+Any other key inside `condition` is rejected with `Sigma correlation condition contains invalid items`.
+
 ## Types of Correlations
 
-Sigma currently supports four correlation types:
+Sigma supports eight correlation types. The four most commonly used are described in detail below — `event_count`, `value_count`, `temporal`, and `temporal_ordered`.
+
+The remaining four are aggregation variants that behave like `value_count`, but apply a different aggregation function to the field referenced by `condition.field`:
+
+| Type               | Aggregation                                                                                                                  |
+| ------------------ | ---------------------------------------------------------------------------------------------------------------------------- |
+| `value_sum`        | Sum of the values of the referenced field.                                                                                   |
+| `value_avg`        | Average (mean) of the values of the referenced field.                                                                        |
+| `value_median`     | Median of the values of the referenced field.                                                                                |
+| `value_percentile` | Percentile of the values of the referenced field. Set the percentile with an additional `percentile` key inside `condition`. |
+
+::: warning Backend support for aggregation types
+The `value_sum`, `value_avg`, `value_median`, and `value_percentile` types are newer additions and are not yet implemented by every backend. Test your conversion before relying on them.
+:::
 
 ### `event_count`
 
@@ -203,6 +271,8 @@ In this example, events are aggregated in 5-minute slots and grouped by `TargetU
 ### `value_count`
 
 The value_count correlation type counts distinct values of a given field. It is useful for detecting a high or low number of unique entities. For example:
+
+Unlike `event_count`, the `value_count` type requires a `field` key inside the `condition`, naming the field whose distinct values are counted. Omitting it raises `Value count correlation rule without field reference`. The same requirement applies to the `value_sum`, `value_avg`, `value_median`, and `value_percentile` types.
 
 ```yaml
 title: High-privilege group enumeration
@@ -256,6 +326,8 @@ A temporal event correlation determines if multiple different event types occur 
 - A brute force or password spraying attack where failed logon events appear together with successful logons from the same source could mean that the attack was successful and should be handled with increased priority.
 - Vulnerability exploitation by detecting a connection to a vulnerable API endpoint together with a process creation:
 
+For `temporal` correlations, the `condition` is optional. When omitted, it defaults to requiring that **all** of the referenced rules match within the timespan — i.e. `gte` with a count equal to the number of rules in the `rules` list. The example below references two rules, so it implicitly requires both to appear within `10s`.
+
 ```yaml
 ---
 title: CVE-2023-22518 Exploit Chain
@@ -288,9 +360,9 @@ The temporal ordered correlation is similar to the former, but adds the order of
 - Some backends don’t implement support for temporal ordered correlation or it’s even not possible to implement this within a query language.
 - Especially when events appear very near to each other and events from different log sources are correlated, different time resolutions and clock skews can cause that the events appear in a different order as they occurred.
 
-Altogether, this correlation type should only be used if really required.
+The events are expected to occur in the same order as the rules are listed in the `rules` section. Like `temporal`, the `condition` is optional and defaults to requiring all referenced rules to match within the timespan.
 
-Field aliases allow correlating fields with different names across log sources.
+Altogether, this correlation type should only be used if really required.
 
 ## Field Aliases
 
@@ -313,4 +385,36 @@ correlation:
   timespan: 5m
 ```
 
-The `aliases` attribute defines a virtual field `ip` that is mapped from the field `src_ip` in the events matched by rule `rule_with_src_ip` and from `dest_ip` in the vents matched by the rule `rule_with_dest_ip`. The defined field `ip` is then used in the `group-by` field list as aggregation field name.
+The `aliases` attribute defines a virtual field `ip` that is mapped from the field `src_ip` in the events matched by rule `rule_with_src_ip` and from `dest_ip` in the events matched by the rule `rule_with_dest_ip`. The defined field `ip` is then used in the `group-by` field list as aggregation field name.
+
+## Chaining Correlations
+
+A correlation rule can reference another correlation rule. Because correlation rules can carry their own `name` (or `id`), they can be listed in the `rules` section of a second correlation rule, allowing detections to be composed in stages.
+
+```yaml
+title: Failed logons followed by a successful logon
+name: failed_then_successful_logon # [!code highlight]
+correlation:
+  type: temporal_ordered
+  rules:
+    - failed_logon
+    - successful_logon
+  group-by:
+    - TargetUserName
+  timespan: 1h
+---
+title: Repeated successful-after-failure logon bursts
+correlation:
+  type: event_count
+  rules:
+    - failed_then_successful_logon # references the correlation above // [!code highlight]
+  group-by:
+    - TargetUserName
+  timespan: 24h
+  condition:
+    gte: 3
+```
+
+::: warning Backend support for chained correlations
+Chaining is supported by the Sigma data model, but not every backend can convert nested correlations into a single query. Test your conversion before relying on this.
+:::
