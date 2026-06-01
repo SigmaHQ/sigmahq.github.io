@@ -2,6 +2,13 @@
 title: "Processing Pipelines"
 ---
 
+<!--suppress ES6UnusedImports -->
+<script setup>
+import { withBase } from "vitepress";
+import Box from "../../.vitepress/theme/components/Boxes/Box.vue";
+import { FunnelIcon } from "@heroicons/vue/24/solid";
+</script>
+
 # {{ $frontmatter.title }}
 
 Processing pipelines control _how_ a Sigma rule is converted into a query for your SIEM. They let you map field names, point rules at the right index or log stream, and apply environment-specific tweaks — all without touching the original rule.
@@ -32,9 +39,11 @@ detection:
   condition: selection
 ```
 
-### Splunk — prefix an index and source
+### Splunk — build a pipeline step by step
 
-Splunk scopes a search to data by adding `index=` and `source=` terms. The [`add_condition`](#add-condition) transformation prepends them to the query. The [`field_name_mapping`](#field-name-mapping) step then renames the rule's `CommandLine` field to the `Process_Command_Line` field used in this index.
+Let's build a Splunk pipeline one transformation at a time, so you can see what each piece adds to the query.
+
+**1. Prefix the logs.** Splunk scopes a search to data by adding `index=` and `source=` terms. The [`add_condition`](#add-condition) transformation prepends them to the query:
 
 ::: code-group
 
@@ -42,15 +51,39 @@ Splunk scopes a search to data by adding `index=` and `source=` terms. The [`add
 name: Example Splunk Pipeline
 priority: 100
 transformations:
+  # Adds the index and source conditions to the query
+  - id: set_index_and_source # [!code ++]
+    type: add_condition # [!code ++]
+    conditions: # [!code ++]
+      index: windows_logs # [!code ++]
+      source: WinEventLog:Security # [!code ++]
+```
+
+```splunk [Splunk Output]
+index="windows_logs" source="WinEventLog:Security" EventID=4688 CommandLine="*suspicious_command*"
+```
+
+:::
+
+**2. Map a field.** Your index probably doesn't store the field as `CommandLine`. The [`field_name_mapping`](#field-name-mapping) transformation renames it to whatever your data uses — here, `Process_Command_Line`:
+
+::: code-group
+
+```yaml [pipelines/splunk_example.yml]
+name: Example Splunk Pipeline
+priority: 100
+transformations:
+  # Adds the index and source conditions to the query
   - id: set_index_and_source
     type: add_condition
     conditions:
       index: windows_logs
       source: WinEventLog:Security
-  - id: map_commandline
-    type: field_name_mapping
-    mapping:
-      CommandLine: Process_Command_Line
+  # Maps the Sigma field name to the one used in the index
+  - id: map_commandline # [!code ++]
+    type: field_name_mapping # [!code ++]
+    mapping: # [!code ++]
+      CommandLine: Process_Command_Line # [!code ++]
 ```
 
 ```splunk [Splunk Output]
@@ -58,6 +91,51 @@ index="windows_logs" source="WinEventLog:Security" EventID=4688 Process_Command_
 ```
 
 :::
+
+**3. Only apply to the right rules.** Right now these transformations run against _every_ rule. Add `rule_conditions` so they only apply to rules with a matching log source — in this case `process_creation` on `windows`. Convert a rule from any other log source and the index, source, and mapping are skipped:
+
+::: code-group
+
+```yaml [pipelines/splunk_example.yml]
+name: Example Splunk Pipeline
+priority: 100
+transformations:
+  # Adds the index and source conditions to the query
+  - id: set_index_and_source
+    type: add_condition
+    conditions:
+      index: windows_logs
+      source: WinEventLog:Security
+    # Only apply to rules with this log source
+    rule_conditions: # [!code ++]
+      - type: logsource # [!code ++]
+        category: process_creation # [!code ++]
+        product: windows # [!code ++]
+  # Maps the Sigma field name to the one used in the index
+  - id: map_commandline
+    type: field_name_mapping
+    mapping:
+      CommandLine: Process_Command_Line
+    # Only apply to rules with this log source
+    rule_conditions: # [!code ++]
+      - type: logsource # [!code ++]
+        category: process_creation # [!code ++]
+        product: windows # [!code ++]
+```
+
+```splunk [Splunk Output]
+index="windows_logs" source="WinEventLog:Security" EventID=4688 Process_Command_Line="*suspicious_command*"
+```
+
+:::
+
+<a :href="withBase('/docs/digging-deeper/pipelines.html#conditions')" class="!no-underline">
+  <Box>
+    <template #icon><FunnelIcon /></template>
+    <template #heading>Learn more about Conditions</template>
+    <template #text>Scope transformations to specific log sources, fields, or earlier processing steps with rule, detection, and field conditions.</template>
+  </Box>
+</a>
 
 ### Elasticsearch ES|QL — set the source index
 
@@ -72,7 +150,7 @@ transformations:
   - id: set_index
     type: set_state
     key: index
-    val: logs-windows-*
+    val: logs-windows-* # [!code highlight]
   - id: map_commandline
     type: field_name_mapping
     mapping:
@@ -98,7 +176,7 @@ transformations:
   - id: set_logsource
     type: set_custom_log_source
     selection:
-      job: windows
+      job: windows # [!code highlight]
   - id: map_commandline
     type: field_name_mapping
     mapping:

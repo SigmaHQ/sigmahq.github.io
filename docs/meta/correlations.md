@@ -156,8 +156,6 @@ correlation:
   generate: true # Retain the base rule in the output query // [!code ++]
 ```
 
-:::
-
 ## Timespan
 
 The `timespan` defines the window over which events are aggregated. It is written as an integer count followed by a single-character unit, for example `30s`, `5m`, `1h` or `7d`.
