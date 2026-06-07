@@ -247,8 +247,6 @@ sigma convert \
 
 <!--@include: ./pipelines/_transformations.md-->
 
-<!--@include: ./pipelines/_priorities.md-->
-
 <!--@include: ./pipelines/_vars_state.md-->
 
 <!--@include: ./pipelines/_placeholders.md-->
@@ -258,6 +256,8 @@ sigma convert \
 <!--@include: ./pipelines/_finalizers.md-->
 
 <!--@include: ./pipelines/_conditions.md-->
+
+<!--@include: ./pipelines/_priorities.md-->
 
 <style>
 .vp-doc p:has(+ ul) {
