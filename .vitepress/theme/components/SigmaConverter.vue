@@ -214,6 +214,7 @@ import {
   XMarkIcon,
 } from "@heroicons/vue/24/solid";
 import { useSigmaConverterPrefs } from "../util/sigma-converter-prefs.js";
+import { pinElement } from "../util/scroll-anchor.js";
 import { siemMeta } from "../util/siem-icons.js";
 import { titleCase } from "../util/string.js";
 import {
@@ -584,6 +585,13 @@ function decorateStatic() {
     btn.innerHTML = `<span class="sigma-engage-label">Live Edit</span><span class="sigma-engage-icon">${BOLT_SVG}</span>`;
     btn.addEventListener("click", (e) => {
       e.stopPropagation();
+      // Anchor the page to the converter the user clicked BEFORE engaging.
+      // Flipping `engaged` cascades to every converter on the page (they all
+      // swap + boot + convert at once), so we pin this one as the single fixed
+      // origin through all that reflow. We anchor the converter ROOT, not the
+      // bolt itself: engaging hides the static block (display:none), which would
+      // collapse the bolt's rect to 0 and break the measurement.
+      pinElement(btn.closest(".sigma-converter"));
       engage();
     });
 
@@ -623,7 +631,15 @@ async function engage() {
 }
 
 /** Turn the live editor off — globally + persisted. Tears down the shared engine. */
-function disengage() {
+function disengage(event) {
+  // Turning off cascades to every converter just like turning on: each swaps
+  // its interactive block back for the static one and the engine output goes
+  // away, reflowing the whole page. Pin the converter the user clicked as the
+  // fixed origin so it doesn't jump out from under the cursor. We anchor the
+  // persistent root (the interactive block, which holds this button, is removed
+  // on disengage; the root survives and the static block reappears inside it).
+  const root = event?.currentTarget?.closest?.(".sigma-converter");
+  if (root) pinElement(root);
   prefEngaged.value = false;
   menuOpen.value = false;
   destroyEditors();
@@ -729,6 +745,15 @@ async function copyOutput() {
 }
 
 function selectTarget(id) {
+  if (id === target.value) {
+    menuOpen.value = false;
+    return;
+  }
+  // Switching SIEM re-converts and re-renders the query, changing its height —
+  // and for unrestricted converters the target is the shared global pref, so
+  // every instance on the page re-converts at once. Pin the converter the user
+  // clicked so the dropdown stays put while all those outputs resize.
+  pinElement(dropdownRef.value?.closest(".sigma-converter"));
   target.value = id;
   menuOpen.value = false;
 }
