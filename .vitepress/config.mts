@@ -16,6 +16,12 @@ export default defineConfig({
   },
   vite: {
     plugins: [tailwindcss()],
+    // The interactive Sigma converter spawns a module Web Worker
+    // (pysigma-node / Pyodide). Vite's default worker format is "iife", which
+    // cannot be used with code-splitting builds, so force ES modules.
+    worker: {
+      format: "es",
+    },
   },
   head: [
     [
@@ -250,6 +256,11 @@ export default defineConfig({
             // { text: 'Structure', link: '/docs/digging-deeper/structure' },
             { text: "Backends", link: "/docs/digging-deeper/backends" },
             { text: "Pipelines", link: "/docs/digging-deeper/pipelines" },
+            // Hidden from the sidebar for now (page still reachable directly):
+            // {
+            //   text: "Convert (Interactive)",
+            //   link: "/docs/digging-deeper/convert",
+            // },
             { text: "Contributing", link: "/docs/digging-deeper/contributing" },
           ],
         },

@@ -315,3 +315,60 @@ html:not(.dark) .dark-mode-only {
   border: none !important;
   box-shadow: none !important;
 }
+
+/**
+  Interactive Sigma converter (prism-code-editor) token colors.
+
+  prism-code-editor ships the GitHub theme, but its YAML grammar classifies
+  tokens differently from the Shiki highlighter VitePress uses for static code
+  blocks (e.g. keys become `.atrule`/orange). These global rules remap prism's
+  YAML tokens to the exact GitHub palette VitePress renders so the live editor
+  is visually identical to the surrounding static code blocks.
+
+  In YAML the only untokenized text prism leaves as raw text nodes is the plain
+  (unquoted) scalar value after `key:`. Shiki colours those as strings (blue),
+  so we set the editor BASE color to the string blue; keys/punctuation are then
+  re-coloured by the token rules below.
+
+  Light: keys #22863A · strings/scalars #032F62 · punctuation #24292E
+  Dark:  keys #85E89D · strings/scalars #9ECBFF · punctuation #E1E4E8
+ */
+/* Base colour for plain (untokenized) YAML scalars — input editor only, so the
+   converted-query output keeps the normal code text colour. */
+.sigma-converter-live .sigma-block--input .prism-code-editor {
+  color: #032f62;
+}
+.sigma-converter-live .prism-code-editor .token.key,
+.sigma-converter-live .prism-code-editor .token.atrule,
+.sigma-converter-live .prism-code-editor .token.tag {
+  color: #22863a;
+}
+.sigma-converter-live .prism-code-editor .token.string,
+.sigma-converter-live .prism-code-editor .token.scalar,
+.sigma-converter-live .prism-code-editor .token.number,
+.sigma-converter-live .prism-code-editor .token.boolean,
+.sigma-converter-live .prism-code-editor .token.null {
+  color: #032f62;
+}
+.sigma-converter-live .prism-code-editor .token.punctuation {
+  color: #24292e;
+}
+
+.dark .sigma-converter-live .sigma-block--input .prism-code-editor {
+  color: #9ecbff;
+}
+.dark .sigma-converter-live .prism-code-editor .token.key,
+.dark .sigma-converter-live .prism-code-editor .token.atrule,
+.dark .sigma-converter-live .prism-code-editor .token.tag {
+  color: #85e89d;
+}
+.dark .sigma-converter-live .prism-code-editor .token.string,
+.dark .sigma-converter-live .prism-code-editor .token.scalar,
+.dark .sigma-converter-live .prism-code-editor .token.number,
+.dark .sigma-converter-live .prism-code-editor .token.boolean,
+.dark .sigma-converter-live .prism-code-editor .token.null {
+  color: #9ecbff;
+}
+.dark .sigma-converter-live .prism-code-editor .token.punctuation {
+  color: #e1e4e8;
+}

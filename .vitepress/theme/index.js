@@ -7,6 +7,7 @@ import LogsourceBox from "./components/Boxes/LogsourceBox.vue";
 import RulesBox from "./components/Boxes/RulesBox.vue";
 import TargetBox from "./components/Boxes/TargetBox.vue";
 import Callout from "./components/Callout.vue";
+import SigmaConverter from "./components/SigmaConverter.vue";
 
 export default {
   extends: {
@@ -19,5 +20,6 @@ export default {
     ctx.app.component("TargetBox", TargetBox);
 
     ctx.app.component("Callout", Callout);
+    ctx.app.component("SigmaConverter", SigmaConverter);
   },
 };
