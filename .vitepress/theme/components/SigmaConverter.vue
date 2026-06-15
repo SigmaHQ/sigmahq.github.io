@@ -34,13 +34,6 @@
             ></span>
           </span>
         </div>
-
-        <p
-          class="m-0 flex items-center gap-1.5 text-xs text-[var(--vp-c-text-3)]"
-        >
-          <InformationCircleIcon class="h-3.5 w-3.5 shrink-0" />
-          ~10&nbsp;MB download · runs locally · nothing leaves your browser
-        </p>
       </div>
     </div>
 
@@ -49,61 +42,72 @@
          A "joined" code-block: editable Sigma rule on top, converted query
          directly below — mimicking the existing top/bottom code-block style.
          =================================================================== -->
-    <div v-if="engaged" class="sigma-converter-live">
+    <div v-if="engaged" class="my-4">
       <!-- Toolbar -->
-      <div class="sigma-converter-toolbar">
+      <div
+        class="relative z-[5] flex flex-wrap items-center justify-end gap-2 rounded-lg border border-[var(--vp-c-border)]/60 bg-[color-mix(in_srgb,var(--vp-code-block-bg)_92%,#fff)] px-3 py-2 dark:bg-[var(--vp-code-block-bg)] mb-2"
+      >
         <div class="flex items-center gap-2 text-xs" :class="statusColor">
+          <!-- Only surface status text when it matters (loading / error). -->
+          <span v-if="showStatusText" class="font-medium">{{
+            statusText
+          }}</span>
           <span
-            class="inline-block h-2 w-2 shrink-0 rounded-full"
-            :class="{
+              class="inline-block h-2 w-2 shrink-0 rounded-full"
+              :class="{
               'animate-pulse bg-amber-500': phase === 'loading',
               'bg-emerald-500': phase === 'ready',
               'animate-pulse bg-sky-500': phase === 'converting',
               'bg-rose-500': phase === 'error',
             }"
           ></span>
-          <!-- Only surface status text when it matters (loading / error). -->
-          <span v-if="showStatusText" class="font-medium">{{
-            statusText
-          }}</span>
         </div>
 
         <div class="flex items-center gap-2">
           <!-- Custom SIEM dropdown -->
-          <div ref="dropdownRef" class="sigma-select">
+          <div ref="dropdownRef" class="relative">
             <button
               type="button"
-              class="sigma-select__trigger"
+              class="flex h-8 min-w-[170px] items-center gap-2 rounded-lg border border-[var(--vp-c-divider)] bg-[var(--vp-c-bg)] px-2.5 text-[13px] font-medium text-[var(--vp-c-text-1)] transition-colors hover:border-[var(--vp-c-brand-1)]"
               :aria-expanded="menuOpen"
               aria-haspopup="listbox"
               @click="menuOpen = !menuOpen"
             >
               <span
                 v-if="selectedMeta?.svg"
-                class="sigma-select__icon"
+                class="sigma-icon inline-flex shrink-0 items-center justify-center text-[var(--vp-c-text-2)]"
                 :style="
                   selectedMeta.color ? { color: selectedMeta.color } : undefined
                 "
                 v-html="selectedMeta.svg"
               ></span>
-              <span class="sigma-select__label">{{ selectedTitle }}</span>
-              <ChevronUpDownIcon class="sigma-select__chevron" />
+              <span
+                class="flex-auto overflow-hidden text-left text-ellipsis whitespace-nowrap"
+                >{{ selectedTitle }}</span
+              >
+              <ChevronUpDownIcon
+                class="h-4 w-4 shrink-0 text-[var(--vp-c-text-3)]"
+              />
             </button>
 
             <Transition name="sigma-select-fade">
-              <ul v-if="menuOpen" class="sigma-select__menu" role="listbox">
+              <ul
+                v-if="menuOpen"
+                class="sigma-menu absolute top-[calc(100%+6px)] right-0 z-20 m-0 max-h-80 min-w-[220px] list-none overflow-y-auto rounded-[10px] border border-[var(--vp-c-divider)] bg-[var(--vp-c-bg)] shadow-[var(--vp-shadow-3)]"
+                role="listbox"
+              >
                 <li
                   v-for="t in targets"
                   :key="t.id"
                   role="option"
                   :aria-selected="t.id === target"
-                  class="sigma-select__option"
-                  :class="{ 'is-active': t.id === target }"
+                  class="sigma-option flex cursor-pointer list-none items-center gap-2 rounded-md px-[0.55rem] py-1.5 text-[13px] text-[var(--vp-c-text-1)] transition-colors hover:bg-[var(--vp-c-bg-soft)]"
+                  :class="{ 'bg-[var(--vp-c-brand-soft)]': t.id === target }"
                   @click="selectTarget(t.id)"
                 >
                   <span
                     v-if="metaFor(t.id)?.svg"
-                    class="sigma-select__icon"
+                    class="sigma-icon inline-flex shrink-0 items-center justify-center text-[var(--vp-c-text-2)]"
                     :style="
                       metaFor(t.id)?.color
                         ? { color: metaFor(t.id).color }
@@ -111,11 +115,11 @@
                     "
                     v-html="metaFor(t.id).svg"
                   ></span>
-                  <span v-else class="sigma-select__icon-placeholder"></span>
-                  <span class="sigma-select__option-label">{{ t.title }}</span>
+                  <span v-else class="h-4 w-4 shrink-0"></span>
+                  <span class="flex-auto">{{ t.title }}</span>
                   <CheckIcon
                     v-if="t.id === target"
-                    class="sigma-select__check"
+                    class="h-4 w-4 shrink-0 text-[var(--vp-c-brand-1)]"
                   />
                 </li>
               </ul>
@@ -125,7 +129,7 @@
           <!-- Turn the live editor back off (persisted globally) -->
           <button
             type="button"
-            class="sigma-toolbar-btn"
+            class="inline-flex items-center gap-1.5 rounded-md border border-[var(--vp-c-divider)] bg-[var(--vp-c-bg)] px-2.5 py-1.5 text-xs font-medium text-[var(--vp-c-text-2)] transition-colors hover:border-[var(--vp-c-brand-1)] hover:text-[var(--vp-c-text-1)]"
             title="Turn off the live editor (reverts to static examples everywhere)"
             @click="disengage"
           >
@@ -136,31 +140,43 @@
       </div>
 
       <!-- Input (top half of the joined block) -->
-      <div class="sigma-block sigma-block--input">
-        <div class="sigma-block__lang">sigma rule (yaml)</div>
-        <div ref="inputRef" class="sigma-editor"></div>
+      <div
+        class="sigma-block sigma-block--input group/input relative bg-[var(--vp-code-block-bg)] rounded-t-lg"
+      >
+        <div class="sigma-lang">sigma rule (yaml)</div>
+        <div ref="inputRef"></div>
       </div>
 
       <!-- Output (bottom half of the joined block) -->
-      <div class="sigma-block sigma-block--output">
-        <div class="sigma-block__lang">{{ outputLangLabel }}</div>
+      <div
+        class="sigma-block sigma-block--output group/output relative rounded-b-lg bg-[color-mix(in_srgb,var(--vp-code-block-bg)_96%,#000)] dark:bg-[var(--vp-c-bg-soft)]"
+      >
+        <div class="sigma-lang transition-opacity group-hover/output:opacity-0">
+          {{ outputLangLabel }}
+        </div>
         <button
           v-if="output && !error"
           type="button"
-          class="sigma-block__copy copy"
+          class="sigma-copy copy opacity-0 group-hover/output:opacity-100 focus:opacity-100"
           :class="{ copied }"
           title="Copy query"
           @click="copyOutput"
         ></button>
-        <pre v-if="error" class="sigma-output sigma-output--error">{{
-          error
-        }}</pre>
+        <pre
+          v-if="error"
+          class="sigma-pre m-0 overflow-x-auto px-6 py-5 break-words whitespace-pre-wrap text-[#e45649] dark:text-[#fb7185]"
+          >{{ error }}</pre
+        >
         <div v-else-if="output" ref="outputRef" class="sigma-output-code"></div>
-        <pre v-else class="sigma-output sigma-output--placeholder">{{
-          phase === "converting"
-            ? "Converting…"
-            : "Edit the rule above to generate the query."
-        }}</pre>
+        <pre
+          v-else
+          class="sigma-pre m-0 overflow-x-auto px-6 py-5 break-words whitespace-pre-wrap text-[var(--vp-c-text-3)]"
+          >{{
+            phase === "converting"
+              ? "Converting…"
+              : "Edit the rule above to generate the query."
+          }}</pre
+        >
       </div>
     </div>
   </div>
@@ -179,7 +195,6 @@ import {
 import { useData } from "vitepress";
 import {
   BoltIcon,
-  InformationCircleIcon,
   ChevronUpDownIcon,
   CheckIcon,
   XMarkIcon,
@@ -489,153 +504,41 @@ onBeforeUnmount(() => {
 </script>
 
 <style scoped>
-/* The joined block container */
-.sigma-converter-live {
-  margin: 16px 0;
-  border-radius: 8px;
-  overflow: visible;
-}
+/* ---------------------------------------------------------------------------
+   Only the rules below remain in plain CSS because they target DOM that
+   Tailwind utilities cannot reach: third-party prism-code-editor internals
+   (via :deep), v-html-injected brand SVGs, pseudo-elements (::before / ::marker
+   for the copy "Copied" pill and list markers) and Vue <Transition> classes.
+   Everything else now lives as Tailwind utilities in the template.
+   ------------------------------------------------------------------------- */
 
-.sigma-converter-toolbar {
-  position: relative;
-  z-index: 5;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.5rem;
-  padding: 0.5rem 0.75rem;
-  border-top-left-radius: 8px;
-  border-top-right-radius: 8px;
-  background-color: var(--vp-c-bg-soft);
-}
-
-/* ---------------------------------------------------------------- toolbar btn */
-.sigma-toolbar-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.3rem;
-  border-radius: 6px;
-  padding: 0.3rem 0.6rem;
-  font-size: 12px;
-  font-weight: 500;
-  color: var(--vp-c-text-2);
-  background-color: var(--vp-c-bg);
-  border: 1px solid var(--vp-c-divider);
-  transition:
-    color 0.2s,
-    border-color 0.2s,
-    background-color 0.2s;
-}
-.sigma-toolbar-btn:hover {
-  color: var(--vp-c-text-1);
-  border-color: var(--vp-c-brand-1);
-}
-
-/* ---------------------------------------------------------------- SIEM select */
-.sigma-select {
-  position: relative;
-}
-.sigma-select__trigger {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  min-width: 170px;
-  height: 32px;
-  padding: 0 0.6rem;
-  border-radius: 8px;
-  border: 1px solid var(--vp-c-divider);
-  background-color: var(--vp-c-bg);
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--vp-c-text-1);
-  transition:
-    border-color 0.2s,
-    background-color 0.2s;
-}
-.sigma-select__trigger:hover {
-  border-color: var(--vp-c-brand-1);
-}
-.sigma-select__label {
-  flex: 1 1 auto;
-  text-align: left;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.sigma-select__chevron {
-  width: 16px;
-  height: 16px;
-  flex-shrink: 0;
-  color: var(--vp-c-text-3);
-}
-.sigma-select__icon,
-.sigma-select__icon :deep(svg) {
-  width: 16px;
-  height: 16px;
-  flex-shrink: 0;
-}
-.sigma-select__icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--vp-c-text-2);
-}
-.sigma-select__icon-placeholder {
+/* Brand SVGs injected via v-html — size + inherit the inline tint colour. */
+.sigma-icon,
+.sigma-icon :deep(svg) {
   width: 16px;
   height: 16px;
   flex-shrink: 0;
 }
 
-.sigma-select__menu {
-  position: absolute;
-  top: calc(100% + 6px);
-  right: 0;
-  z-index: 20;
+/* VitePress' prose (.vp-doc) styles target plain <ul>/<li>, adding a "•"
+   ::before, a ::marker and a left indent (margin-inline-start) that Tailwind
+   utilities lose to on specificity. Neutralise all of them so the options align
+   flush to the menu's padding edge (no phantom bullet gap). */
+.sigma-menu {
   margin: 0;
   padding: 0.3rem;
-  list-style: none;
-  padding-inline-start: 0.3rem;
-  min-width: 220px;
-  max-height: 320px;
-  overflow-y: auto;
-  border-radius: 10px;
-  border: 1px solid var(--vp-c-divider);
-  background-color: var(--vp-c-bg);
-  box-shadow: var(--vp-shadow-3);
 }
-.sigma-select__option {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
+.sigma-option {
   margin: 0;
-  padding: 0.4rem 0.55rem;
-  border-radius: 6px;
-  font-size: 13px;
-  color: var(--vp-c-text-1);
-  cursor: pointer;
-  list-style: none;
-  transition: background-color 0.12s;
 }
-.sigma-select__option::marker {
+.sigma-option::marker {
   content: "";
 }
-.sigma-select__option:hover {
-  background-color: var(--vp-c-bg-soft);
-}
-.sigma-select__option.is-active {
-  background-color: var(--vp-c-brand-soft);
-}
-.sigma-select__option-label {
-  flex: 1 1 auto;
-}
-.sigma-select__check {
-  width: 16px;
-  height: 16px;
-  flex-shrink: 0;
-  color: var(--vp-c-brand-1);
+.sigma-option::before {
+  content: none !important;
 }
 
+/* SIEM dropdown open/close transition (<Transition name="sigma-select-fade">). */
 .sigma-select-fade-enter-active,
 .sigma-select-fade-leave-active {
   transition:
@@ -648,13 +551,8 @@ onBeforeUnmount(() => {
   transform: translateY(-4px);
 }
 
-/* ------------------------------------------------------------- code-block chrome */
-.sigma-block {
-  position: relative;
-  background-color: var(--vp-code-block-bg);
-}
-
-.sigma-block__lang {
+/* Absolute "lang" label shared by input + output blocks. */
+.sigma-lang {
   position: absolute;
   top: 8px;
   right: 12px;
@@ -665,16 +563,12 @@ onBeforeUnmount(() => {
   color: var(--vp-c-text-3);
   pointer-events: none;
   user-select: none;
-  transition: opacity 0.4s;
-}
-/* Fade the lang label when the copy button shows (mirrors VitePress). */
-.sigma-block--output:hover .sigma-block__lang {
-  opacity: 0;
 }
 
 /* VitePress-identical copy button: 40x40 hover icon button that swaps to a
-   check + "Copied" pill once copied. */
-.sigma-block__copy {
+   check + "Copied" pill once copied. The pseudo-element + CSS-var background
+   icons can't be expressed as utilities. */
+.sigma-copy {
   direction: ltr;
   position: absolute;
   top: 12px;
@@ -685,7 +579,6 @@ onBeforeUnmount(() => {
   width: 40px;
   height: 40px;
   background-color: var(--vp-code-copy-code-bg);
-  opacity: 0;
   cursor: pointer;
   background-image: var(--vp-icon-copy);
   background-position: 50%;
@@ -696,21 +589,17 @@ onBeforeUnmount(() => {
     background-color 0.25s,
     opacity 0.25s;
 }
-.sigma-block--output:hover .sigma-block__copy,
-.sigma-block__copy:focus {
-  opacity: 1;
-}
-.sigma-block__copy:hover,
-.sigma-block__copy.copied {
+.sigma-copy:hover,
+.sigma-copy.copied {
   border-color: var(--vp-code-copy-code-hover-border-color);
   background-color: var(--vp-code-copy-code-hover-bg);
 }
-.sigma-block__copy.copied {
+.sigma-copy.copied {
   border-radius: 0 4px 4px 0;
   background-color: var(--vp-code-copy-code-hover-bg);
   background-image: var(--vp-icon-copied);
 }
-.sigma-block__copy.copied::before {
+.sigma-copy.copied::before {
   position: relative;
   top: -1px;
   transform: translateX(calc(-100% - 1px));
@@ -732,87 +621,20 @@ onBeforeUnmount(() => {
   content: var(--vp-code-copy-copied-text-content);
 }
 
-/* Input is the top of the joined block. */
-.sigma-block--input {
-  background-color: var(--vp-code-block-bg);
-}
-
-/* Output is the bottom of the joined block (rounded bottom corners). A subtle
-   surface change reads as "connected but separate". In dark mode only the
-   editor↔output seam needs distinction; in light mode every section is tinted. */
-.sigma-block--output {
-  border-bottom-left-radius: 8px;
-  border-bottom-right-radius: 8px;
-}
-
-/* Light mode: VitePress' bg-alt == code-block-bg, so every section would be the
-   same colour. Tint each section with a distinct step (toolbar darkest →
-   input → output) so they read as separate panels without any border. */
-.sigma-converter-toolbar {
-  background-color: color-mix(in srgb, var(--vp-code-block-bg) 92%, #000);
-}
-.sigma-block--input {
-  background-color: var(--vp-code-block-bg);
-}
-.sigma-block--output {
-  background-color: color-mix(in srgb, var(--vp-code-block-bg) 96%, #000);
-}
-
-/* Dark mode: the code-block surface already separates the toolbar; only the
-   editor↔output seam needs a (slightly lighter) distinction. */
-:global(.dark) .sigma-converter-toolbar {
-  background-color: var(--vp-code-block-bg);
-}
-:global(.dark) .sigma-block--input {
-  background-color: var(--vp-code-block-bg);
-}
-:global(.dark) .sigma-block--output {
-  /* A clearly lighter surface so the editor↔output seam is visible (no border).
-     VitePress' --vp-c-bg-soft sits just above the code-block bg in dark mode. */
-  background-color: var(--vp-c-bg-soft);
+/* The plain-text <pre> (error / placeholder) shares the code-block metrics. */
+.sigma-pre {
+  font-family: var(--vp-font-family-mono);
+  font-size: 14px;
+  line-height: 1.7;
 }
 
 /* Match VitePress code blocks exactly: 14px / 1.7 line-height, mono font,
    24px horizontal padding (via prism's --padding-inline so the highlight layer
-   AND the textarea stay aligned), transparent bg over the block. */
-.sigma-block--input :deep(.prism-code-editor) {
-  --pce-bg: transparent;
-  --padding-inline: 24px;
-  background: transparent;
-  margin: 0;
-  font-family: var(--vp-font-family-mono);
-  font-size: 14px;
-  line-height: 1.7;
-}
-.sigma-block--input :deep(.prism-code-editor .pce-wrapper) {
-  margin: 20px 0;
-}
-
-.sigma-output {
-  margin: 0;
-  padding: 20px 24px;
-  overflow-x: auto;
-  font-family: var(--vp-font-family-mono);
-  font-size: 14px;
-  line-height: 1.7;
-  white-space: pre-wrap;
-  word-break: break-word;
-  color: var(--vp-c-text-1);
-}
-.sigma-output--error {
-  color: #e45649;
-}
-:global(.dark) .sigma-output--error {
-  color: #fb7185;
-}
-.sigma-output--placeholder {
-  color: var(--vp-c-text-3);
-}
-
-/* Read-only highlighted output rendered by prism-code-editor's renderCodeBlock —
-   match the editor + VitePress code blocks exactly (14px / 1.7, 24px padding).
+   AND the textarea stay aligned), transparent bg over the block. These reach
+   into prism-code-editor's generated DOM, so they must stay as :deep() CSS.
    renderCodeBlock's code-block.css applies `font-size: .875em` to the root, so
-   we pin 14px on the rendered lines themselves. */
+   we also pin 14px on the rendered lines themselves. */
+.sigma-block--input :deep(.prism-code-editor),
 .sigma-output-code :deep(.prism-code-editor) {
   --pce-bg: transparent;
   --padding-inline: 24px;
@@ -822,12 +644,15 @@ onBeforeUnmount(() => {
   font-size: 14px;
   line-height: 1.7;
 }
+.sigma-block--input :deep(.prism-code-editor .pce-wrapper),
 .sigma-output-code :deep(.prism-code-editor .pce-wrapper),
 .sigma-output-code :deep(.prism-code-editor .pce-line) {
   font-size: 14px;
   line-height: 1.7;
 }
+.sigma-block--input :deep(.prism-code-editor .pce-wrapper),
 .sigma-output-code :deep(.prism-code-editor .pce-wrapper) {
   margin: 20px 0;
+  padding: 0 0;
 }
 </style>
