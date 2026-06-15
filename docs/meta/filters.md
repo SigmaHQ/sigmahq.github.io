@@ -38,6 +38,8 @@ Filters are used to define a set of conditions that can be applied to Sigma rule
 
 When applying Filters in your "detection-as-code" strategy, filters can be applied recursively when converting your Sigma rules for use in your SIEM.
 
+<SigmaConverter>
+
 ::: code-group
 
 ```yaml [./filters/win_filter_admins.yml]
@@ -73,6 +75,12 @@ detection:
 
 :::
 
+```splunk
+Image="*\\sc.exe" CommandLine="*create*" CommandLine="*binPath*" NOT User="adm_*"
+```
+
+</SigmaConverter>
+
 In the example above, the `win_filter_admins.yml` filter is applied to the `proc_creation_win_sc_create_service.yml` Sigma rule. The filter will exclude any events where the `User` field starts with `adm_`. The filter references the Sigma rule in the `rules` list under `filter` section, using the `name` field within the Sigma rule.
 
 To apply a filter when converting a Sigma rule, use the `--filter` option in Sigma CLI, followed by the path to the filter folder or file. You can apply multiple filters by specifying a directory containing multiple filter files.
@@ -80,18 +88,9 @@ To apply a filter when converting a Sigma rule, use the `--filter` option in Sig
 Here's an example of running the Sigma rule with the filter:
 
 ```bash
-sigma convert -t splunk --pipeline splunk_windows \
-  --filter ./filters/win_filter_admins.yml \ # [!code highlight]
+sigma convert -t splunk \
+  --filter ./filters/win_filter_admins.yml \
   ./rules/windows/process_creation/proc_creation_win_sc_create_service.yml
-```
-
-The resulting Splunk query will include the filter condition:
-
-```splunk
-Image="*\\sc.exe" \
-  CommandLine="*create*" \
-  CommandLine="*binPath*" \
-  NOT User="adm_*" # [!code ++]
 ```
 
 ## Referencing all rules within a logsource

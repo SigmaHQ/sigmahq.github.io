@@ -54,9 +54,12 @@ Below is a list of available field modifiers.
 
 ### all
 
-::: code-group
+<SigmaConverter>
 
-```yaml [/rules/web/web_cve_2020_0688_exchange_exploit.yml]
+```yaml
+title: Exchange ProxyShell exploitation attempt in web logs
+logsource:
+  category: webserver
 detection:
   selection:
     c-uri|contains|all:
@@ -66,13 +69,11 @@ detection:
   condition: selection
 ```
 
-```splunk [Splunk Output]
-"c-uri"="*/ecp/default.aspx*" \
-    "c-uri"="*__VIEWSTATEGENERATOR=*" \
-    "c-uri"="*__VIEWSTATE=*"
+```splunk
+"c-uri"="*/ecp/default.aspx*" "c-uri"="*__VIEWSTATEGENERATOR=*" "c-uri"="*__VIEWSTATE=*"
 ```
 
-:::
+</SigmaConverter>
 
 Normally, lists of values are linked with `OR` in the generated query.<br />The `all` modifier changes this to `AND`.
 
@@ -88,11 +89,12 @@ Single item values are not allowed to have an `all` modifier as some backends ca
 
 ### base64 / base64offset
 
-::: code-group
+<SigmaConverter>
 
-```yaml [/rules/base64_shell_usage_http_traffic.yaml]
+```yaml
 title: Base64 shell usage in HTTP web traffic
----
+logsource:
+  product: linux
 detection:
   selection:
     fieldname|base64offset|contains:
@@ -102,19 +104,11 @@ detection:
   condition: selection
 ```
 
-```splunk [Splunk Output]
-fieldname="*L2Jpbi9iYXNo*" \
-    OR fieldname="*9iaW4vYmFza*" \
-    OR fieldname="*vYmluL2Jhc2*" \
-    OR fieldname="*L2Jpbi9za*" \
-    OR fieldname="*9iaW4vc2*" \
-    OR fieldname="*vYmluL3No*" \
-    OR fieldname="*L2Jpbi96c2*" \
-    OR fieldname="*9iaW4venNo*" \
-    OR fieldname="*vYmluL3pza*"
+```splunk
+fieldname="*L2Jpbi9iYXNo*" OR fieldname="*9iaW4vYmFza*" OR fieldname="*vYmluL2Jhc2*" OR fieldname="*L2Jpbi9za*" OR fieldname="*9iaW4vc2*" OR fieldname="*vYmluL3No*" OR fieldname="*L2Jpbi96c2*" OR fieldname="*9iaW4venNo*" OR fieldname="*vYmluL3pza*"
 ```
 
-:::
+</SigmaConverter>
 
 The `base64` modifier-set will encode the provided values as base64 encoded strings. Often used alongside `contains` to identify malicious injection into applications.
 
@@ -130,59 +124,74 @@ The `base64offset` modifier is usually preferred over the `base64` modifier, bec
 
 ### cased
 
-::: code-group
+<SigmaConverter :siems="['sqlite', 'loki']">
 
-```yaml [/rules/needle_in_end_of_haystack.yaml]
+```yaml
+title: Example of cased modifier
+logsource:
+  product: example
 detection:
   selection:
     fieldname|cased: "CaseSensitiveValue"
   condition: selection
 ```
 
-```splunk [Splunk Output]
-
+```sql
+SELECT * FROM <TABLE_NAME> WHERE fieldname GLOB 'CaseSensitiveValue' ESCAPE '\'
 ```
 
-:::
+</SigmaConverter>
 
 The `cased` modifier indicates that the value is applied in a case-sensitive manner.
 Sigma's default behavior is case-insensitive matching.
+
+::: warning Not every backend supports case-sensitive matching
+Some query languages — including Splunk SPL and Elasticsearch — have no native
+case-sensitive operator, so the `cased` modifier produces no additional query
+constraint there. Backends like SQL (`GLOB`) and Grafana Loki do honour it, which
+is why this example is restricted to those targets.
+:::
 
 ---
 
 ### cidr
 
-::: code-group
+<SigmaConverter>
 
-```yaml [/rules/needle_in_haystack.yaml]
+```yaml
+title: Example of cidr modifier with IPv4 subnets
+logsource:
+  product: example
 detection:
   selection:
     first_ip_address|cidr: 192.0.0.0/8
     second_ip_address|cidr: 192.168.0.0/23
+  condition: selection
 ```
 
-```splunk [Splunk Output]
-*
-| where cidrmatch("192.0.0.0/8", first_ip_address)
-| where cidrmatch("192.168.0.0/23", second_ip_address)
+```splunk
+first_ip_address="192.0.0.0/8" second_ip_address="192.168.0.0/23"
 ```
 
-:::
+</SigmaConverter>
 
-::: code-group
+<SigmaConverter>
 
-```yaml [/rules/needle_in_haystack.yaml]
+```yaml
+title: Example of cidr modifier with an IPv6 subnet
+logsource:
+  product: example
 detection:
   selection:
     ipaddress|cidr: 2a03:2880:f132:83:face:b00c::/96
+  condition: selection
 ```
 
-```splunk [Splunk Output]
-*
-| where cidrmatch("2a03:2880:f132:83:face:b00c::/96", ipaddress)
+```splunk
+ipaddress="2a03:2880:f132:83:face:b00c::/96"
 ```
 
-:::
+</SigmaConverter>
 
 The `cidr` modifier allows for CIDR-formatted subnets to be used as field values, where any IPv4 or IPv6 addresses are supported.
 
@@ -190,19 +199,23 @@ The `cidr` modifier allows for CIDR-formatted subnets to be used as field values
 
 ### contains
 
-::: code-group
+<SigmaConverter>
 
-```yaml [/rules/needle_in_haystack.yaml]
+```yaml
+title: Example of contains modifier
+logsource:
+  product: example
 detection:
   selection:
     fieldname|contains: needle
+  condition: selection
 ```
 
-```splunk [Splunk Output]
+```splunk
 fieldname="*needle*"
 ```
 
-:::
+</SigmaConverter>
 
 The `contains` modifier will insert a wildcard token (usually `*`) around the provided value(s), such that the value is matched anywhere in the field.
 
@@ -210,19 +223,23 @@ The `contains` modifier will insert a wildcard token (usually `*`) around the pr
 
 ### endswith
 
-::: code-group
+<SigmaConverter>
 
-```yaml [/rules/needle_in_end_of_haystack.yaml]
+```yaml
+title: Example of endswith modifier
+logsource:
+  product: example
 detection:
   selection:
     fieldname|endswith: needle
+  condition: selection
 ```
 
-```splunk [Splunk Output]
+```splunk
 fieldname="*needle"
 ```
 
-:::
+</SigmaConverter>
 
 The `endswith` modifier will insert a wildcard token (usually `*`) at the start of the provided value(s), such that the value is matched at the end of the field.
 
@@ -230,9 +247,9 @@ The `endswith` modifier will insert a wildcard token (usually `*`) at the start 
 
 ### exists
 
-::: code-group
+<SigmaConverter>
 
-```yaml [/rules/rule.yml]
+```yaml
 title: Administrator Usage
 logsource:
   product: windows
@@ -242,15 +259,15 @@ detection:
   condition: selection
 ```
 
-```[NetWitness Output]
+```text
 user exists
 ```
 
-:::
+</SigmaConverter>
 
-::: code-group
+<SigmaConverter>
 
-```yaml [/rules/rule.yml]
+```yaml
 title: Administrator Usage
 logsource:
   product: windows
@@ -260,11 +277,11 @@ detection:
   condition: selection
 ```
 
-```[NetWitness Output]
+```text
 user !exists
 ```
 
-:::
+</SigmaConverter>
 
 The `exists` modifier will generate a query to check if `fieldname` exists. The value for the modifier can either be `true` or `false`. Setting the value to `false` will result in a not exists query.
 
@@ -272,17 +289,9 @@ The `exists` modifier will generate a query to check if `fieldname` exists. The 
 
 ### expand
 
-::: code-group
+<SigmaConverter>
 
-```yaml [/rules/rule.yml]
-title: Administrator Usage
-logsource:
-  product: windows
-detection:
-  selection:
-    user|expand: "%administrator_name%"
-  condition: selection
-```
+::: code-group
 
 ```yaml [/pipelines/value_placeholders_test.yml]
 name: value_placeholder_pipeline
@@ -292,11 +301,23 @@ transformations:
   - type: value_placeholders
 ```
 
-```splunk [Splunk Output]
-user="Administrator"
+```yaml [./rules/rule.yml]
+title: Administrator Usage
+logsource:
+  product: windows
+detection:
+  selection:
+    user|expand: "%administrator_name%"
+  condition: selection
 ```
 
 :::
+
+```splunk
+user="Administrator"
+```
+
+</SigmaConverter>
 
 The `expand` modifier can be used with Sigma Pipelines in order to replace placeholder values with another value common across that processing pipeline.
 
@@ -304,21 +325,24 @@ The `expand` modifier can be used with Sigma Pipelines in order to replace place
 
 ### fieldref
 
-::: code-group
+<SigmaConverter>
 
-```yaml [/rules/needle_in_end_of_haystack.yaml]
+```yaml
+title: Example of fieldref modifier
+logsource:
+  product: example
 detection:
   selection:
     fieldname|fieldref: fieldasString
   condition: selection
 ```
 
-```splunk [Splunk Output]
+```splunk
 *
-| where match(fieldname,fieldasString)
+| where 'fieldname'='fieldasString'
 ```
 
-:::
+</SigmaConverter>
 
 The `fieldref` mofidier will convert a plain string into a field reference.
 `fieldname` and `fieldasString` must have the same value.
@@ -328,19 +352,23 @@ A field reference can be used to compare fields of matched events directly at qu
 
 ### gt
 
-::: code-group
+<SigmaConverter>
 
-```yaml [/rules/needle_in_end_of_haystack.yaml]
+```yaml
+title: Example of gt modifier
+logsource:
+  product: example
 detection:
   selection:
     fieldname|gt: 15
+  condition: selection
 ```
 
-```splunk [Splunk Output]
+```splunk
 fieldname>15
 ```
 
-:::
+</SigmaConverter>
 
 The `gt` modifier will provide a search where the value of `fieldname` is greater than the value provided.
 
@@ -348,19 +376,23 @@ The `gt` modifier will provide a search where the value of `fieldname` is greate
 
 ### gte
 
-::: code-group
+<SigmaConverter>
 
-```yaml [/rules/needle_in_end_of_haystack.yaml]
+```yaml
+title: Example of gte modifier
+logsource:
+  product: example
 detection:
   selection:
     fieldname|gte: 15
+  condition: selection
 ```
 
-```splunk [Splunk Output]
+```splunk
 fieldname>=15
 ```
 
-:::
+</SigmaConverter>
 
 The `gte` modifier will provide a search where the value of `fieldname` is greater than or equal to the value provided.
 
@@ -368,19 +400,23 @@ The `gte` modifier will provide a search where the value of `fieldname` is great
 
 ### lt
 
-::: code-group
+<SigmaConverter>
 
-```yaml [/rules/needle_in_end_of_haystack.yaml]
+```yaml
+title: Example of lt modifier
+logsource:
+  product: example
 detection:
   selection:
     fieldname|lt: 15
+  condition: selection
 ```
 
-```splunk [Splunk Output]
+```splunk
 fieldname<15
 ```
 
-:::
+</SigmaConverter>
 
 The `lt` modifier will provide a search where the value of `fieldname` is less than the value provided.
 
@@ -388,19 +424,23 @@ The `lt` modifier will provide a search where the value of `fieldname` is less t
 
 ### lte
 
-::: code-group
+<SigmaConverter>
 
-```yaml [/rules/needle_in_end_of_haystack.yaml]
+```yaml
+title: Example of lte modifier
+logsource:
+  product: example
 detection:
   selection:
     fieldname|lte: 15
+  condition: selection
 ```
 
-```splunk [Splunk Output]
+```splunk
 fieldname<=15
 ```
 
-:::
+</SigmaConverter>
 
 The `lte` modifier will provide a search where the value of `fieldname` is less than or equal to the value provided.
 
@@ -408,19 +448,24 @@ The `lte` modifier will provide a search where the value of `fieldname` is less 
 
 ### re
 
-::: code-group
+<SigmaConverter>
 
-```yaml [/rules/needle_in_end_of_haystack.yaml]
+```yaml
+title: Example of re (regex) modifier
+logsource:
+  product: example
 detection:
   selection:
     fieldname|re: .*needle$
+  condition: selection
 ```
 
-```splunk [Splunk Output]
-* | regex fieldname=".*needle$"
+```splunk
+*
+| regex fieldname=".*needle$"
 ```
 
-:::
+</SigmaConverter>
 
 The `re` modifier will provide a search where the value of `fieldname` matches the provided regex.
 
@@ -434,19 +479,23 @@ There are re sub-modifiers `re|?`:
 
 ### startswith
 
-::: code-group
+<SigmaConverter>
 
-```yaml [/rules/needle_in_start_of_haystack.yaml]
+```yaml
+title: Example of startswith modifier
+logsource:
+  product: example
 detection:
   selection:
     fieldname|startswith: needle
+  condition: selection
 ```
 
-```splunk [Splunk Output]
+```splunk
 fieldname="needle*"
 ```
 
-:::
+</SigmaConverter>
 
 The `startswith` modifier will insert a wildcard token (usually `*`) at the end of the provided value(s), such that the value is matched at the beginning of the field.
 
@@ -454,21 +503,23 @@ The `startswith` modifier will insert a wildcard token (usually `*`) at the end 
 
 ### utf16 / utf16le / utf16be / wide {#wide}
 
-::: code-group
+<SigmaConverter>
 
-```yaml [/rules/needle_in_end_of_haystack.yaml]
+```yaml
+title: Example of wide (utf16) modifier
+logsource:
+  product: example
 detection:
   selection:
     CommandLine|wide|base64offset|contains: "ping"
+  condition: selection
 ```
 
-```splunk [Splunk Output]
-CommandLine="*cABpAG4AZw*" \
-  OR CommandLine="*AAaQBuAGcA*" \
-  OR CommandLine="*wAGkAbgBnA*"
+```splunk
+CommandLine="*cABpAG4AZw*" OR CommandLine="*AAaQBuAGcA*" OR CommandLine="*wAGkAbgBnA*"
 ```
 
-:::
+</SigmaConverter>
 
 Prepends a byte order mark and encodes UTF16, (only used in combination with base64 modifiers)
 
@@ -482,24 +533,25 @@ The value modifier chain must not end with character set encoding modifiers (`ut
 
 ### windash
 
-::: code-group
+<SigmaConverter>
 
-```yaml [/rules/needle_in_end_of_haystack.yaml]
+```yaml
+title: Example of windash modifier
+logsource:
+  product: example
 detection:
   selection:
     fieldname|windash|contains:
       - " -param-name "
       - " -f "
+  condition: selection
 ```
 
-```splunk [Splunk Output]
-fieldname="* -param-name *" OR fieldname="* /param-name *" \
-OR fieldname="* –param-name *" OR fieldname="* —param-name *" OR fieldname="* ―param-name *" \
-OR fieldname="* -f *" OR fieldname="* /f *" \
-OR fieldname="* –f *" OR fieldname="* —f *" OR fieldname="* ―f *" \
+```splunk
+fieldname="* -param-name *" OR fieldname="* /param-name *" OR fieldname="* –param-name *" OR fieldname="* —param-name *" OR fieldname="* ―param-name *" OR fieldname="* -f *" OR fieldname="* /f *" OR fieldname="* –f *" OR fieldname="* —f *" OR fieldname="* ―f *"
 ```
 
-:::
+</SigmaConverter>
 
 The windash modifier will convert any provided command-line arguments or flags to use `-`, as well as `/`, `–` (En Dash), `—` (Em Dash), and `―` (Horizontal Bar).
 

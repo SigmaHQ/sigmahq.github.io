@@ -44,6 +44,52 @@ Image="*\\whoami.exe"
 
 </SigmaConverter>
 
+### With a processing pipeline
+
+Pipelines control _how_ a rule is converted — mapping fields, adding index
+prefixes, and so on. Engage the editor below to edit both the **pipeline** and
+the **rule** in separate tabs; the converted query reflects both. See the
+[Pipelines](/docs/digging-deeper/pipelines) page for the full reference.
+
+<SigmaConverter>
+
+::: code-group
+
+```yaml [pipelines/splunk_example.yml]
+name: Example Splunk Pipeline
+priority: 100
+transformations:
+  - id: set_index_and_source
+    type: add_condition
+    conditions:
+      index: windows_logs
+      source: WinEventLog:Security
+  - id: map_commandline
+    type: field_name_mapping
+    mapping:
+      CommandLine: Process_Command_Line
+```
+
+```yaml [rules/proc_creation_win_example.yml]
+title: Suspicious Command
+logsource:
+  category: process_creation
+  product: windows
+detection:
+  selection:
+    EventID: 4688
+    CommandLine|contains: suspicious_command
+  condition: selection
+```
+
+:::
+
+```splunk
+index="windows_logs" source="WinEventLog:Security" EventID=4688 Process_Command_Line="*suspicious_command*"
+```
+
+</SigmaConverter>
+
 ## How it works
 
 1. **On demand only.** Nothing is fetched until you press the button, so opening

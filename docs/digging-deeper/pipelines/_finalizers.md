@@ -1,5 +1,3 @@
-
-
 ## Finalizers
 
 While [postprocessing](#postprocessing) acts on each query individually, **finalizers** act on the complete list of all generated queries once conversion is finished. They are defined under the top-level `finalizers:` key.
@@ -24,13 +22,38 @@ Join all queries with a separator and optionally wrap the result in a prefix and
 - `prefix`: _(Optional)_ string placed before the result. Defaults to `""`.
 - `suffix`: _(Optional)_ string placed after the result. Defaults to `""`.
 
-```yaml
+<SigmaConverter :siems="['splunk']">
+
+::: code-group
+
+```yaml [/pipelines/finalizer_demo.yml]
+name: finalizer_demo
+priority: 100
 finalizers:
   - type: concat
     separator: " OR "
     prefix: "("
     suffix: ")"
 ```
+
+```yaml [/rules/suspicious_commandline.yml]
+title: Suspicious command line
+logsource:
+  category: process_creation
+  product: windows
+detection:
+  selection:
+    CommandLine|contains: whoami
+  condition: selection
+```
+
+:::
+
+```splunk
+(CommandLine="*whoami*")
+```
+
+</SigmaConverter>
 
 ### JSON Output
 
@@ -40,11 +63,38 @@ Serialise the list of queries as a JSON document.
 
 - `indent`: _(Optional)_ number of spaces to indent. Defaults to `null` (compact output).
 
-```yaml
+<SigmaConverter :siems="['splunk']">
+
+::: code-group
+
+```yaml [/pipelines/finalizer_demo.yml]
+name: finalizer_demo
+priority: 100
 finalizers:
   - type: json
     indent: 2
 ```
+
+```yaml [/rules/suspicious_commandline.yml]
+title: Suspicious command line
+logsource:
+  category: process_creation
+  product: windows
+detection:
+  selection:
+    CommandLine|contains: whoami
+  condition: selection
+```
+
+:::
+
+```splunk
+[
+  "CommandLine=\"*whoami*\""
+]
+```
+
+</SigmaConverter>
 
 ### YAML Output
 
@@ -54,11 +104,36 @@ Serialise the list of queries as a YAML document.
 
 - `indent`: _(Optional)_ number of spaces to indent.
 
-```yaml
+<SigmaConverter :siems="['splunk']">
+
+::: code-group
+
+```yaml [/pipelines/finalizer_demo.yml]
+name: finalizer_demo
+priority: 100
 finalizers:
   - type: yaml
     indent: 2
 ```
+
+```yaml [/rules/suspicious_commandline.yml]
+title: Suspicious command line
+logsource:
+  category: process_creation
+  product: windows
+detection:
+  selection:
+    CommandLine|contains: whoami
+  condition: selection
+```
+
+:::
+
+```splunk
+- CommandLine="*whoami*"
+```
+
+</SigmaConverter>
 
 ### Template Output
 
@@ -67,7 +142,13 @@ Apply a Jinja2 template to the list of queries. The following variables are avai
 - `queries`: the final query output as a list.
 - `pipeline`: all the context provided to the processing pipeline, including `pipeline.state`.
 
-```yaml
+<SigmaConverter :siems="['splunk']">
+
+::: code-group
+
+```yaml [/pipelines/finalizer_demo.yml]
+name: finalizer_demo
+priority: 100
 finalizers:
   - type: template
     template: |
@@ -75,6 +156,27 @@ finalizers:
         "query": {{ queries[0] | tojson }}
       }
 ```
+
+```yaml [/rules/suspicious_commandline.yml]
+title: Suspicious command line
+logsource:
+  category: process_creation
+  product: windows
+detection:
+  selection:
+    CommandLine|contains: whoami
+  condition: selection
+```
+
+:::
+
+```splunk
+{
+  "query": "CommandLine=\"*whoami*\""
+}
+```
+
+</SigmaConverter>
 
 ### Nested Finalizer
 

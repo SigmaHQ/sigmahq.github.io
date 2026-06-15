@@ -26,16 +26,28 @@ To use `sigma-cli` (the Sigma Rule Converter) & the underlying library, you must
 
 ---
 
+### Using `uvx`
+
+The easiest way to run `sigma-cli` without a permanent installation is with [`uvx`](https://docs.astral.sh/uv/), a tool runner from the [uv](https://docs.astral.sh/uv/) project. It downloads and runs `sigma-cli` in a temporary environment with no setup required.
+
+```bash
+uvx --from sigma-cli sigma
+```
+
+::: tip
+`uvx` is provided by [uv](https://docs.astral.sh/uv/). If you don't have it yet, install it with `pip install uv` or visit the [uv installation docs](https://docs.astral.sh/uv/getting-started/installation/).
+:::
+
 ### Using `pip`
 
-The main conversion tool for Sigma is `sigma-cli`. The easiest way to install `sigma-cli` is through the Python 3 package manager _`pip`_.
+Alternatively, you can install `sigma-cli` permanently through the Python 3 package manager _`pip`_.
 
 ```bash
 pip3 install sigma-cli
 ```
 
 ::: tip
-Be sure that you’ve added Python's binary location (usually `~/.local/bin`) to your PATH, so you can run `sigma-cli` straight from your CLI. [Visit Python's website for Windows and more info.](https://packaging.python.org/en/latest/tutorials/installing-packages/#installing-to-the-user-site)
+Be sure that you've added Python's binary location (usually `~/.local/bin`) to your PATH, so you can run `sigma-cli` straight from your CLI. [Visit Python's website for Windows and more info.](https://packaging.python.org/en/latest/tutorials/installing-packages/#installing-to-the-user-site)
 :::
 
 ### or from Source
@@ -97,6 +109,8 @@ mkdir ./rules
 vim ./rules/windows_defender_threat_detection_disabled.yml
 ```
 
+<SigmaConverter :siems="['splunk']">
+
 ::: code-group
 
 ```yaml:line-numbers [windows_defender_threat_detection_disabled.yml]
@@ -116,6 +130,18 @@ detection:
     condition: selection
 ```
 
+:::
+
+```splunk
+EventID IN (5001, 5010, 5012, 5101)
+```
+
+</SigmaConverter>
+
+::: tip In-browser vs. CLI output
+The live query above is the **bare-rule** conversion (no pipeline). The `sigma convert`
+command further below uses the built-in `splunk_windows` pipeline, which maps the rule onto
+the Defender `source=` and `EventCode` fields — hence the different output.
 :::
 
 Quickly running through this rule, we can describe it as detecting when the field `EventID` matches the following cases:
@@ -162,6 +188,8 @@ While the previous example demonstrated a simple detection, in practice, Sigma r
 
 To better illustrate this point, let's take a look at a more complex Sigma rule, taken from the `SigmaHQ/sigma` repository written by [Austin Songer](https://twitter.com/TheAustinSonger).
 
+<SigmaConverter :siems="['splunk']">
+
 ::: code-group
 
 ```yaml:line-numbers [okta_user_account_locked_out.yml]
@@ -191,6 +219,12 @@ level: medium
 ```
 
 :::
+
+```splunk
+displaymessage="Max sign in attempts exceeded"
+```
+
+</SigmaConverter>
 
 It's worth noting that Sigma rules often contain fantastic metadata about a detection, which is highly useful when investigating a security incident.
 
@@ -256,6 +290,8 @@ mkdir ./pipelines
 vim ./pipelines/puppy_app_production_config.yml
 ```
 
+<SigmaConverter :siems="['splunk']">
+
 ::: code-group
 
 ```yaml [puppy_app_production_config.yml]{8-9,17-19}
@@ -313,6 +349,12 @@ level: high
 ```
 
 :::
+
+```splunk
+index="puppy_prod" source="PuppyApp/App" puppy.status="sad" | table puppy.name,puppy.breed,puppy.status
+```
+
+</SigmaConverter>
 
 ::: tip Explainer
 

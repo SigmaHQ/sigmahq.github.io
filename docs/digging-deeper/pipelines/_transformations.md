@@ -1,5 +1,3 @@
-
-
 ## Transformations
 
 Transformations are the building blocks of a pipeline. Each entry under `transformations:` has a `type` that selects the transformation, an optional `id`, an optional set of [conditions](#conditions), and the parameters specific to that transformation.
@@ -46,6 +44,8 @@ Map a field name in the sigma rule to a field name used in your logs.
 
 - 'mapping': the fields that will be mapped (required)
 
+<SigmaConverter>
+
 ::: code-group
 
 ```yaml [/pipelines/transformation_demo.yml]{5-9}
@@ -63,7 +63,25 @@ transformations:
         category: proxy
 ```
 
+```yaml [/rules/proxy_access.yml]
+title: Proxy access example
+logsource:
+  category: proxy
+detection:
+  selection:
+    c-useragent: badbot
+    cs-host: evil.com
+    c-ip: 10.0.0.1
+  condition: selection
+```
+
 :::
+
+```splunk
+useragent="badbot" hostname="evil.com" ip="10.0.0.1"
+```
+
+</SigmaConverter>
 
 ### Field Name Prefix Mapping
 
@@ -72,6 +90,8 @@ Map a field name prefix to replace it with another prefix.
 **Parameters:**
 
 - 'mapping': the fields that will be mapped (required)
+
+<SigmaConverter>
 
 ::: code-group
 
@@ -88,7 +108,23 @@ transformations:
         product: windows
 ```
 
+```yaml [/rules/windows_field.yml]
+title: Windows field example
+logsource:
+  product: windows
+detection:
+  selection:
+    win.Image: malware.exe
+  condition: selection
+```
+
 :::
+
+```splunk
+proc.Image="malware.exe"
+```
+
+</SigmaConverter>
 
 ### Drop Detection Item
 
@@ -97,6 +133,8 @@ Deletes detection items. Some sort of condition is recommended but not required.
 **Parameters:**
 
 - none
+
+<SigmaConverter>
 
 ::: code-group
 
@@ -117,7 +155,25 @@ transformations:
         category: process_creation
 ```
 
+```yaml [/rules/process_creation_hashes.yml]
+title: Process creation with hashes
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    Hashes: "MD5=1234567890ABCDEF"
+    CommandLine|contains: whoami
+  condition: selection
+```
+
 :::
+
+```splunk
+CommandLine="*whoami*"
+```
+
+</SigmaConverter>
 
 ### Field Name Suffix
 
@@ -126,6 +182,8 @@ Add a field name suffix. field_name_conditions are not required, but are recomme
 **Parameters:**
 
 - 'suffix': the suffix to be added (required)
+
+<SigmaConverter>
 
 ::: code-group
 
@@ -142,7 +200,24 @@ transformations:
           - Hashes
 ```
 
+```yaml [/rules/hashes_field.yml]
+title: Hashes field example
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    Hashes: "MD5=1234567890ABCDEF1234567890ABCDEF"
+  condition: selection
+```
+
 :::
+
+```splunk
+Hashes.win="MD5=1234567890ABCDEF1234567890ABCDEF"
+```
+
+</SigmaConverter>
 
 ### Field Name Prefix
 
@@ -151,6 +226,8 @@ Add a field name prefix.
 **Parameters:**
 
 - 'prefix': the prefix to be added (required)
+
+<SigmaConverter>
 
 ::: code-group
 
@@ -163,7 +240,23 @@ transformations:
     prefix: "win."
 ```
 
+```yaml [/rules/windows_image.yml]
+title: Windows image example
+logsource:
+  product: windows
+detection:
+  selection:
+    Image: malware.exe
+  condition: selection
+```
+
 :::
+
+```splunk
+win.Image="malware.exe"
+```
+
+</SigmaConverter>
 
 ### Wildcard Placeholders
 
@@ -172,6 +265,8 @@ Replaces placeholders with wildcards. This transformation is useful if remaining
 **Parameters:**
 
 - none
+
+<SigmaConverter>
 
 ::: code-group
 
@@ -183,7 +278,25 @@ transformations:
     type: wildcard_placeholders
 ```
 
+```yaml [/rules/admin_logon.yml]
+title: Logon by any admin user
+logsource:
+  product: windows
+  service: security
+detection:
+  selection:
+    EventID: 4624
+    user|expand: "%admin_users%"
+  condition: selection
+```
+
 :::
+
+```splunk
+EventID=4624 user="*"
+```
+
+</SigmaConverter>
 
 ### Value Placeholders
 
@@ -192,6 +305,8 @@ Replaces placeholders with values contained in variables defined in the configur
 **Parameters:**
 
 - `include`: identify the specific placeholders you'd like to transform
+
+<SigmaConverter :siems="['splunk']">
 
 ::: code-group
 
@@ -208,7 +323,7 @@ transformations:
       - "administrator_name"
 ```
 
-```yaml [/rules/rule.yml]
+```yaml [./rules/rule.yml]
 title: Administrator Usage
 logsource:
   product: windows
@@ -218,11 +333,13 @@ detection:
   condition: selection
 ```
 
-```splunk [Splunk Output]
+:::
+
+```splunk
 user IN ("Administrator", "Admin", "SysAdmin")
 ```
 
-:::
+</SigmaConverter>
 
 ### Query Expression Placeholders
 
@@ -236,6 +353,8 @@ list lookup expressions which are passed to the resulting query.
 - `include`:identify the specific placeholders you'd like to transform
 - `mapping`: Mapping between placeholders and identifiers that should be used in the expression. If no mapping is provided the placeholder name is used.
 
+<SigmaConverter :siems="['splunk']">
+
 ::: code-group
 
 ```yaml [/pipelines/transformation_demo.yml]{5-8}
@@ -247,14 +366,27 @@ transformations:
     include:
       - Admins_Workstations
     expression: "[| inputlookup {id} | rename user as {field}]"
-#  For the rule: [User with Privileges Logon](https://github.com/SigmaHQ/sigma/blob/e1a713d264ac072bb76b5c4e5f41315a015d3f41/rules-placeholder/windows/builtin/security/win_security_admin_logon.yml#L30)
 ```
 
-```splunk [Splunk Output]
-EventID IN (4672, 4964) NOT (SubjectUserSid="S-1-5-18" OR [| inputlookup Admins_Workstations | rename user as SubjectUserName])
+```yaml [/rules/privileged_logon.yml]
+title: Privileged logon example
+logsource:
+  product: windows
+  service: security
+detection:
+  selection:
+    EventID: 4672
+    SubjectUserName|expand: "%Admins_Workstations%"
+  condition: selection
 ```
 
 :::
+
+```splunk
+EventID=4672 [| inputlookup Admins_Workstations | rename user as SubjectUserName]
+```
+
+</SigmaConverter>
 
 ### Add Condition
 
@@ -269,6 +401,8 @@ If `template` is set to `true`, the condition values are interpreted as string t
 - 'conditions': a mapping of field names to values that will be added to the rule's condition.
 - 'template': _(Optional)_ when `true`, interpret the condition values as templates. Defaults to `false`.
 - 'negated': _(Optional)_ when `true`, the added condition is negated (e.g. `NOT index="..."`). Defaults to `false`.
+
+<SigmaConverter>
 
 ::: code-group
 
@@ -285,31 +419,76 @@ transformations:
         product: windows
 ```
 
+```yaml [/rules/windows_image.yml]
+title: Windows image example
+logsource:
+  product: windows
+detection:
+  selection:
+    Image: malware.exe
+  condition: selection
+```
+
 :::
+
+```splunk
+index="winevent" Image="malware.exe"
+```
+
+</SigmaConverter>
 
 ### Change Logsource
 
-Replace log source as defined in transformation parameters.
+Replace the log source of a rule with the one defined in the transformation parameters. On its own this rewrite isn't visible in the query — but it lets _later_ transformations target the rewritten log source. In the example below the rule's generic `process_creation` source is rewritten to `service: sysmon`, and a second `add_condition` keyed on that new `service: sysmon` log source then fires, adding the Sysmon `source=` constraint.
 
 **Parameters:**
 
 - 'category', 'product', 'service': the log source to be changed (requires at least one)
 
+<SigmaConverter>
+
 ::: code-group
 
-```yaml [/pipelines/transformation_demo.yml]{5-6}
+```yaml [/pipelines/transformation_demo.yml]{4-12}
 name: transformation_demo
 priority: 100
 transformations:
-  - id: change_logsource
+  - id: rewrite_logsource
     type: change_logsource
-    category: security
+    service: sysmon
+    category: process_creation
+    product: windows
     rule_conditions:
       - type: logsource
         category: process_creation
+        product: windows
+  - id: sysmon_source
+    type: add_condition
+    conditions:
+      source: WinEventLog:Microsoft-Windows-Sysmon/Operational
+    rule_conditions:
+      - type: logsource
+        service: sysmon
+```
+
+```yaml [/rules/suspicious_whoami.yml]
+title: Suspicious whoami execution
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    CommandLine|contains: whoami
+  condition: selection
 ```
 
 :::
+
+```splunk
+source="WinEventLog:Microsoft-Windows-Sysmon/Operational" CommandLine="*whoami*"
+```
+
+</SigmaConverter>
 
 ### Replace String
 
@@ -322,6 +501,8 @@ This is basically an interface to `re.sub()` and can use all features available 
 
 - `regex`: The regular expression to find the desired string
 - `replacement`: The replacement string to be added
+
+<SigmaConverter>
 
 ::: code-group
 
@@ -339,7 +520,23 @@ transformations:
           - Image
 ```
 
+```yaml [/rules/image_path.yml]
+title: Image path example
+logsource:
+  product: windows
+detection:
+  selection:
+    Image: '*\malware.exe'
+  condition: selection
+```
+
 :::
+
+```splunk
+Image="malware.exe"
+```
+
+</SigmaConverter>
 
 ### Set State
 
@@ -351,6 +548,8 @@ This is how several backends receive configuration that isn't part of the query 
 
 - `key`: the state key to set.
 - `val`: the value to assign.
+
+<SigmaConverter :siems="['esql']">
 
 ::: code-group
 
@@ -367,7 +566,24 @@ transformations:
         product: windows
 ```
 
+```yaml [/rules/process_creation.yml]
+title: Process creation example
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    CommandLine|contains: suspicious_command
+  condition: selection
+```
+
 :::
+
+```esql
+from logs-windows-* metadata _id, _index, _version | where CommandLine like "*suspicious_command*"
+```
+
+</SigmaConverter>
 
 ::: details Backend-specific example: Splunk data models
 Setting `data_model_set` lets the Splunk backend emit a `tstats` query when used with the `data_model` output format (`sigma convert -p pipeline.yml -t splunk -f data_model rule.yml`):
@@ -447,6 +663,8 @@ Replace whole string values with one or more other values. Unlike `replace_strin
 
 - `mapping`: a mapping of source values to their replacement value(s).
 
+<SigmaConverter>
+
 ::: code-group
 
 ```yaml [/pipelines/transformation_demo.yml]{5-8}
@@ -466,7 +684,23 @@ transformations:
           - Severity
 ```
 
+```yaml [/rules/severity.yml]
+title: Severity example
+logsource:
+  product: windows
+detection:
+  selection:
+    Severity: Informational
+  condition: selection
+```
+
 :::
+
+```splunk
+Severity="Info"
+```
+
+</SigmaConverter>
 
 ### Set Value
 
@@ -476,6 +710,8 @@ Set a detection item to a fixed value, regardless of its original value. `force_
 
 - `value`: the value to set (string, number, or boolean).
 - `force_type`: _(Optional)_ force the value's type, either `str` or `num`.
+
+<SigmaConverter>
 
 ::: code-group
 
@@ -492,7 +728,23 @@ transformations:
           - EventID
 ```
 
+```yaml [/rules/eventid.yml]
+title: EventID example
+logsource:
+  product: windows
+detection:
+  selection:
+    EventID: 1234
+  condition: selection
+```
+
 :::
+
+```splunk
+EventID=4625
+```
+
+</SigmaConverter>
 
 ### Convert Type
 
@@ -501,6 +753,8 @@ Convert detection item values between strings and numbers. This is useful when y
 **Parameters:**
 
 - `target_type`: the type to convert to, either `str` or `num`.
+
+<SigmaConverter>
 
 ::: code-group
 
@@ -517,7 +771,23 @@ transformations:
           - DestinationPort
 ```
 
+```yaml [/rules/port.yml]
+title: Port example
+logsource:
+  product: windows
+detection:
+  selection:
+    DestinationPort: 443
+  condition: selection
+```
+
 :::
+
+```splunk
+DestinationPort="443"
+```
+
+</SigmaConverter>
 
 ### Case
 
@@ -526,6 +796,8 @@ Change the case of detection item values.
 **Parameters:**
 
 - `method`: one of `lower`, `upper`, or `snake_case`. Defaults to `lower`.
+
+<SigmaConverter>
 
 ::: code-group
 
@@ -542,7 +814,23 @@ transformations:
           - User
 ```
 
+```yaml [/rules/user.yml]
+title: User example
+logsource:
+  product: windows
+detection:
+  selection:
+    User: ADMIN
+  condition: selection
+```
+
 :::
+
+```splunk
+User="admin"
+```
+
+</SigmaConverter>
 
 ### Regex
 
@@ -551,6 +839,8 @@ Control how regular expressions are emitted in the resulting query. This is main
 **Parameters:**
 
 - `method`: one of `plain`, `ignore_case_flag`, or `ignore_case_brackets`. Defaults to `ignore_case_brackets`.
+
+<SigmaConverter>
 
 ::: code-group
 
@@ -563,7 +853,24 @@ transformations:
     method: ignore_case_flag
 ```
 
+```yaml [/rules/regex_match.yml]
+title: Regex example
+logsource:
+  product: windows
+detection:
+  selection:
+    CommandLine|re: foo.*bar
+  condition: selection
+```
+
 :::
+
+```splunk
+*
+| regex CommandLine="foo.*bar"
+```
+
+</SigmaConverter>
 
 ### Hashes Fields
 
@@ -574,6 +881,8 @@ Split a combined `Hashes` field (as produced by Sysmon) into separate fields per
 - `valid_hash_algos`: the list of hash algorithms to extract (e.g. `MD5`, `SHA1`, `SHA256`).
 - `field_prefix`: _(Optional)_ a prefix to prepend to the generated field names. Defaults to `""`.
 - `drop_algo_prefix`: _(Optional)_ when `true`, drop the algorithm prefix from the resulting field name. Defaults to `false`.
+
+<SigmaConverter>
 
 ::: code-group
 
@@ -593,7 +902,24 @@ transformations:
           - Hashes
 ```
 
+```yaml [/rules/hashes_field.yml]
+title: Hashes field example
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    Hashes: "MD5=1234567890ABCDEF1234567890ABCDEF"
+  condition: selection
+```
+
 :::
+
+```splunk
+MD5="1234567890ABCDEF1234567890ABCDEF"
+```
+
+</SigmaConverter>
 
 ### Add Field / Remove Field / Set Field
 
@@ -602,6 +928,8 @@ These transformations modify the rule's field list (the list of fields a backend
 - `add_field` — add one or more fields. **Parameter:** `field` (string or list).
 - `remove_field` — remove one or more fields. **Parameter:** `field` (string or list).
 - `set_field` — replace the field list entirely. **Parameter:** `fields` (list).
+
+<SigmaConverter>
 
 ::: code-group
 
@@ -616,7 +944,24 @@ transformations:
       - ComputerName
 ```
 
+```yaml [/rules/process_creation.yml]
+title: Process creation example
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    CommandLine|contains: suspicious_command
+  condition: selection
+```
+
 :::
+
+```splunk
+CommandLine="*suspicious_command*" | table User,ComputerName
+```
+
+</SigmaConverter>
 
 ### Set Custom Attribute
 
@@ -673,6 +1018,8 @@ Apply a list of transformations as a single grouped unit. The nested transformat
 
 - `items`: a list of nested transformation items (each with its own `type`).
 
+<SigmaConverter>
+
 ::: code-group
 
 ```yaml [/pipelines/transformation_demo.yml]{5-12}
@@ -693,7 +1040,23 @@ transformations:
         product: windows
 ```
 
+```yaml [/rules/windows_image.yml]
+title: Windows image example
+logsource:
+  product: windows
+detection:
+  selection:
+    Image: malware.exe
+  condition: selection
+```
+
 :::
+
+```splunk
+win.Image.keyword="malware.exe"
+```
+
+</SigmaConverter>
 
 ## Backend-Specific Transformations
 
@@ -707,6 +1070,8 @@ The [Grafana Loki backend](https://github.com/grafana/pySigma-backend-loki) adds
 
 - `selection`: a mapping of labels to values used to build the stream selector.
 - `template`: _(Optional)_ when `true`, `category`/`product`/`service` placeholders are substituted from the rule's log source.
+
+<SigmaConverter :siems="['loki']">
 
 ::: code-group
 
@@ -725,8 +1090,22 @@ transformations:
         product: windows
 ```
 
-```logql [Loki Output]
-{job=`job-name`,app=`loki`} | json | EventID=4688 and CommandLine=~`(?i).*suspicious_command.*`
+```yaml [/rules/process_creation_eventid.yml]
+title: Process creation with event id
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    EventID: 4688
+    CommandLine|contains: suspicious_command
+  condition: selection
 ```
 
 :::
+
+```logql
+{job=`job-name`,app=`loki`} | json | EventID=4688 and CommandLine=~`(?i).*suspicious_command.*`
+```
+
+</SigmaConverter>

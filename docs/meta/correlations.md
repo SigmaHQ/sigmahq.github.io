@@ -135,27 +135,6 @@ There are a few things to note when working with Sigma Correlations:
 - Correlation rules omit the `logsource` section, as they rely on referencing other Sigma rules to correlate events.
 - By default, correlation rules suppress the output of the referenced "base" rule, as the correlation rule is the one used to generate the query. This can be changed with `generate: true` ([see below](#retaining-the-base-conversion)).
 
-### Retaining the Base Conversion
-
-By default, the correlation rule omits the original "base" rule in the output query.
-
-If you want to retain the original "base" rule in the output query, you should add `generate: true` to the correlation section within your correlation rule. This will ensure that each of the referenced "base" rules will be included in the output query.
-
-```yaml
-title: Multiple failed logons for a single user (possible brute force attack)
-correlation:
-  type: event_count
-  rules:
-    - failed_logon
-  group-by:
-    - TargetUserName
-    - TargetDomainName
-  timespan: 5m
-  condition:
-    gte: 10
-  generate: true # Retain the base rule in the output query // [!code ++]
-```
-
 ## Timespan
 
 The `timespan` defines the window over which events are aggregated. It is written as an integer count followed by a single-character unit, for example `30s`, `5m`, `1h` or `7d`.
@@ -228,6 +207,8 @@ The event count correlation simply counts the events in the aggregation bucket. 
 - Denial of Service attacks where a connection count threshold is exceeded.
 - Log source reliability issues, when the amount of events falls below a threshold.
 
+<SigmaConverter :siems="['splunk', 'esql', 'loki', 'sqlite']">
+
 ```yaml
 title: Windows Failed Logon Event
 name: failed_logon
@@ -258,11 +239,13 @@ correlation:
 ```
 
 ```splunk
-source="WinEventLog:Security" EventCode=4625 NOT SubjectUserName="*$"
+EventID=4625 NOT SubjectUserName="*$"
 | bin _time span=5m
 | stats count as event_count by _time TargetUserName TargetDomainName
 | search event_count >= 10
 ```
+
+</SigmaConverter>
 
 In this example, events are aggregated in 5-minute slots and grouped by `TargetUserName` and `TargetDomainName`. It matches if more than 10 events with the same field values appear within the given timeframe, indicating a possible brute force attack on a specific user that should be investigated.
 
@@ -271,6 +254,8 @@ In this example, events are aggregated in 5-minute slots and grouped by `TargetU
 The value_count correlation type counts distinct values of a given field. It is useful for detecting a high or low number of unique entities. For example:
 
 Unlike `event_count`, the `value_count` type requires a `field` key inside the `condition`, naming the field whose distinct values are counted. Omitting it raises `Value count correlation rule without field reference`. The same requirement applies to the `value_sum`, `value_avg`, `value_median`, and `value_percentile` types.
+
+<SigmaConverter :siems="['splunk', 'esql', 'loki', 'sqlite']">
 
 ```yaml
 title: High-privilege group enumeration
@@ -305,11 +290,13 @@ correlation:
 ```
 
 ```splunk
-source="WinEventLog:Security" EventCode=4799 CallerProcessId=0 TargetUserName IN ("Administrators", "Remote Desktop Users", "Remote Management Users", "Distributed COM Users")
+EventID=4799 CallerProcessId=0 TargetUserName IN ("Administrators", "Remote Desktop Users", "Remote Management Users", "Distributed COM Users")
 | bin _time span=15m
 | stats dc(TargetUserName) as value_count by _time SubjectUserName
 | search value_count >= 4
 ```
+
+</SigmaConverter>
 
 ::: tip Detecting BloodHound Enumeration
 
@@ -416,3 +403,24 @@ correlation:
 ::: warning Backend support for chained correlations
 Chaining is supported by the Sigma data model, but not every backend can convert nested correlations into a single query. Test your conversion before relying on this.
 :::
+
+## Retaining the Base Conversion
+
+By default, the correlation rule omits the original "base" rule in the output query.
+
+If you want to retain the original "base" rule in the output query, you should add `generate: true` to the correlation section within your correlation rule. This will ensure that each of the referenced "base" rules will be included in the output query.
+
+```yaml
+title: Multiple failed logons for a single user (possible brute force attack)
+correlation:
+  type: event_count
+  rules:
+    - failed_logon
+  group-by:
+    - TargetUserName
+    - TargetDomainName
+  timespan: 5m
+  condition:
+    gte: 10
+  generate: true # Retain the base rule in the output query // [!code ++]
+```

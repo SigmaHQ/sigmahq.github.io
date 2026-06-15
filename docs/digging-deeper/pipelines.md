@@ -45,6 +45,8 @@ Let's build a Splunk pipeline one transformation at a time, so you can see what 
 
 **1. Prefix the logs.** Splunk scopes a search to data by adding `index=` and `source=` terms. The [`add_condition`](#add-condition) transformation prepends them to the query:
 
+<SigmaConverter :siems="['splunk']">
+
 ::: code-group
 
 ```yaml [pipelines/splunk_example.yml]
@@ -59,13 +61,29 @@ transformations:
       source: WinEventLog:Security # [!code ++]
 ```
 
-```splunk [Splunk Output]
-index="windows_logs" source="WinEventLog:Security" EventID=4688 CommandLine="*suspicious_command*"
+```yaml [rules/proc_creation_win_example.yml]
+title: Suspicious Command
+logsource:
+  category: process_creation
+  product: windows
+detection:
+  selection:
+    EventID: 4688
+    CommandLine|contains: suspicious_command
+  condition: selection
 ```
 
 :::
 
+```splunk
+index="windows_logs" source="WinEventLog:Security" EventID=4688 CommandLine="*suspicious_command*"
+```
+
+</SigmaConverter>
+
 **2. Map a field.** Your index probably doesn't store the field as `CommandLine`. The [`field_name_mapping`](#field-name-mapping) transformation renames it to whatever your data uses — here, `Process_Command_Line`:
+
+<SigmaConverter :siems="['splunk']">
 
 ::: code-group
 
@@ -86,13 +104,29 @@ transformations:
       CommandLine: Process_Command_Line # [!code ++]
 ```
 
-```splunk [Splunk Output]
-index="windows_logs" source="WinEventLog:Security" EventID=4688 Process_Command_Line="*suspicious_command*"
+```yaml [rules/proc_creation_win_example.yml]
+title: Suspicious Command
+logsource:
+  category: process_creation
+  product: windows
+detection:
+  selection:
+    EventID: 4688
+    CommandLine|contains: suspicious_command
+  condition: selection
 ```
 
 :::
 
+```splunk
+index="windows_logs" source="WinEventLog:Security" EventID=4688 Process_Command_Line="*suspicious_command*"
+```
+
+</SigmaConverter>
+
 **3. Only apply to the right rules.** Right now these transformations run against _every_ rule. Add `rule_conditions` so they only apply to rules with a matching log source — in this case `process_creation` on `windows`. Convert a rule from any other log source and the index, source, and mapping are skipped:
+
+<SigmaConverter :siems="['splunk']">
 
 ::: code-group
 
@@ -123,11 +157,25 @@ transformations:
         product: windows # [!code ++]
 ```
 
-```splunk [Splunk Output]
-index="windows_logs" source="WinEventLog:Security" EventID=4688 Process_Command_Line="*suspicious_command*"
+```yaml [rules/proc_creation_win_example.yml]
+title: Suspicious Command
+logsource:
+  category: process_creation
+  product: windows
+detection:
+  selection:
+    EventID: 4688
+    CommandLine|contains: suspicious_command
+  condition: selection
 ```
 
 :::
+
+```splunk
+index="windows_logs" source="WinEventLog:Security" EventID=4688 Process_Command_Line="*suspicious_command*"
+```
+
+</SigmaConverter>
 
 <a :href="withBase('/docs/digging-deeper/pipelines.html#conditions')" class="!no-underline">
   <Box>
@@ -140,6 +188,8 @@ index="windows_logs" source="WinEventLog:Security" EventID=4688 Process_Command_
 ### Elasticsearch ES|QL — set the source index
 
 ES|QL queries begin with `FROM <index>`, which isn't part of the search expression, so it can't be added with `add_condition`. Instead, the Elasticsearch backend reads the index from [pipeline state](#pipeline-variables-and-state) under the `index` key, which you set with [`set_state`](#set-state). The field mapping works exactly as in the Splunk recipe.
+
+<SigmaConverter :siems="['esql']">
 
 ::: code-group
 
@@ -157,15 +207,31 @@ transformations:
       CommandLine: process.command_line
 ```
 
-```sql [ES|QL Output]
-from logs-windows-* metadata _id, _index, _version | where EventID==4688 and process.command_line like "*suspicious_command*"
+```yaml [rules/proc_creation_win_example.yml]
+title: Suspicious Command
+logsource:
+  category: process_creation
+  product: windows
+detection:
+  selection:
+    EventID: 4688
+    CommandLine|contains: suspicious_command
+  condition: selection
 ```
 
 :::
 
+```sql
+from logs-windows-* metadata _id, _index, _version | where EventID==4688 and process.command_line like "*suspicious_command*"
+```
+
+</SigmaConverter>
+
 ### Grafana Loki — select a log stream
 
 Loki selects data with a `{label="value"}` stream selector. The Loki backend ships its own [`set_custom_log_source`](#custom-pipelines-set-custom-log-source) transformation to build that selector from structured YAML — a good example of a backend extending the pipeline system with its own transformation type. The field mapping is unchanged.
+
+<SigmaConverter :siems="['loki']">
 
 ::: code-group
 
@@ -183,11 +249,25 @@ transformations:
       CommandLine: process_command_line
 ```
 
-```logql [Loki Output]
-{job=`windows`} | json | EventID=4688 and process_command_line=~`(?i).*suspicious_command.*`
+```yaml [rules/proc_creation_win_example.yml]
+title: Suspicious Command
+logsource:
+  category: process_creation
+  product: windows
+detection:
+  selection:
+    EventID: 4688
+    CommandLine|contains: suspicious_command
+  condition: selection
 ```
 
 :::
+
+```logql
+{job=`windows`} | json | EventID=4688 and process_command_line=~`(?i).*suspicious_command.*`
+```
+
+</SigmaConverter>
 
 ::: tip Use a predefined pipeline first
 Most backends and log sources already have a maintained pipeline you can use directly. List what's installed with `sigma list pipelines`, and only write your own when you need environment-specific behaviour. The [`sysmon`](#pipeline-usage) pipeline, for example, turns generic `process_creation` rules into `Sysmon` `EventID: 1` queries.

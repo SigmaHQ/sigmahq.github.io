@@ -138,20 +138,29 @@ Each item in the "`keywords`" list is effectively separated by a logical **"OR"*
 
 The below example Sigma rule uses a keyword-based search to detect when users might be covering their tracks – by purging that user's `.bash_history`.
 
+<SigmaConverter>
+
 ```yaml
+title: Bash History Tampering
 logsource:
-    product: linux
-detection:# [!code focus:8]
-    keywords:
-        - 'rm *bash_history'
-        - 'echo "" > *bash_history'
-        - 'truncate -s0 *bash_history'
-        - 'history -c'
-        - 'history -w'
-    condition: keywords
+  product: linux
+detection: # [!code focus:8]
+  keywords:
+    - "rm *bash_history"
+    - 'echo "" > *bash_history'
+    - "truncate -s0 *bash_history"
+    - "history -c"
+    - "history -w"
+  condition: keywords
 falsepositives:
-    - Unknown
+  - Unknown
 ```
+
+```splunk
+"rm *bash_history" OR "echo \"\" > *bash_history" OR "truncate -s0 *bash_history" OR "history -c" OR "history -w"
+```
+
+</SigmaConverter>
 
 This example tells Sigma to generate a SIEM query that searches for any of the following keywords:
 
@@ -202,6 +211,10 @@ For instance, to detect when a USB device is inserted into a machine, you may ne
 
 To search for where both of these occur, place both together within the `selection` object, as shown below.
 
+The resulting query after conversion will be the following <br/><i class="opacity-50">(Splunk Query Language used as an example):</i>
+
+<SigmaConverter>
+
 ```yaml
 title: External Disk Drive Or USB Storage Device
 description: >
@@ -219,11 +232,11 @@ falsepositives:
   - Legitimate administrative activity
 ```
 
-The resulting query after conversion will be the following <br/><i class="opacity-50">(Splunk Query Language used as an example):</i>
-
 ```splunk
-source="WinEventLog:Security" EventCode=6416 ClassName="DiskDrive"
+EventID=6416 ClassName="DiskDrive"
 ```
+
+</SigmaConverter>
 
 ---
 
@@ -242,6 +255,10 @@ For example, you might want to search `Windows\Security` logs and detect when:
 
 You can represent this in Sigma by using a YAML list, where each field value is prepended by a newline, followed by a "`-`".
 
+The resulting query after conversion will be the following <br/><i class="opacity-50">(Splunk Query Language used as an example):</i>
+
+<SigmaConverter>
+
 ```yaml
 title: Group Modification Logging
 description: Triggers when an account is added to or removed from any group assigned administrative privileges.
@@ -259,11 +276,11 @@ falsepositives:
   - Unknown
 ```
 
-The resulting query after conversion will be the following <br/><i class="opacity-50">(Splunk Query Language used as an example):</i>
-
 ```splunk
-source="WinEventLog:System" EventCode IN (4728, 4729, 4730)
+EventID IN (4728, 4729, 4730)
 ```
+
+</SigmaConverter>
 
 ### Conditions
 
