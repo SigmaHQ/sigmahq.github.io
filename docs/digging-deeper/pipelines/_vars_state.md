@@ -6,7 +6,7 @@ Pipelines can define variables in the top-level `vars` section. These are most c
 
 ::: code-group
 
-```yaml [/pipelines/vars_demo.yml]
+```yaml [pipelines/vars_demo.yml]
 name: vars_demo
 priority: 100
 vars:
@@ -19,7 +19,7 @@ transformations:
       - "admin_users"
 ```
 
-```yaml [/rules/admin_logon.yml]
+```yaml [rules/admin_logon.yml]
 title: Logon by admin users
 logsource:
   product: windows

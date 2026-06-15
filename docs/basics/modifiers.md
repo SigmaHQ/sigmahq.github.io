@@ -293,7 +293,7 @@ The `exists` modifier will generate a query to check if `fieldname` exists. The 
 
 ::: code-group
 
-```yaml [/pipelines/value_placeholders_test.yml]
+```yaml [pipelines/value_placeholders_test.yml]
 name: value_placeholder_pipeline
 vars:
   administrator_name: Administrator
@@ -301,7 +301,7 @@ transformations:
   - type: value_placeholders
 ```
 
-```yaml [./rules/rule.yml]
+```yaml [rules/rule.yml]
 title: Administrator Usage
 logsource:
   product: windows

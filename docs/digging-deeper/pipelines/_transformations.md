@@ -48,7 +48,7 @@ Map a field name in the sigma rule to a field name used in your logs.
 
 ::: code-group
 
-```yaml [/pipelines/transformation_demo.yml]{5-9}
+```yaml [pipelines/transformation_demo.yml]{5-9}
 name: transformation_demo
 priority: 100
 transformations:
@@ -63,7 +63,7 @@ transformations:
         category: proxy
 ```
 
-```yaml [/rules/proxy_access.yml]
+```yaml [rules/proxy_access.yml]
 title: Proxy access example
 logsource:
   category: proxy
@@ -95,7 +95,7 @@ Map a field name prefix to replace it with another prefix.
 
 ::: code-group
 
-```yaml [/pipelines/transformation_demo.yml]{5-7}
+```yaml [pipelines/transformation_demo.yml]{5-7}
 name: transformation_demo
 priority: 100
 transformations:
@@ -108,7 +108,7 @@ transformations:
         product: windows
 ```
 
-```yaml [/rules/windows_field.yml]
+```yaml [rules/windows_field.yml]
 title: Windows field example
 logsource:
   product: windows
@@ -138,7 +138,7 @@ Deletes detection items. Some sort of condition is recommended but not required.
 
 ::: code-group
 
-```yaml [/pipelines/transformation_demo.yml]{6-10}
+```yaml [pipelines/transformation_demo.yml]{6-10}
 name: transformation_demo
 priority: 100
 transformations:
@@ -155,7 +155,7 @@ transformations:
         category: process_creation
 ```
 
-```yaml [/rules/process_creation_hashes.yml]
+```yaml [rules/process_creation_hashes.yml]
 title: Process creation with hashes
 logsource:
   product: windows
@@ -187,7 +187,7 @@ Add a field name suffix. field_name_conditions are not required, but are recomme
 
 ::: code-group
 
-```yaml [/pipelines/transformation_demo.yml]{5-6}
+```yaml [pipelines/transformation_demo.yml]{5-6}
 name: transformation_demo
 priority: 100
 transformations:
@@ -200,7 +200,7 @@ transformations:
           - Hashes
 ```
 
-```yaml [/rules/hashes_field.yml]
+```yaml [rules/hashes_field.yml]
 title: Hashes field example
 logsource:
   product: windows
@@ -231,7 +231,7 @@ Add a field name prefix.
 
 ::: code-group
 
-```yaml [/pipelines/transformation_demo.yml]{5-6}
+```yaml [pipelines/transformation_demo.yml]{5-6}
 name: transformation_demo
 priority: 100
 transformations:
@@ -240,7 +240,7 @@ transformations:
     prefix: "win."
 ```
 
-```yaml [/rules/windows_image.yml]
+```yaml [rules/windows_image.yml]
 title: Windows image example
 logsource:
   product: windows
@@ -270,7 +270,7 @@ Replaces placeholders with wildcards. This transformation is useful if remaining
 
 ::: code-group
 
-```yaml [/pipelines/transformation_demo.yml]{5}
+```yaml [pipelines/transformation_demo.yml]{5}
 name: transformation_demo
 priority: 100
 transformations:
@@ -278,7 +278,7 @@ transformations:
     type: wildcard_placeholders
 ```
 
-```yaml [/rules/admin_logon.yml]
+```yaml [rules/admin_logon.yml]
 title: Logon by any admin user
 logsource:
   product: windows
@@ -310,7 +310,7 @@ Replaces placeholders with values contained in variables defined in the configur
 
 ::: code-group
 
-```yaml [/pipelines/value_placeholders_test.yml]{2-10}
+```yaml [pipelines/value_placeholders_test.yml]{2-10}
 name: value_placeholder_pipeline
 vars:
   administrator_name:
@@ -323,7 +323,7 @@ transformations:
       - "administrator_name"
 ```
 
-```yaml [./rules/rule.yml]
+```yaml [rules/rule.yml]
 title: Administrator Usage
 logsource:
   product: windows
@@ -357,7 +357,7 @@ list lookup expressions which are passed to the resulting query.
 
 ::: code-group
 
-```yaml [/pipelines/transformation_demo.yml]{5-8}
+```yaml [pipelines/transformation_demo.yml]{5-8}
 name: transformation_demo
 priority: 100
 transformations:
@@ -368,7 +368,7 @@ transformations:
     expression: "[| inputlookup {id} | rename user as {field}]"
 ```
 
-```yaml [/rules/privileged_logon.yml]
+```yaml [rules/privileged_logon.yml]
 title: Privileged logon example
 logsource:
   product: windows
@@ -406,7 +406,7 @@ If `template` is set to `true`, the condition values are interpreted as string t
 
 ::: code-group
 
-```yaml [/pipelines/transformation_demo.yml]{5-7}
+```yaml [pipelines/transformation_demo.yml]{5-7}
 name: transformation_demo
 priority: 100
 transformations:
@@ -419,7 +419,7 @@ transformations:
         product: windows
 ```
 
-```yaml [/rules/windows_image.yml]
+```yaml [rules/windows_image.yml]
 title: Windows image example
 logsource:
   product: windows
@@ -449,7 +449,7 @@ Replace the log source of a rule with the one defined in the transformation para
 
 ::: code-group
 
-```yaml [/pipelines/transformation_demo.yml]{4-12}
+```yaml [pipelines/transformation_demo.yml]{4-12}
 name: transformation_demo
 priority: 100
 transformations:
@@ -471,7 +471,7 @@ transformations:
         service: sysmon
 ```
 
-```yaml [/rules/suspicious_whoami.yml]
+```yaml [rules/suspicious_whoami.yml]
 title: Suspicious whoami execution
 logsource:
   product: windows
@@ -506,7 +506,7 @@ This is basically an interface to `re.sub()` and can use all features available 
 
 ::: code-group
 
-```yaml [/pipelines/transformation_demo.yml]{5-7}
+```yaml [pipelines/transformation_demo.yml]{5-7}
 name: transformation_demo
 priority: 100
 transformations:
@@ -520,7 +520,7 @@ transformations:
           - Image
 ```
 
-```yaml [/rules/image_path.yml]
+```yaml [rules/image_path.yml]
 title: Image path example
 logsource:
   product: windows
@@ -566,7 +566,7 @@ transformations:
         product: windows
 ```
 
-```yaml [/rules/process_creation.yml]
+```yaml [rules/process_creation.yml]
 title: Process creation example
 logsource:
   product: windows
@@ -612,7 +612,7 @@ Raise a SigmaTransformationError with the provided message. This enables transfo
 
 ::: code-group
 
-```yaml [/pipelines/transformation_demo.yml]{5-6}
+```yaml [pipelines/transformation_demo.yml]{5-6}
 name: transformation_demo
 priority: 100
 transformations:
@@ -637,7 +637,7 @@ Raise a SigmaTransformationError with the provided message. This enables transfo
 
 ::: code-group
 
-```yaml [/pipelines/transformation_demo.yml]{5-6}
+```yaml [pipelines/transformation_demo.yml]{5-6}
 name: transformation_demo
 priority: 100
 transformations:
@@ -667,7 +667,7 @@ Replace whole string values with one or more other values. Unlike `replace_strin
 
 ::: code-group
 
-```yaml [/pipelines/transformation_demo.yml]{5-8}
+```yaml [pipelines/transformation_demo.yml]{5-8}
 name: transformation_demo
 priority: 100
 transformations:
@@ -684,7 +684,7 @@ transformations:
           - Severity
 ```
 
-```yaml [/rules/severity.yml]
+```yaml [rules/severity.yml]
 title: Severity example
 logsource:
   product: windows
@@ -715,7 +715,7 @@ Set a detection item to a fixed value, regardless of its original value. `force_
 
 ::: code-group
 
-```yaml [/pipelines/transformation_demo.yml]{5-6}
+```yaml [pipelines/transformation_demo.yml]{5-6}
 name: transformation_demo
 priority: 100
 transformations:
@@ -728,7 +728,7 @@ transformations:
           - EventID
 ```
 
-```yaml [/rules/eventid.yml]
+```yaml [rules/eventid.yml]
 title: EventID example
 logsource:
   product: windows
@@ -758,7 +758,7 @@ Convert detection item values between strings and numbers. This is useful when y
 
 ::: code-group
 
-```yaml [/pipelines/transformation_demo.yml]{5-6}
+```yaml [pipelines/transformation_demo.yml]{5-6}
 name: transformation_demo
 priority: 100
 transformations:
@@ -771,7 +771,7 @@ transformations:
           - DestinationPort
 ```
 
-```yaml [/rules/port.yml]
+```yaml [rules/port.yml]
 title: Port example
 logsource:
   product: windows
@@ -801,7 +801,7 @@ Change the case of detection item values.
 
 ::: code-group
 
-```yaml [/pipelines/transformation_demo.yml]{5-6}
+```yaml [pipelines/transformation_demo.yml]{5-6}
 name: transformation_demo
 priority: 100
 transformations:
@@ -814,7 +814,7 @@ transformations:
           - User
 ```
 
-```yaml [/rules/user.yml]
+```yaml [rules/user.yml]
 title: User example
 logsource:
   product: windows
@@ -844,7 +844,7 @@ Control how regular expressions are emitted in the resulting query. This is main
 
 ::: code-group
 
-```yaml [/pipelines/transformation_demo.yml]{5-6}
+```yaml [pipelines/transformation_demo.yml]{5-6}
 name: transformation_demo
 priority: 100
 transformations:
@@ -853,7 +853,7 @@ transformations:
     method: ignore_case_flag
 ```
 
-```yaml [/rules/regex_match.yml]
+```yaml [rules/regex_match.yml]
 title: Regex example
 logsource:
   product: windows
@@ -886,7 +886,7 @@ Split a combined `Hashes` field (as produced by Sysmon) into separate fields per
 
 ::: code-group
 
-```yaml [/pipelines/transformation_demo.yml]{5-8}
+```yaml [pipelines/transformation_demo.yml]{5-8}
 name: transformation_demo
 priority: 100
 transformations:
@@ -902,7 +902,7 @@ transformations:
           - Hashes
 ```
 
-```yaml [/rules/hashes_field.yml]
+```yaml [rules/hashes_field.yml]
 title: Hashes field example
 logsource:
   product: windows
@@ -933,7 +933,7 @@ These transformations modify the rule's field list (the list of fields a backend
 
 ::: code-group
 
-```yaml [/pipelines/transformation_demo.yml]{5-8}
+```yaml [pipelines/transformation_demo.yml]{5-8}
 name: transformation_demo
 priority: 100
 transformations:
@@ -944,7 +944,7 @@ transformations:
       - ComputerName
 ```
 
-```yaml [/rules/process_creation.yml]
+```yaml [rules/process_creation.yml]
 title: Process creation example
 logsource:
   product: windows
@@ -974,7 +974,7 @@ Set an arbitrary custom attribute on the rule. This is useful for carrying metad
 
 ::: code-group
 
-```yaml [/pipelines/transformation_demo.yml]{5-6}
+```yaml [pipelines/transformation_demo.yml]{5-6}
 name: transformation_demo
 priority: 100
 transformations:
@@ -996,7 +996,7 @@ Raise a `SigmaTransformationError` when a field is encountered that is not cover
 
 ::: code-group
 
-```yaml [/pipelines/transformation_demo.yml]{5}
+```yaml [pipelines/transformation_demo.yml]{5}
 name: transformation_demo
 priority: 100
 transformations:
@@ -1022,7 +1022,7 @@ Apply a list of transformations as a single grouped unit. The nested transformat
 
 ::: code-group
 
-```yaml [/pipelines/transformation_demo.yml]{5-12}
+```yaml [pipelines/transformation_demo.yml]{5-12}
 name: transformation_demo
 priority: 100
 transformations:
@@ -1040,7 +1040,7 @@ transformations:
         product: windows
 ```
 
-```yaml [/rules/windows_image.yml]
+```yaml [rules/windows_image.yml]
 title: Windows image example
 logsource:
   product: windows
@@ -1090,7 +1090,7 @@ transformations:
         product: windows
 ```
 
-```yaml [/rules/process_creation_eventid.yml]
+```yaml [rules/process_creation_eventid.yml]
 title: Process creation with event id
 logsource:
   product: windows

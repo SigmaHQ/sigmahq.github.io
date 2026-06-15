@@ -26,7 +26,7 @@ Join all queries with a separator and optionally wrap the result in a prefix and
 
 ::: code-group
 
-```yaml [/pipelines/finalizer_demo.yml]
+```yaml [pipelines/finalizer_demo.yml]
 name: finalizer_demo
 priority: 100
 finalizers:
@@ -36,7 +36,7 @@ finalizers:
     suffix: ")"
 ```
 
-```yaml [/rules/suspicious_commandline.yml]
+```yaml [rules/suspicious_commandline.yml]
 title: Suspicious command line
 logsource:
   category: process_creation
@@ -67,7 +67,7 @@ Serialise the list of queries as a JSON document.
 
 ::: code-group
 
-```yaml [/pipelines/finalizer_demo.yml]
+```yaml [pipelines/finalizer_demo.yml]
 name: finalizer_demo
 priority: 100
 finalizers:
@@ -75,7 +75,7 @@ finalizers:
     indent: 2
 ```
 
-```yaml [/rules/suspicious_commandline.yml]
+```yaml [rules/suspicious_commandline.yml]
 title: Suspicious command line
 logsource:
   category: process_creation
@@ -108,7 +108,7 @@ Serialise the list of queries as a YAML document.
 
 ::: code-group
 
-```yaml [/pipelines/finalizer_demo.yml]
+```yaml [pipelines/finalizer_demo.yml]
 name: finalizer_demo
 priority: 100
 finalizers:
@@ -116,7 +116,7 @@ finalizers:
     indent: 2
 ```
 
-```yaml [/rules/suspicious_commandline.yml]
+```yaml [rules/suspicious_commandline.yml]
 title: Suspicious command line
 logsource:
   category: process_creation
@@ -146,7 +146,7 @@ Apply a Jinja2 template to the list of queries. The following variables are avai
 
 ::: code-group
 
-```yaml [/pipelines/finalizer_demo.yml]
+```yaml [pipelines/finalizer_demo.yml]
 name: finalizer_demo
 priority: 100
 finalizers:
@@ -157,7 +157,7 @@ finalizers:
       }
 ```
 
-```yaml [/rules/suspicious_commandline.yml]
+```yaml [rules/suspicious_commandline.yml]
 title: Suspicious command line
 logsource:
   category: process_creation

@@ -6,7 +6,7 @@ Conditions can be attached transformations, so that a transformation may only tr
 
 ::: code-group
 
-```yaml [/pipelines/m365.yml]
+```yaml [pipelines/m365.yml]
 name: m365
 priority: 20
 transformations:
@@ -32,7 +32,7 @@ transformations:
     rule_cond_expr: logsource_cond and not logsource_cond2
 ```
 
-```yaml [/rules/m365_threat_detection.yml]
+```yaml [rules/m365_threat_detection.yml]
 title: Suspicious m365 threat detection alert
 date: 2025-06-01
 tags:
@@ -107,7 +107,7 @@ Matches log source on rule. Not specified log source fields are ignored. For Cor
 
 ::: code-group
 
-```yaml [/pipelines/transformation_demo.yml]
+```yaml [pipelines/transformation_demo.yml]
 name: transformation_demo
 priority: 100
 transformations:
@@ -121,7 +121,7 @@ transformations:
         service: threat_detection
 ```
 
-```yaml [/rules/m365_threat_detection.yml]
+```yaml [rules/m365_threat_detection.yml]
 title: Suspicious m365 threat detection alert
 date: 2025-06-01
 tags:
@@ -157,7 +157,7 @@ Returns True if rule contains a detection item that matches the given field name
 
 ::: code-group
 
-```yaml [/pipelines/transformation_demo.yml]
+```yaml [pipelines/transformation_demo.yml]
 name: transformation_demo
 priority: 100
 transformations:
@@ -171,7 +171,7 @@ transformations:
         value: Informational
 ```
 
-```yaml [/rules/m365_threat_detection.yml]
+```yaml [rules/m365_threat_detection.yml]
 title: Suspicious m365 threat detection alert
 date: 2025-06-01
 tags:
@@ -206,7 +206,7 @@ Returns True if the rule contains a detection item that uses the given field nam
 
 ::: code-group
 
-```yaml [/pipelines/transformation_demo.yml]
+```yaml [pipelines/transformation_demo.yml]
 name: transformation_demo
 priority: 100
 transformations:
@@ -219,7 +219,7 @@ transformations:
         field: CommandLine
 ```
 
-```yaml [/rules/m365_threat_detection.yml]
+```yaml [rules/m365_threat_detection.yml]
 title: Suspicious m365 threat detection alert
 date: 2025-06-01
 tags:
@@ -288,7 +288,7 @@ Checks if rule is a SigmaRule.
 
 ::: code-group
 
-```yaml [/pipelines/transformation_demo.yml]
+```yaml [pipelines/transformation_demo.yml]
 name: transformation_demo
 priority: 100
 transformations:
@@ -300,7 +300,7 @@ transformations:
       - type: is_sigma_rule
 ```
 
-```yaml [/rules/m365_threat_detection.yml]
+```yaml [rules/m365_threat_detection.yml]
 title: Suspicious m365 threat detection alert
 date: 2025-06-01
 tags:
@@ -335,7 +335,7 @@ Checks if rule is a SigmaRule.
 
 ::: code-group
 
-```yaml [/pipelines/transformation_demo.yml]
+```yaml [pipelines/transformation_demo.yml]
 name: transformation_demo
 priority: 100
 transformations:
@@ -347,7 +347,7 @@ transformations:
       - type: is_sigma_correlation_rule
 ```
 
-```yaml [/rules/m365_threat_detection.yml]
+```yaml [rules/m365_threat_detection.yml]
 title: Suspicious m365 threat detection alert
 date: 2025-06-01
 tags:
@@ -398,7 +398,7 @@ Generic match on rule attributes with supported types:
 
 ::: code-group
 
-```yaml [/pipelines/transformation_demo.yml]
+```yaml [pipelines/transformation_demo.yml]
 name: transformation_demo
 priority: 100
 transformations:
@@ -413,7 +413,7 @@ transformations:
         op: gte
 ```
 
-```yaml [/rules/m365_threat_detection.yml]
+```yaml [rules/m365_threat_detection.yml]
 title: Suspicious m365 threat detection alert
 date: 2025-06-01
 tags:
@@ -448,7 +448,7 @@ Matches if rule is tagged with a specific tag.
 
 ::: code-group
 
-```yaml [/pipelines/transformation_demo.yml]
+```yaml [pipelines/transformation_demo.yml]
 name: transformation_demo
 priority: 100
 transformations:
@@ -461,7 +461,7 @@ transformations:
         tag: attack.discovery
 ```
 
-```yaml [/rules/m365_threat_detection.yml]
+```yaml [rules/m365_threat_detection.yml]
 title: Suspicious m365 threat detection alert
 date: 2025-06-01
 tags:
@@ -509,7 +509,7 @@ Match string values with a regular expression ‘pattern’. The parameter ‘co
 
 ::: code-group
 
-```yaml [/pipelines/transformation_demo.yml]
+```yaml [pipelines/transformation_demo.yml]
 name: transformation_demo
 priority: 100
 transformations:
@@ -524,7 +524,7 @@ transformations:
         negate: False
 ```
 
-```yaml [/rules/m365_threat_detection.yml]
+```yaml [rules/m365_threat_detection.yml]
 title: Suspicious m365 threat detection alert
 date: 2025-06-01
 tags:
@@ -560,7 +560,7 @@ Match detection item values against a plain value (no regular expression). The p
 
 ::: code-group
 
-```yaml [/pipelines/transformation_demo.yml]
+```yaml [pipelines/transformation_demo.yml]
 name: transformation_demo
 priority: 100
 transformations:
@@ -574,7 +574,7 @@ transformations:
         value: Informational
 ```
 
-```yaml [/rules/m365_threat_detection.yml]
+```yaml [rules/m365_threat_detection.yml]
 title: Suspicious m365 threat detection alert
 date: 2025-06-01
 tags:
@@ -609,7 +609,7 @@ Matches if a detection item value contains a wildcard character. The parameter �
 
 ::: code-group
 
-```yaml [/pipelines/transformation_demo.yml]
+```yaml [pipelines/transformation_demo.yml]
 name: transformation_demo
 priority: 100
 transformations:
@@ -622,7 +622,7 @@ transformations:
         cond: any
 ```
 
-```yaml [/rules/m365_threat_detection.yml]
+```yaml [rules/m365_threat_detection.yml]
 title: Suspicious m365 threat detection alert
 date: 2025-06-01
 tags:
@@ -657,7 +657,7 @@ Match null values. The parameter ‘cond’ determines for detection items with 
 
 ::: code-group
 
-```yaml [/pipelines/transformation_demo.yml]
+```yaml [pipelines/transformation_demo.yml]
 name: transformation_demo
 priority: 100
 transformations:
@@ -670,7 +670,7 @@ transformations:
         cond: any
 ```
 
-```yaml [/rules/m365_threat_detection.yml]
+```yaml [rules/m365_threat_detection.yml]
 title: Rule with a null field
 logsource:
   product: m365
@@ -716,7 +716,7 @@ Matches on field name if it is contained in fields list. The parameter ‘mode�
 
 ::: code-group
 
-```yaml [/pipelines/include_fields_demo.yml]
+```yaml [pipelines/include_fields_demo.yml]
 name: include_fields_demo
 priority: 100
 transformations:
@@ -729,7 +729,7 @@ transformations:
           - type
 ```
 
-```yaml [/rules/proc_with_fields.yml]
+```yaml [rules/proc_with_fields.yml]
 title: Suspicious process with name and type fields
 logsource:
   category: process_creation
@@ -763,7 +763,7 @@ Matches on field name if it is **not** contained in the fields list.
 
 ::: code-group
 
-```yaml [/pipelines/exclude_fields_demo.yml]
+```yaml [pipelines/exclude_fields_demo.yml]
 name: transformation_demo
 priority: 100
 transformations:
@@ -776,7 +776,7 @@ transformations:
           - value
 ```
 
-```yaml [/rules/proc_with_fields.yml]
+```yaml [rules/proc_with_fields.yml]
 title: Suspicious process with name and type fields
 logsource:
   category: process_creation
@@ -813,7 +813,7 @@ Checks if processing item was applied to detection item.
 
 ::: code-group
 
-```yaml [/pipelines/processing_item_applied_demo.yml]
+```yaml [pipelines/processing_item_applied_demo.yml]
 name: transformation_demo
 priority: 100
 transformations:
@@ -830,7 +830,7 @@ transformations:
         processing_item_id: test_id
 ```
 
-```yaml [/rules/proc_with_fields.yml]
+```yaml [rules/proc_with_fields.yml]
 title: Suspicious process with name and type fields
 logsource:
   category: process_creation
@@ -864,7 +864,7 @@ Matches on processing pipeline state.
 
 ::: code-group
 
-```yaml [/pipelines/processing_state_demo.yml]
+```yaml [pipelines/processing_state_demo.yml]
 name: transformation_demo
 priority: 100
 transformations:
@@ -878,7 +878,7 @@ transformations:
         val: val-test
 ```
 
-```yaml [/rules/proc_with_fields.yml]
+```yaml [rules/proc_with_fields.yml]
 title: Suspicious process with name and type fields
 logsource:
   category: process_creation

@@ -14,7 +14,7 @@ The most common case — injecting a list of values defined in `vars` — looks 
 
 ::: code-group
 
-```yaml [/pipelines/placeholder_demo.yml]
+```yaml [pipelines/placeholder_demo.yml]
 name: placeholder_demo
 priority: 100
 vars:
@@ -27,7 +27,7 @@ transformations:
       - "admin_users"
 ```
 
-```yaml [/rules/admin_logon.yml]
+```yaml [rules/admin_logon.yml]
 title: Logon by admin users
 logsource:
   product: windows

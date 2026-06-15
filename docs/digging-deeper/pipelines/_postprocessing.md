@@ -26,7 +26,7 @@ Wrap each query in a prefix and/or suffix string.
 
 ::: code-group
 
-```yaml [/pipelines/postprocessing_demo.yml]{3-6}
+```yaml [pipelines/postprocessing_demo.yml]{3-6}
 name: postprocessing_demo
 priority: 100
 postprocessing:
@@ -35,7 +35,7 @@ postprocessing:
     suffix: " | head 100"
 ```
 
-```yaml [./rules/win_logon_failure.yml]
+```yaml [rules/win_logon_failure.yml]
 title: Windows logon failure
 logsource:
   product: windows
@@ -66,7 +66,7 @@ Insert the query into a Python `str.format()` template. The available placeholde
 
 ::: code-group
 
-```yaml [/pipelines/postprocessing_demo.yml]{3-5}
+```yaml [pipelines/postprocessing_demo.yml]{3-5}
 name: postprocessing_demo
 priority: 100
 postprocessing:
@@ -76,7 +76,7 @@ postprocessing:
       {query}
 ```
 
-```yaml [./rules/win_logon_failure.yml]
+```yaml [rules/win_logon_failure.yml]
 title: Windows logon failure
 logsource:
   product: windows
@@ -108,7 +108,7 @@ Insert the query into a Jinja2 template. The available context variables are `qu
 
 ::: code-group
 
-```yaml [/pipelines/postprocessing_demo.yml]{3-9}
+```yaml [pipelines/postprocessing_demo.yml]{3-9}
 name: postprocessing_demo
 priority: 100
 postprocessing:
@@ -120,7 +120,7 @@ postprocessing:
       }
 ```
 
-```yaml [./rules/win_logon_failure.yml]
+```yaml [rules/win_logon_failure.yml]
 title: Windows logon failure
 logsource:
   product: windows
@@ -154,7 +154,7 @@ Embed the query into a JSON template by replacing the literal placeholder `%QUER
 
 ::: code-group
 
-```yaml [/pipelines/postprocessing_demo.yml]{3-4}
+```yaml [pipelines/postprocessing_demo.yml]{3-4}
 name: postprocessing_demo
 priority: 100
 postprocessing:
@@ -162,7 +162,7 @@ postprocessing:
     json_template: '{"query": "%QUERY%"}'
 ```
 
-```yaml [./rules/win_logon_failure.yml]
+```yaml [rules/win_logon_failure.yml]
 title: Windows logon failure
 logsource:
   product: windows
@@ -194,7 +194,7 @@ Replace parts of the query matched by a regular expression.
 
 ::: code-group
 
-```yaml [/pipelines/postprocessing_demo.yml]{3-5}
+```yaml [pipelines/postprocessing_demo.yml]{3-5}
 name: postprocessing_demo
 priority: 100
 postprocessing:
@@ -203,7 +203,7 @@ postprocessing:
     replacement: "event_id="
 ```
 
-```yaml [./rules/win_logon_failure.yml]
+```yaml [rules/win_logon_failure.yml]
 title: Windows logon failure
 logsource:
   product: windows

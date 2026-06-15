@@ -16,7 +16,7 @@ Writing Sigma Filters is nearly identical to writing Sigma, but allow you to spl
 
 ::: code-group
 
-```yaml [./filters/win_filter_domain_controllers.yml]
+```yaml [filters/win_filter_domain_controllers.yml]
 title: Filter Out Domain Controllers
 description: Filter out events from Domain Controllers
 logsource:
@@ -42,7 +42,7 @@ When applying Filters in your "detection-as-code" strategy, filters can be appli
 
 ::: code-group
 
-```yaml [./filters/win_filter_admins.yml]
+```yaml [filters/win_filter_admins.yml]
 title: Filter Out Administrator accounts
 description: Filters out administrator accounts that start with adm_
 logsource:
@@ -56,7 +56,7 @@ filter:
   condition: not selection
 ```
 
-```yaml [./rules/windows/process_creation/proc_creation_win_sc_create_service.yml]
+```yaml [rules/windows/process_creation/proc_creation_win_sc_create_service.yml]
 title: New Service Creation Using Sc.EXE
 name: proc_creation_win_sc_create_service # [!code highlight]
 description: Detects the creation of a new service using the "sc.exe" utility.
@@ -99,7 +99,7 @@ You can also create filters that apply to all rules matching a specific logsourc
 
 ::: code-group
 
-```yaml [./filters/win_filter_all_domain_controllers.yml]
+```yaml [filters/win_filter_all_domain_controllers.yml]
 title: Filter Out Domain Controller Events
 description: Filters out events from all Domain Controllers across all Windows rules
 logsource:
@@ -164,7 +164,7 @@ The advantage of using Sigma Filters is that you can now build a set of exclusio
 
 ::: code-group
 
-```yaml [./filters/exclusion.yml]
+```yaml [filters/exclusion.yml]
 title: ...
 logsource:
   product: example-product
@@ -180,7 +180,7 @@ filter:
 
 ::: code-group
 
-```yaml [./filters/inclusion.yml]
+```yaml [filters/inclusion.yml]
 title: ...
 logsource:
   product: example-product
