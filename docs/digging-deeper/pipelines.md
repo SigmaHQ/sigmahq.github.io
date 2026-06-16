@@ -6,7 +6,7 @@ title: "Processing Pipelines"
 <script setup>
 import { withBase } from "vitepress";
 import Box from "../../.vitepress/theme/components/Boxes/Box.vue";
-import { FunnelIcon } from "@heroicons/vue/24/solid";
+import { BarsArrowDownIcon } from "@heroicons/vue/24/solid";
 </script>
 
 # {{ $frontmatter.title }}
@@ -179,8 +179,8 @@ index="windows_logs" source="WinEventLog:Security" EventID=4688 Process_Command_
 
 <a :href="withBase('/docs/digging-deeper/pipelines.html#conditions')" class="!no-underline">
   <Box>
-    <template #icon><FunnelIcon /></template>
-    <template #heading>Learn more about Conditions</template>
+    <template #icon><BarsArrowDownIcon /></template>
+    <template #heading>Learn more about Pipeline Conditions</template>
     <template #text>Scope transformations to specific log sources, fields, or earlier processing steps with rule, detection, and field conditions.</template>
   </Box>
 </a>

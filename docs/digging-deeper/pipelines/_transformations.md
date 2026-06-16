@@ -6,33 +6,33 @@ The available transformation types are:
 
 | `type`                          | Purpose                                                           |
 | ------------------------------- | ----------------------------------------------------------------- |
-| `field_name_mapping`            | Map a field name to one or more target field names.               |
-| `field_name_prefix_mapping`     | Map a field name prefix to another prefix.                        |
+| [`field_name_mapping`](#field-name-mapping)                       | Map a field name to one or more target field names.               |
+| [`field_name_prefix_mapping`](#field-name-prefix-mapping)         | Map a field name prefix to another prefix.                        |
 | `field_name_transform`          | Transform field names using a (Python-defined) function.          |
-| `field_name_suffix`             | Append a suffix to field names.                                   |
-| `field_name_prefix`             | Prepend a prefix to field names.                                  |
-| `add_field`                     | Add one or more fields to the rule's field list.                  |
-| `remove_field`                  | Remove one or more fields from the rule's field list.             |
-| `set_field`                     | Set the rule's field list.                                        |
-| `drop_detection_item`           | Drop matching detection items.                                    |
-| `add_condition`                 | Add a condition expression to the rule.                           |
-| `change_logsource`              | Replace the log source of a rule.                                 |
-| `replace_string`                | Replace values matched by a regular expression.                   |
-| `map_string`                    | Map string values to other string values.                         |
-| `regex`                         | Control how regular expressions are emitted (e.g. case handling). |
-| `set_value`                     | Set a detection item value.                                       |
-| `convert_type`                  | Convert detection item values between string and number.          |
-| `set_state`                     | Set a pipeline state variable.                                    |
-| `set_custom_attribute`          | Set a custom attribute on the rule.                               |
-| `hashes_fields`                 | Split a `Hashes` field into individual hash-algorithm fields.     |
-| `value_placeholders`            | Replace placeholders with values from `vars`.                     |
-| `query_expression_placeholders` | Replace placeholders with a query expression.                     |
-| `wildcard_placeholders`         | Replace remaining placeholders with wildcards.                    |
-| `rule_failure`                  | Abort conversion of the rule with an error message.               |
-| `detection_item_failure`        | Abort conversion when a matching detection item is present.       |
-| `strict_field_mapping_failure`  | Abort conversion when a field is not covered by a field mapping.  |
-| `nest`                          | Apply a nested list of transformations as a group.                |
-| `case`                          | Change the case of detection item values.                         |
+| [`field_name_suffix`](#field-name-suffix)                         | Append a suffix to field names.                                   |
+| [`field_name_prefix`](#field-name-prefix)                         | Prepend a prefix to field names.                                  |
+| [`add_field`](#add-field-remove-field-set-field)                  | Add one or more fields to the rule's field list.                  |
+| [`remove_field`](#add-field-remove-field-set-field)               | Remove one or more fields from the rule's field list.             |
+| [`set_field`](#add-field-remove-field-set-field)                  | Set the rule's field list.                                        |
+| [`drop_detection_item`](#drop-detection-item)                     | Drop matching detection items.                                    |
+| [`add_condition`](#add-condition)                                 | Add a condition expression to the rule.                           |
+| [`change_logsource`](#change-logsource)                           | Replace the log source of a rule.                                 |
+| [`replace_string`](#replace-string)                               | Replace values matched by a regular expression.                   |
+| [`map_string`](#map-string)                                       | Map string values to other string values.                         |
+| [`regex`](#regex)                                                 | Control how regular expressions are emitted (e.g. case handling). |
+| [`set_value`](#set-value)                                         | Set a detection item value.                                       |
+| [`convert_type`](#convert-type)                                   | Convert detection item values between string and number.          |
+| [`set_state`](#set-state)                                         | Set a pipeline state variable.                                    |
+| [`set_custom_attribute`](#set-custom-attribute)                   | Set a custom attribute on the rule.                               |
+| [`hashes_fields`](#hashes-fields)                                 | Split a `Hashes` field into individual hash-algorithm fields.     |
+| [`value_placeholders`](#value-placeholders)                       | Replace placeholders with values from `vars`.                     |
+| [`query_expression_placeholders`](#query-expression-placeholders) | Replace placeholders with a query expression.                     |
+| [`wildcard_placeholders`](#wildcard-placeholders)                 | Replace remaining placeholders with wildcards.                    |
+| [`rule_failure`](#rule-failure)                                   | Abort conversion of the rule with an error message.               |
+| [`detection_item_failure`](#detection-item-failure)               | Abort conversion when a matching detection item is present.       |
+| [`strict_field_mapping_failure`](#strict-field-mapping-failure)   | Abort conversion when a field is not covered by a field mapping.  |
+| [`nest`](#nest)                                                   | Apply a nested list of transformations as a group.                |
+| [`case`](#case)                                                   | Change the case of detection item values.                         |
 
 The most commonly used transformations are documented in detail below.
 
@@ -967,14 +967,18 @@ CommandLine="*suspicious_command*" | table User,ComputerName
 
 Set an arbitrary custom attribute on the rule. This is useful for carrying metadata through to an output format or finalizer.
 
+On its own this doesn't change the query — it stashes a value on the rule for something downstream to use. The attribute can then be surfaced through [postprocessing](#postprocessing), where it's reachable via `{rule.custom_attributes[<attribute>]}` in a [`simple_template`](#simple-template). In the example below the `team` attribute is set and then rendered as a comment above the query.
+
 **Parameters:**
 
 - `attribute`: the attribute name to set.
 - `value`: the value to assign.
 
+<SigmaConverter :siems="['splunk']">
+
 ::: code-group
 
-```yaml [pipelines/transformation_demo.yml]{5-6}
+```yaml [pipelines/transformation_demo.yml]{4-7,9-13}
 name: transformation_demo
 priority: 100
 transformations:
@@ -982,9 +986,32 @@ transformations:
     type: set_custom_attribute
     attribute: team
     value: detection-engineering
+postprocessing:
+  - type: simple_template
+    template: |
+      # team={rule.custom_attributes[team]}
+      {query}
+```
+
+```yaml [rules/win_logon_failure.yml]
+title: Windows logon failure
+logsource:
+  product: windows
+  service: security
+detection:
+  selection:
+    EventID: 4625
+  condition: selection
 ```
 
 :::
+
+```splunk
+# team=detection-engineering
+EventID=4625
+```
+
+</SigmaConverter>
 
 ### Strict Field Mapping Failure
 

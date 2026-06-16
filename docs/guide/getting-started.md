@@ -9,12 +9,19 @@ import {withBase} from "vitepress";
 import RulesBox from "/.vitepress/theme/components/Boxes/RulesBox.vue";
 import LogsourceBox from "/.vitepress/theme/components/Boxes/LogsourceBox.vue";
 import BackendBox from "/.vitepress/theme/components/Boxes/BackendBox.vue";
+import PipelinesBox from "/.vitepress/theme/components/Boxes/PipelinesBox.vue";
 
 </script>
 
 # {{ $frontmatter.title }}
 
-This guide provides step-by-step instructions on how to set up Sigma and convert its rules into different SIEM formats. It also includes some basic configuration tips to help you make the most of Sigma's features. The guide is suitable for both experienced users and beginners, and it aims to provide clear and concise information to help you successfully work with Sigma and its ecosystem.
+Sigma is an open format for writing detection rules in YAML. A single rule converts into a query for whichever SIEM you run, whether that is Splunk, Elasticsearch, Microsoft Sentinel, Grafana Loki, or [one of many others](/docs/digging-deeper/backends.md). Your detections become portable, vendor-neutral, and easy to share across teams and tooling.
+
+This guide takes you from installing the converter to writing a rule and turning it into effective, workable SIEM queries. It assumes no prior Sigma experience and doubles as a reference once you are comfortable.
+
+::: tip Try it as you read
+The converters throughout this guide run entirely in your browser. Edit the YAML, choose a target SIEM, and the query updates as you type. Install the CLI when you want to run conversions locally.
+:::
 
 ## Installation
 
@@ -61,7 +68,7 @@ poetry install && poetry shell
 sigma version
 ```
 
-## Install your SIEM plugin <div class="inline-block -mt-3"><Badge  type="tip" text="New" /></div>
+## Install your SIEM plugin <div class="inline-block -mt-3"><Badge  type="warning" text="pip only" /></div>
 
 Once you've [installed `sigma-cli`](#installation), you will need to install your backend plugin through `sigma-cli`.
 
@@ -86,7 +93,13 @@ To install a backend plugin, use the `sigma plugin install` command, followed by
 sigma plugin install splunk
 ```
 
-Throughout this guide, Splunk will be used as the SIEM conversion example.
+Install the backend for whichever SIEM you target — for example `splunk`, `elasticsearch`, `loki`, or `microsoft365defender`. The rest is identical regardless of platform.
+
+If you're using `uvx`, you don't install the plugin separately. Take the plugin's package name (for Splunk, `pysigma-backend-splunk`) and add it to the `uvx` oneliner with `--with`, as shown in the conversion examples below.
+
+::: info Pick your platform
+The examples below use **Splunk** as a concrete walkthrough, but Sigma converts to dozens of SIEMs. Swap `splunk` for your own target (and its backend package) and every command works the same way. Browse the full list on the [Backends](/docs/digging-deeper/backends.md) page.
+:::
 
 ## Converting Sigma Rules
 
@@ -109,7 +122,13 @@ mkdir ./rules
 vim ./rules/windows_defender_threat_detection_disabled.yml
 ```
 
-<SigmaConverter :siems="['splunk']">
+A Sigma rule is comprised of three sections: a title, the log source it applies to, and the detection logic that fires on a match.
+
+::: tip Convert it live
+Click **Live Edit** below, then choose a target from the dropdown to see this rule rendered as Splunk, ES\|QL, Loki, KQL, and more.
+:::
+
+<SigmaConverter>
 
 ::: code-group
 
@@ -140,8 +159,9 @@ EventID IN (5001, 5010, 5012, 5101)
 
 ::: tip In-browser vs. CLI output
 The live query above is the **bare-rule** conversion (no pipeline). The `sigma convert`
-command further below uses the built-in `splunk_windows` pipeline, which maps the rule onto
-the Defender `source=` and `EventCode` fields — hence the different output.
+command further below adds a target-specific **pipeline** (here Splunk's built-in `splunk_windows`),
+which maps the rule onto the Defender `source=` and `EventCode` fields — hence the slightly different output.
+Each SIEM ships its own pipelines, so the same rule lands correctly on every platform.
 :::
 
 Quickly running through this rule, we can describe it as detecting when the field `EventID` matches the following cases:
@@ -158,12 +178,23 @@ After saving the file and closing vim (or your preferred editor), you can use th
 - **Set the Target SIEM** &nbsp;&nbsp;<br class="md:hidden" />`--target splunk`<br /><br class="md:hidden" />Use this option to instruct Sigma to convert the Sigma files under the `./rules/` directory to Splunk&nbsp;SPL.<br />[See the full list of supported backends here ->](/docs/digging-deeper/backends.md)<br /><br />
 - **Set the SIEM Pipeline** &nbsp;&nbsp;<br class="md:hidden" />`--pipeline splunk_windows`<br /><br class="md:hidden" />Use this option to instruct Sigma to use the `splunk_windows` default field- and source-mapping pipeline.<br />[Learn more about Sigma pipelines here ->](/docs/digging-deeper/pipelines.html)<br /><br />
 
-```bash
+::: code-group
+
+```bash [uvx]
+uvx --from sigma-cli --with pysigma-backend-splunk sigma convert \
+    --target splunk \
+    --pipeline splunk_windows \
+    ./rules
+```
+
+```bash [pip / source]
 sigma convert \
     --target splunk \
     --pipeline splunk_windows \
     ./rules
 ```
+
+:::
 
 ```splunk
 source="WinEventLog:Microsoft-Windows-Windows Defender/Operational" \
@@ -174,13 +205,16 @@ Once events are populated under the `WinEventLog:Microsoft-Windows-Windows Defen
 
 Congratulations, you're now ready to start detecting security threats using Sigma! 🎉
 
-::: tip Next Steps
+You don't have to start from scratch, either. The community maintains thousands of ready-to-use detections for Windows, Microsoft 365, Okta, AWS, and many more in the [SigmaHQ/sigma](https://github.com/SigmaHQ/sigma/) repository.
 
-One of the best features of the Sigma format is taking advantage of the 1000's of existing detections for many popular enterprise OS's, Software and Systems, including Microsoft Windows, Microsoft 365, Okta, and many more.
-
-[Visit the SigmaHQ/sigma rule repository](https://github.com/SigmaHQ/sigma/)
-
-:::
+<div class="grid gap-4 grid-cols-1 md:grid-cols-2 items-stretch">
+    <a :href="withBase('/docs/basics/rules.html')">
+        <RulesBox />
+    </a>
+    <a :href="withBase('/docs/digging-deeper/backends.html')">
+        <BackendBox />
+    </a>
+</div>
 
 ### Adding Contextual Information
 
@@ -188,12 +222,14 @@ While the previous example demonstrated a simple detection, in practice, Sigma r
 
 To better illustrate this point, let's take a look at a more complex Sigma rule, taken from the `SigmaHQ/sigma` repository written by [Austin Songer](https://twitter.com/TheAustinSonger).
 
-<SigmaConverter :siems="['splunk']">
+This one targets Okta rather than Windows. The format does not change between platforms, and neither does the way you convert it.
+
+<SigmaConverter>
 
 ::: code-group
 
 ```yaml:line-numbers [okta_user_account_locked_out.yml]
-# ./rules/cloud/okta/okta_user_account_locked_out.yml
+# rules/identity/okta/okta_user_account_locked_out.yml
 title: Okta User Account Locked Out
 id: 14701da0-4b0f-4ee6-9c95-2ffb4e73bb9a
 status: test
@@ -201,17 +237,18 @@ description: Detects when an user account is locked out.
 references:
     - https://developer.okta.com/docs/reference/api/system-log/
     - https://developer.okta.com/docs/reference/api/event-types/
-author: Austin Songer @TheAustinSonger
+author: Austin Songer @austinsonger
 date: 2021-09-12
-modified: 2022-10-09
+modified: 2026-04-27
 tags:
     - attack.impact
+    - attack.t1531
 logsource:
     product: okta
     service: okta
 detection:
     selection:
-        displaymessage: Max sign in attempts exceeded
+        displayMessage: Max sign in attempts exceeded
     condition: selection
 falsepositives:
     - Unknown
@@ -232,14 +269,25 @@ It's worth noting that Sigma rules often contain fantastic metadata about a dete
 To learn more about the fields above and how they are used in Sigma, <br />[visit the Rules section of the documentation](/docs/basics/rules.md).
 :::
 
-Converting this rule using the Splunk backend, and using the Splunk pipelines outputs the following query.
+Converting this rule with the Splunk backend and its pipelines produces the query below. Point `--target` and `--pipeline` at a different SIEM and the same rule yields a query for that platform instead.
 
-```bash{4}
+::: code-group
+
+```bash [uvx]{5}
+uvx --from sigma-cli --with pysigma-backend-splunk sigma convert \
+    --target splunk \
+    --pipeline splunk_windows \
+    ./rules/cloud/okta/okta_user_account_locked_out.yml
+```
+
+```bash [pip / source]{4}
 sigma convert \
     --target splunk \
     --pipeline splunk_windows \
     ./rules/cloud/okta/okta_user_account_locked_out.yml
 ```
+
+:::
 
 ```splunk
 displaymessage="Max sign in attempts exceeded"
@@ -251,7 +299,18 @@ Notice that adding the metadata to this Sigma rule hasn't changed the output of 
 
 We can see this metadata being used if we change the output format to `savedsearches`.
 
-```bash{3}
+::: code-group
+
+```bash [uvx]{4}
+# Convert to Splunk savedsearches format
+uvx --from sigma-cli --with pysigma-backend-splunk sigma convert \
+    --format savedsearches \
+    --target splunk \
+    --pipeline splunk_windows \
+    ./rules/cloud/okta/okta_user_account_locked_out.yml
+```
+
+```bash [pip / source]{3}
 # Convert to Splunk savedsearches format
 sigma convert \
     --format savedsearches \
@@ -259,6 +318,8 @@ sigma convert \
     --pipeline splunk_windows \
     ./rules/cloud/okta/okta_user_account_locked_out.yml
 ```
+
+:::
 
 ::: code-group
 
@@ -282,6 +343,8 @@ To address these variances, `sigma-cli` provides end-users with the ability to p
 
 To best illustrate the adaptability of the Sigma format, we will onboard a custom logsource (in this example, an internal production service called `puppy_app_production`) and its corresponding detection rule, into our detections-as-code repository.
 
+The pipeline below is written for Splunk, since field names and index conventions are specific to each platform. A different SIEM would use its own pipeline while reusing the exact same rule.
+
 ```bash
 # Inside of sigma_test_repo, create a pipelines directory
 mkdir ./pipelines
@@ -294,7 +357,7 @@ vim ./pipelines/puppy_app_production_config.yml
 
 ::: code-group
 
-```yaml [puppy_app_production_config.yml]{8-9,17-19}
+```yaml [pipelines/puppy_app_production_config.yml]{8-9,17-19}
 # ./pipelines/puppy_app_production_config.yml
 name: Puppy Application – Splunk Log Source Configuration
 priority: 100
@@ -320,7 +383,7 @@ transformations:
         service: app
 ```
 
-```yaml [sad_puppy.yml]
+```yaml [rules/sad_puppy.yml]
 # ./rules/sad_puppy.yml
 title: Sad Puppy in Dog Supply Line
 id: 469b8469-508d-42d0-98a1-0c7e937ca7a3
@@ -356,39 +419,55 @@ index="puppy_prod" source="PuppyApp/App" puppy.status="sad" | table puppy.name,p
 
 </SigmaConverter>
 
-::: tip Explainer
+In the above configuration example, any rules that have a match on the following:<br />
+`product: puppy` and `service: app`, Sigma will apply
 
-In this configuration example, any rules that have a match on the following:<br />
-`product: puppy` and `service: app`, Sigma will apply `index='puppy_prod' source='PuppyApp/App'` to the resultant SIEM query output, and map each field across, for example `status` to `puppy.status`, `dog_name` to `puppy.name` etc.
+```splunk
+index='puppy_prod' source='PuppyApp/App' ...
+```
 
-:::
+
+to the resultant SIEM query output, and map each field across, for example `status` to `puppy.status`, `dog_name` to `puppy.name` etc.
 
 We can combine this configuration example with the custom `sad_puppy.yml` detection rule, that will detect whenever our log source detects a sad puppy in our SIEM.
 
-```bash{3}
+::: code-group
+
+```bash [uvx]{4}
+uvx --from sigma-cli --with pysigma-backend-splunk sigma convert \
+    -t splunk \
+    -p ./pipelines/puppy_app_production_config.yml \
+    ./rules/sad_puppy.yml
+```
+
+```bash [pip / source]{3}
 sigma convert \
     -t splunk \
     -p ./pipelines/puppy_app_production_config.yml \
     ./rules/sad_puppy.yml
 ```
 
+:::
+
 ```splunk
-index="puppy_prod" source="PuppyApp/App" puppy.status="sad"
-| table puppy.name, puppy.breed, puppy.status
+index="puppy_prod" source="PuppyApp/App" puppy.status="sad" 
+| table puppy.name,puppy.breed,puppy.status
 ```
 
-::: info Learn more about Logsources & Field Mapping
+Most supported SIEMs ship with their fields and log sources already mapped, so you rarely write a pipeline from scratch. Pipelines handle the mapping; log sources describe what your rules match against.
 
-Each supported SIEM should have its own configuration already pre-defined, with most fields and logsources mapped for you.
-
-This is completed via a feature in pySigma called processing pipelines. If you're an end-user however, you'll find the documentation on Logsources more relevant to mapping your Sigma rules to your logsources.
-
-[You can read more in here in Log Sources.](/docs/basics/log-sources.md)
-:::
+<div class="grid gap-4 grid-cols-1 md:grid-cols-2 items-stretch">
+    <a :href="withBase('/docs/digging-deeper/pipelines.html')">
+        <PipelinesBox />
+    </a>
+    <a :href="withBase('/docs/basics/log-sources.html')">
+        <LogsourceBox />
+    </a>
+</div>
 
 ## What's Next?
 
-From here, you've understood the basics of Sigma. It's time to dive deeper into learning more about [Logsources](/docs/basics/log-sources.md), [Rules](/docs/basics/rules.md) and [Backends](/docs/digging-deeper/backends.md).
+You now have the essentials: writing a rule, converting it for any SIEM, and tailoring the output with pipelines. The pages below go deeper on each part of Sigma.
 
 <div class="grid gap-4 grid-cols-1 md:grid-cols-2 items-stretch">
     <a :href="withBase('/docs/basics/rules.html')">
@@ -399,5 +478,8 @@ From here, you've understood the basics of Sigma. It's time to dive deeper into 
     </a>
     <a :href="withBase('/docs/digging-deeper/backends.html')">
         <BackendBox />
+    </a>
+    <a :href="withBase('/docs/digging-deeper/pipelines.html')">
+        <PipelinesBox />
     </a>
 </div>

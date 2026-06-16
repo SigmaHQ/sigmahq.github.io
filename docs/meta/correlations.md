@@ -137,7 +137,14 @@ There are a few things to note when working with Sigma Correlations:
 
 ## Types of Correlations
 
-Sigma supports eight correlation types. The four most commonly used are described in detail below — `event_count`, `value_count`, `temporal`, and `temporal_ordered`.
+Sigma supports eight correlation types. The four most commonly used are described in detail below — `event_count`, `value_count`, `temporal`, and `temporal_ordered`:
+
+| Type               | Description                                                                                                                  |
+| ------------------ | ---------------------------------------------------------------------------------------------------------------------------- |
+| `event_count`      | Counts the number of events in the aggregation bucket.                                                                       |
+| `value_count`      | Counts the distinct values of the field referenced by `condition.field`.                                                     |
+| `temporal`         | Matches when multiple different event types occur within the timespan.                                                       |
+| `temporal_ordered` | Like `temporal`, but the events must occur in the same order as the referenced rules are listed.                            |
 
 The remaining four are aggregation variants that behave like `value_count`, but apply a different aggregation function to the field referenced by `condition.field`:
 
@@ -266,7 +273,46 @@ A temporal event correlation determines if multiple different event types occur 
 
 For `temporal` correlations, the `condition` is optional. When omitted, it defaults to requiring that **all** of the referenced rules match within the timespan — i.e. `gte` with a count equal to the number of rules in the `rules` list. The example below references two rules, so it implicitly requires both to appear within `10s`.
 
+<SigmaConverter :siems="['splunk', 'esql', 'sqlite']">
+
 ```yaml
+title: Access to endpoint vulnerable to CVE-2023-22518
+name: cve_2023_22518_access
+status: experimental
+logsource:
+  category: webserver
+detection:
+  selection:
+    cs-method: POST
+    cs-uri-query:
+      - '*/json/setup-restore-local.action*'
+      - '*/json/setup-restore-progress.action*'
+      - '*/json/setup-restore.action*'
+      - '*/server-info.action*'
+      - '*/setup/setupadministrator.action*'
+    sc-status:
+      - 200
+      - 302
+      - 405
+  condition: selection
+---
+title: Suspicious process creation from Confluence Tomcat
+name: confluence_suspicious_process
+status: experimental
+logsource:
+  category: process_creation
+  product: windows
+detection:
+  selection:
+    ParentImage|endswith:
+      - '\tomcat8.exe'
+      - '\tomcat9.exe'
+      - '\tomcat10.exe'
+    ParentCommandLine|contains: confluence
+    Image|endswith:
+      - '\cmd.exe'
+      - '\powershell.exe'
+  condition: selection
 ---
 title: CVE-2023-22518 Exploit Chain
 description: Access to endpoint vulnerable to CVE-2023-22518 with suspicious process creation.
@@ -274,20 +320,22 @@ status: experimental
 correlation:
   type: temporal
   rules:
-    - a902d249-9b9c-4dc4-8fd0-fbe528ef965c
-    - 1ddaa9a4-eb0b-4398-a9fe-7b018f9e23db
+    - cve_2023_22518_access
+    - confluence_suspicious_process
   timespan: 10s
 level: high
 ```
 
 ```splunk
 | multisearch
-  [ search "cs-method"="POST" "cs-uri-query" IN ("*/json/setup-restore-local.action*", "*/json/setup-restore-progress.action*", "*/json/setup-restore.action*", "*/server-info.action*", "*/setup/setupadministrator.action*") "sc-status" IN (200, 302, 405) | eval event_type="a902d249-9b9c-4dc4-8fd0-fbe528ef965c" ]
-  [ search ParentImage IN ("*\\tomcat8.exe", "*\\tomcat9.exe", "*\\tomcat10.exe") ParentCommandLine="*confluence*" Image IN ("*\\cmd.exe", "*\\powershell.exe") OR OriginalFileName IN ("Cmd.Exe", "PowerShell.EXE") | eval event_type="1ddaa9a4-eb0b-4398-a9fe-7b018f9e23db" ]
+  [ search "cs-method"="POST" "cs-uri-query" IN ("*/json/setup-restore-local.action*", "*/json/setup-restore-progress.action*", "*/json/setup-restore.action*", "*/server-info.action*", "*/setup/setupadministrator.action*") "sc-status" IN (200, 302, 405) | eval event_type="cve_2023_22518_access" ]
+  [ search ParentImage IN ("*\\tomcat8.exe", "*\\tomcat9.exe", "*\\tomcat10.exe") ParentCommandLine="*confluence*" Image IN ("*\\cmd.exe", "*\\powershell.exe") | eval event_type="confluence_suspicious_process" ]
 | bin _time span=10s
 | stats dc(event_type) as event_type_count by _time
 | search event_type_count >= 2
 ```
+
+</SigmaConverter>
 
 ### `temporal_ordered`
 
@@ -299,6 +347,53 @@ The temporal ordered correlation is similar to the former, but adds the order of
 - Especially when events appear very near to each other and events from different log sources are correlated, different time resolutions and clock skews can cause that the events appear in a different order as they occurred.
 
 The events are expected to occur in the same order as the rules are listed in the `rules` section. Like `temporal`, the `condition` is optional and defaults to requiring all referenced rules to match within the timespan.
+
+Support for `temporal_ordered` varies by backend; among the backends below it is currently only implemented by SQLite.
+
+<SigmaConverter :siems="['sqlite']">
+
+```yaml
+title: Windows Failed Logon Event
+name: failed_logon
+status: test
+logsource:
+  product: windows
+  service: security
+detection:
+  selection:
+    EventID: 4625
+  condition: selection
+---
+title: Windows Successful Logon Event
+name: successful_logon
+status: test
+logsource:
+  product: windows
+  service: security
+detection:
+  selection:
+    EventID: 4624
+  condition: selection
+---
+title: Failed logons followed by a successful logon
+description: Detects a successful logon preceded by failed logons for the same user.
+status: experimental
+correlation:
+  type: temporal_ordered
+  rules:
+    - failed_logon
+    - successful_logon
+  group-by:
+    - TargetUserName
+  timespan: 5m
+level: high
+```
+
+```sql
+SELECT TargetUserName, GROUP_CONCAT(sigma_rule_id ORDER BY timestamp) AS rule_sequence, COUNT(DISTINCT sigma_rule_id) AS rule_count, MIN(timestamp) AS first_event, MAX(timestamp) AS last_event FROM (SELECT *, 'failed_logon' AS sigma_rule_id FROM logs WHERE EventID=4625 UNION ALL SELECT *, 'successful_logon' AS sigma_rule_id FROM logs WHERE EventID=4624) AS subquery GROUP BY TargetUserName HAVING rule_count >= 2 AND (julianday(last_event) - julianday(first_event)) * 86400 <= 300
+```
+
+</SigmaConverter>
 
 Altogether, this correlation type should only be used if really required.
 
