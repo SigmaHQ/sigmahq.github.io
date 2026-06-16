@@ -135,53 +135,6 @@ There are a few things to note when working with Sigma Correlations:
 - Correlation rules omit the `logsource` section, as they rely on referencing other Sigma rules to correlate events.
 - By default, correlation rules suppress the output of the referenced "base" rule, as the correlation rule is the one used to generate the query. This can be changed with `generate: true` ([see below](#retaining-the-base-conversion)).
 
-## Timespan
-
-The `timespan` defines the window over which events are aggregated. It is written as an integer count followed by a single-character unit, for example `30s`, `5m`, `1h` or `7d`.
-
-The following units are supported:
-
-| Unit | Meaning            |
-| ---- | ------------------ |
-| `s`  | seconds            |
-| `m`  | minutes            |
-| `h`  | hours              |
-| `d`  | days               |
-| `w`  | weeks              |
-| `M`  | months (uppercase) |
-| `y`  | years              |
-
-::: warning `m` vs `M`
-The unit is case-sensitive: lowercase `m` means **minutes**, while uppercase `M` means **months**. An invalid unit (or a missing count) raises `Timespan '<value>' is invalid.`
-:::
-
-## Condition
-
-The `condition` describes the threshold that must be met for the correlation to fire. It contains exactly one comparison operator mapped to a count:
-
-```yaml
-condition:
-  gte: 10
-```
-
-The supported operators are:
-
-| Operator | Meaning               |
-| -------- | --------------------- |
-| `gt`     | greater than          |
-| `gte`    | greater than or equal |
-| `lt`     | less than             |
-| `lte`    | less than or equal    |
-| `eq`     | equal                 |
-| `neq`    | not equal             |
-
-In addition to the operator, the `condition` may contain:
-
-- `field`: The field to aggregate on. Required for `value_count`, `value_sum`, `value_avg`, `value_median` and `value_percentile`.
-- `percentile`: The percentile to compute, used together with `field` for the `value_percentile` type.
-
-Any other key inside `condition` is rejected with `Sigma correlation condition contains invalid items`.
-
 ## Types of Correlations
 
 Sigma supports eight correlation types. The four most commonly used are described in detail below — `event_count`, `value_count`, `temporal`, and `temporal_ordered`.
@@ -348,6 +301,54 @@ The temporal ordered correlation is similar to the former, but adds the order of
 The events are expected to occur in the same order as the rules are listed in the `rules` section. Like `temporal`, the `condition` is optional and defaults to requiring all referenced rules to match within the timespan.
 
 Altogether, this correlation type should only be used if really required.
+
+
+## Timespan
+
+The `timespan` defines the window over which events are aggregated. It is written as an integer count followed by a single-character unit, for example `30s`, `5m`, `1h` or `7d`.
+
+The following units are supported:
+
+| Unit | Meaning            |
+| ---- | ------------------ |
+| `s`  | seconds            |
+| `m`  | minutes            |
+| `h`  | hours              |
+| `d`  | days               |
+| `w`  | weeks              |
+| `M`  | months (uppercase) |
+| `y`  | years              |
+
+::: warning `m` vs `M`
+The unit is case-sensitive: lowercase `m` means **minutes**, while uppercase `M` means **months**. An invalid unit (or a missing count) raises `Timespan '<value>' is invalid.`
+:::
+
+## Condition
+
+The `condition` describes the threshold that must be met for the correlation to fire. It contains exactly one comparison operator mapped to a count:
+
+```yaml
+condition:
+  gte: 10
+```
+
+The supported operators are:
+
+| Operator | Meaning               |
+| -------- | --------------------- |
+| `gt`     | greater than          |
+| `gte`    | greater than or equal |
+| `lt`     | less than             |
+| `lte`    | less than or equal    |
+| `eq`     | equal                 |
+| `neq`    | not equal             |
+
+In addition to the operator, the `condition` may contain:
+
+- `field`: The field to aggregate on. Required for `value_count`, `value_sum`, `value_avg`, `value_median` and `value_percentile`.
+- `percentile`: The percentile to compute, used together with `field` for the `value_percentile` type.
+
+Any other key inside `condition` is rejected with `Sigma correlation condition contains invalid items`.
 
 ## Field Aliases
 
