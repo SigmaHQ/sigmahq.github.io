@@ -329,15 +329,15 @@ export default defineConfig({
             },
             {
               text: "Sigma Modifiers Appendix",
-              link: "https://github.com/SigmaHQ/sigma-specification/blob/main/appendix/sigma-modifiers-appendix.md",
+              link: "https://github.com/SigmaHQ/sigma-specification/blob/main/specification/sigma-appendix-modifiers.md",
             },
             {
               text: "Sigma Tags Appendix",
-              link: "https://github.com/SigmaHQ/sigma-specification/blob/main/appendix/sigma-tags-appendix.md",
+              link: "https://github.com/SigmaHQ/sigma-specification/blob/main/specification/sigma-appendix-tags.md",
             },
             {
               text: "Sigma Taxonomy Appendix",
-              link: "https://github.com/SigmaHQ/sigma-specification/blob/main/appendix/sigma-taxonomy-appendix.md",
+              link: "https://github.com/SigmaHQ/sigma-specification/blob/main/specification/sigma-appendix-taxonomy.md",
             },
             {
               text: "SigmaHQ Conventions",
