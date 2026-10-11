@@ -350,6 +350,17 @@ import RulesBox from "../components/Boxes/RulesBox.vue";
                 />
               </a>
             </li>
+            <li>
+              <a
+                class="text-[var(--vp-c-brand-3)]"
+                href="https://github.com/grafana/sigma-rule-deployment"
+              >
+                Sigma Rule Deployment GitHub Actions
+                <ArrowTopRightOnSquareIcon
+                  class="ml-1 inline h-[14px] w-[14px] text-slate-400 dark:text-cyan-300/30"
+                />
+              </a>
+            </li>
           </ul>
         </section>
       </div>
